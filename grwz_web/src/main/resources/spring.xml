@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+    <!-- Spring 获取配置文件中定义的bean -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <!-- 配置信息的读取 -->
+    <context:property-placeholder location="classpath:config.properties"/>
+    <!-- 连接池的配置 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="${driverClassName}"/>
+        <property name="jdbcUrl" value="${jdbc_url}"/>
+        <property name="user" value="${jdbc_userName}"/>
+        <property name="password" value="${jdbc_passWord}"/>
+        <property name="acquireIncrement" value="5"/>
+        <property name="initialPoolSize" value="10"/>
+        <property name="maxIdleTime" value="60"/>
+        <property name="maxPoolSize" value="30"/>
+        <property name="minPoolSize" value="5"/>
+        <property name="acquireRetryDelay" value="1000"/>
+        <property name="acquireRetryAttempts" value="60"/>
+        <property name="breakAfterAcquireFailure" value="false"/>
+    </bean>
+    <!-- 开启自动注入 -->
+    <context:annotation-config/>
+    <!-- 支持异步方法 -->
+    <task:executor id="myexecutor" pool-size="5"  />
+    <task:annotation-driven executor="myexecutor"/>
+    <!-- 开启自动扫描 -->
+    <context:component-scan base-package="net.test">
+        <context:exclude-filter type="regex" expression="net.test.controller"/>
+    </context:component-scan>
+    <!-- Hibernate配置 -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+            </props>
+        </property>
+        <property name="packagesToScan">
+            <list>
+                <value>net.test.domain</value>
+            </list>
+        </property>
+    </bean>
+    <!-- springJdbcTemplate注册 -->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+    <!-- 配置事务异常封装 DAO需要按照接口定义实现-->
+    <!--<bean id="persistenceExceptionTranslationPostProcessor"-->
+    <!--class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />-->
+    <!-- 事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <!-- 注解实现事务 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+</beans>

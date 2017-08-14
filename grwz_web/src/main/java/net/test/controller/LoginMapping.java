@@ -1,0 +1,25 @@
+package net.test.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+/**
+ * Created by yucheng on 2017/8/12.
+ */
+@Controller
+@RequestMapping("/main")
+public class LoginMapping {
+
+ @RequestMapping("/login")
+    public String login() {
+        return "main/login";
+    }
+    @RequestMapping("/test")
+    public String index() {
+        return "main/test";
+    }
+    @RequestMapping("/carousel")
+    public String carousel() {
+        return "main/carousel";
+    }
+}

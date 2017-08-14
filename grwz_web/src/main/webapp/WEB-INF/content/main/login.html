@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Animated Background Headers | Demo 1</title>
+    <meta name="description" content="Examples for creative website header animations using Canvas and JavaScript" />
+    <meta name="keywords" content="header, canvas, animated, creative, inspiration, javascript" />
+    <meta name="author" content="Codrops" />
+    <link rel="stylesheet" type="text/css" href="/test/medias/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="/test/medias/css/component.css" />
+    <link rel="stylesheet" href="/test/medias/css/bootstrap.min.css" >
+    <!-- <link href='http://fonts.googleapis.com/css?family=Raleway:200,400,800' rel='stylesheet' type='text/css'> -->
+    <!--[if IE]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body >
+<div class="demo-2" >
+    <div id="large-header" class="large-header"  >
+        <canvas id="demo-canvas">
+        </canvas>
+        <div class="main-title"><div class="container">
+            <div class="col-md-4" style="margin-left: 33%">
+            <form class="form-signin"  method="post" action="/test/main/getUser">
+                <input type="text"  class="form-control" name="user" placeholder="账号" required="" autofocus="">
+                <input type="password"  class="form-control" name="pass" placeholder="密码" required="">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="remember-me">记住密码
+                    </label>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit"   value="登录">登录</button>
+            </form>
+        </div>
+        </div></div>
+</div>
+</div><!-- /container -->
+<div style="position:fixed;height:90px;width:100%;left:0;bottom:5px;z-index:999"><div class="footer-banner" style="width:728px; margin:0px auto"></div></div>
+<script type="text/javascript" src="/test/medias/js/require.js"></script>
+<script type="text/javascript" src="/test/medias/js/loadJs.js"></script>
+<script type="text/javascript">
+  load({module:['TweenLite','EasePack','demo-2','rAF'],async:false,success:function () {
+   }})
+ </script>
+</body>
+</html>
+
+
