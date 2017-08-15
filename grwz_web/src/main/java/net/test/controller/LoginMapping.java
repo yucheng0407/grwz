@@ -15,11 +15,15 @@ public class LoginMapping {
         return "main/login";
     }
     @RequestMapping("/header")
-    public String index() {
+    public String header() {
         return "main/header";
     }
     @RequestMapping("/carousel")
     public String carousel() {
         return "main/carousel";
+    }
+    @RequestMapping("/index")
+    public String index() {
+        return "main/index";
     }
 }

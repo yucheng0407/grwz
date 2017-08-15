@@ -26,8 +26,13 @@ public class LoginController {
         if (loginService.getUser(user, pass) == 1) {
             SessionUtils.initSession();
             request.getSession().setAttribute(AuthInterceptor.USER_SESSION_KEY, user);
-            response.sendRedirect(request.getContextPath() + "/main/carousel");
+            response.sendRedirect(request.getContextPath() + "/main/index");
         } else  response.sendRedirect(request.getContextPath() + "/main/login");
 
+    }
+    @ResponseBody
+    @RequestMapping("/backbone")
+    public String backbone(String website)  {
+        return "sdas";
     }
 }

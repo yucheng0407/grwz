@@ -14,27 +14,89 @@
 <script type="text/javascript" src="/test/medias/js/loadJs.js"></script>
 <script type="text/javascript">
     load({success:function () {
-        var Gist = Backbone.Model.extend({
+		/* 替换之前代码的JS部分(LINE16~51) */
+        var Gist = Backbone.Model.extend(),
+            Gists = Backbone.Collection.extend({
+                model: Gist,
                 url: 'https://api.github.com/gists/public',
                 parse: function (response) {
-                    return (response[0]);
+                    return response;
                 }
             }),
-            gist = new Gist();
-        gist.on('change', function (model) {
-            alert(model.get('url'));
+            gists = new Gists();
+
+        var GistRow = Backbone.View.extend({
+            tagName: 'tr',
+            render: function (model) {
+                this.el.id = model.cid;
+                this.el.innerHTML = '<td>' + model.get('description') + '</td><td>'+ model.get('url') + '</td><td>' + model.get('created_at') + '</td><td><a href="javascript:void(0)" class="js-remove">X</a> <a href="javascript:void(0)" class="js-edit">E</a>&nbsp;</td>'
+                return this;
+            }
         });
-//        gist.on('change', function (model) {
-//            var tbody = document.getElementById('js-id-gists').children[1],
-//                tr = document.getElementById(model.get('id'));
-//            if (!tr) {
-//                tr = document.createElement('tr');
-//                tr.setAttribute('id', model.get('id'));
+
+        var GistsView = Backbone.View.extend({
+            el: 'tbody',
+            collection: gists,
+            events: {
+                'click a.js-remove': function (e) {
+                    var cid = e.currentTarget.parentElement.parentElement.id;
+                    gists.get(cid).destroy();
+                    gists.remove(cid);
+                },
+                'click a.js-edit': 'editRow',
+                'blur td[contenteditable]': 'saveRow'
+            },
+            editRow: function (e) {
+                var tr = e.currentTarget.parentElement.parentElement,
+                    i = 0;
+
+                while (i < 3) {
+                    tr.children[i].setAttribute('contenteditable', true);
+                    i++;
+                }
+            },
+            saveRow: function (e) {
+                var tr = e.currentTarget.parentElement,
+                    model = gists.get(tr.id);
+
+                model.set({
+                    'description' : tr.children[0].innerText,
+                    'url': tr.children[1].innerText,
+                    'created_at': tr.children[2].innerText
+                });
+                model.save();
+            },
+            initialize: function () {
+                var self = this;
+                _.forEach(['reset', 'remove', 'range'], function (e) {
+                    self.listenTo(self.collection, e, self.render);
+                });
+            },
+            render: function () {
+                var html = '';
+                _.forEach(this.collection.models, function (model) {
+                    var tr = new GistRow();
+                    html += tr.render(model).el.outerHTML;
+                });
+                this.el.innerHTML = html;
+                return this;
+            }
+        });
+        var gistsView = new GistsView();
+        gists.fetch({reset: true});
+
+//        gist.save({website:'dmyz'},{
+//            wait:true,
+//            success:function () {
+//
 //            }
-//            tr.innerHTML = '<td>' + model.get('description') + '</td><td>' + model.get('url') + '</td><td>' + model.get('created_at') + '</td>';
-//            tbody.appendChild(tr);
-//        });
-        gist.fetch();
+//		})
+
+//从远程获取数据，获到数据后会触发change事件
+//gist.fetch();
+
+// 将数据存储到数据库
+
     }})
 </script>
 </body>
