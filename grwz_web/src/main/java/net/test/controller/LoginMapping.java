@@ -14,9 +14,9 @@ public class LoginMapping {
     public String login() {
         return "main/login";
     }
-    @RequestMapping("/test")
+    @RequestMapping("/header")
     public String index() {
-        return "main/test";
+        return "main/header";
     }
     @RequestMapping("/carousel")
     public String carousel() {
