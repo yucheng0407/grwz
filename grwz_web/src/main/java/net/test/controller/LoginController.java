@@ -41,16 +41,6 @@ public class LoginController {
     @ResponseBody
     @RequestMapping("/getMenu")
     public AjaxReturn getMenu()  {
-        List<Map<Object,String>> list=new ArrayList<Map<Object, String>>();
-        for(int i=0;i<3;i++) {
-            Map<Object,String> map=new HashMap<Object, String>();
-            map.put("name", "主页");
-            list.add(map);
-        }
-        Map<Object,String> map_1=new HashMap<Object, String>();
-        map_1.put("name", "下拉");
-        map_1.put("type", "1");
-        list.add(map_1);
-        return new AjaxReturn().setSuccess(true).setData(list);
+        return new AjaxReturn().setSuccess(true).setData(loginService.getMenu());
     }
 }

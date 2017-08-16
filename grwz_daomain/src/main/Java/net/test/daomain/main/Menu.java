@@ -1,32 +1,38 @@
 package net.test.daomain.main;
 
-import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+
 /**
- * Created by rxnew on 2017/8/16.
- * 用户实体
+ * Created by yucheng on 2017/8/16.
+ * 菜单实体
  */
-@Table(name = "GRWZ_USER")
+@Table(name = "GRWZ_MENU")
 @Entity
-public class User {
+public class Menu {
     @Id
     @SequenceGenerator(name = "SEQ_GRWZ_USER", sequenceName = "SEQ_GRWZ_USER", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GRWZ_USER")
     private Integer id;
 
     /**
-     * 用户账号
+     * 名称
      */
-    @Column(name = "YHZH")
-    private String yhzh;
+    @Column(name = "MC")
+    private String mc;
     /**
-     *用户密码
+     * sj菜单
      */
-    @Column(name = "MM")
-    private String mm;
+    @Column(name = "SJMENU")
+    private Integer sjMenu;
+    /**
+     *网站
+     */
+    @Column(name = "URL")
+    private String url;
     /**
      *状态
      */
@@ -39,16 +45,18 @@ public class User {
     @Column(name = "CJSJ")
     private Date cjsj;
     /**
-     *用户名称
-     */
-    @Column(name = "YHMC")
-    private String yhmc;
-
-    /**
-     *用户等级
+     *状态
      */
     @Column(name = "TYPE")
     private String type;
+    /**
+     *上级机构
+     */
+    @OneToMany(targetEntity = Menu.class, fetch = FetchType.LAZY)
+    @JoinColumns(@JoinColumn(name = "SJMENU", referencedColumnName = "ID"))
+    @Where(clause = "ZT='1' AND ID IN(SELECT L.MENUID FROM GRWZ_USER R,GRWZ_USER_MENU_GL L WHERE R.ID=L.USERID )")
+    @OrderBy("CJSJ")
+    private List<Menu> menu;
 
     public Integer getId() {
         return id;
@@ -58,20 +66,20 @@ public class User {
         this.id = id;
     }
 
-    public String getYhzh() {
-        return yhzh;
+    public String getMc() {
+        return mc;
     }
 
-    public void setYhzh(String yhzh) {
-        this.yhzh = yhzh;
+    public void setMc(String mc) {
+        this.mc = mc;
     }
 
-    public String getMm() {
-        return mm;
+    public String getUrl() {
+        return url;
     }
 
-    public void setMm(String mm) {
-        this.mm = mm;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getZt() {
@@ -90,19 +98,27 @@ public class User {
         this.cjsj = cjsj;
     }
 
-    public String getYhmc() {
-        return yhmc;
-    }
-
-    public void setYhmc(String yhmc) {
-        this.yhmc = yhmc;
-    }
-
     public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public List<Menu> getMenu() {
+        return menu;
+    }
+
+    public void setMenu(List<Menu> menu) {
+        this.menu = menu;
+    }
+
+    public Integer getSjMenu() {
+        return sjMenu;
+    }
+
+    public void setSjMenu(Integer sjMenu) {
+        this.sjMenu = sjMenu;
     }
 }
