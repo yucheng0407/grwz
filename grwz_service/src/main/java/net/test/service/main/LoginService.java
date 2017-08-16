@@ -1,10 +1,9 @@
-package net.test.service.mian;
+package net.test.service.main;
 
 import net.test.dao.main.LoginDao;
+import net.test.daomain.main.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.servlet.http.HttpSession;
 
 /**
  * Created by yucheng on 2017/8/12.
@@ -16,6 +15,5 @@ public class LoginService {
 
     public Integer getUser(String user, String pass) {
         return loginDao.getUser(user, pass);
-
     }
 }

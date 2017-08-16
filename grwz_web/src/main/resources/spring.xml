@@ -48,7 +48,7 @@
         </property>
         <property name="packagesToScan">
             <list>
-                <value>net.test.domain</value>
+                <value>net.test.daomain</value>
             </list>
         </property>
     </bean>

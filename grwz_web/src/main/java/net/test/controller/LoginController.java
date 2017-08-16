@@ -2,7 +2,7 @@ package net.test.controller;
 
 import data.AjaxReturn;
 import net.test.intercepter.AuthInterceptor;
-import net.test.service.mian.LoginService;
+import net.test.service.main.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +11,10 @@ import session.SessionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by yucheng on 2017/8/12.
@@ -26,7 +29,7 @@ public class LoginController {
         if (loginService.getUser(user, pass) == 1) {
             SessionUtils.initSession();
             request.getSession().setAttribute(AuthInterceptor.USER_SESSION_KEY, user);
-            response.sendRedirect(request.getContextPath() + "/main/index");
+            response.sendRedirect(request.getContextPath() + "/main/carousel");
         } else  response.sendRedirect(request.getContextPath() + "/main/login");
 
     }
@@ -34,5 +37,20 @@ public class LoginController {
     @RequestMapping("/backbone")
     public String backbone(String website)  {
         return "sdas";
+    }
+    @ResponseBody
+    @RequestMapping("/getMenu")
+    public AjaxReturn getMenu()  {
+        List<Map<Object,String>> list=new ArrayList<Map<Object, String>>();
+        for(int i=0;i<3;i++) {
+            Map<Object,String> map=new HashMap<Object, String>();
+            map.put("name", "主页");
+            list.add(map);
+        }
+        Map<Object,String> map_1=new HashMap<Object, String>();
+        map_1.put("name", "下拉");
+        map_1.put("type", "1");
+        list.add(map_1);
+        return new AjaxReturn().setSuccess(true).setData(list);
     }
 }

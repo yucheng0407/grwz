@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public class LoginDao extends BaseDao {
     public Integer getUser(String user, String pass) {
-        StringBuffer sql = new StringBuffer("select count(1) \"sum\" from grwz_user where yh=? and mm=?");
+        StringBuffer sql = new StringBuffer("select count(1) \"sum\" from grwz_user where yhzh=? and mm=?");
         return Integer.valueOf(super.getJdbcTemplate().queryForMap(sql.toString(),user,pass).get("sum").toString());
     }
 }
