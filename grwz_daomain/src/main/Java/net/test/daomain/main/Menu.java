@@ -24,7 +24,7 @@ public class Menu {
     @Column(name = "MC")
     private String mc;
     /**
-     * sj菜单
+     * 上级菜单ID
      */
     @Column(name = "SJMENU")
     private Integer sjMenu;
@@ -50,7 +50,7 @@ public class Menu {
     @Column(name = "TYPE")
     private String type;
     /**
-     *上级机构
+     *下拉菜单list
      */
     @OneToMany(targetEntity = Menu.class, fetch = FetchType.LAZY)
     @JoinColumns(@JoinColumn(name = "SJMENU", referencedColumnName = "ID"))
