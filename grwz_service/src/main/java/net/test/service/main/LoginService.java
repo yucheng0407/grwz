@@ -5,10 +5,7 @@ import net.test.daomain.main.Menu;
 import net.test.daomain.main.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Map;
-
 /**
  * Created by yucheng on 2017/8/12.
  */

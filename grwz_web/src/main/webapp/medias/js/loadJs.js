@@ -1,4 +1,4 @@
-/*
+      /*
  * Created by yucheng on 2017/8/13.
  */
 var option={//初始
@@ -24,7 +24,7 @@ require.config({//js
         "modal":"modal",
         "TweenLite":"baseJs/TweenLite.min",
         "EasePack": "baseJs/EasePack.min",
-        "demo-1": "baseJs/demo-1",
+        "demo-2": "baseJs/demo-2",
         "rAF": "baseJs/rAF",
         "jQuery":"baseJs/jquery-3.2.1.min",
         "underscore":"baseJs/underscore-min",
