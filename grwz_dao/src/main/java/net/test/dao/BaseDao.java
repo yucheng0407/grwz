@@ -119,6 +119,16 @@ public class BaseDao<T>  {
         return (T) list.get(0);
     }
 
+    public T findByHql(CharSequence queryString, Object... params) {
+        Query query = getSession().createQuery(queryString.toString());
+        for (int i = 0; i < params.length; ++i) {
+            query.setParameter(i, params[i]);
+        }
+        List list=query.list();
+        if (list.isEmpty())
+            return null;
+        return (T)list.get(0);
+    }
    
     @Deprecated
     public T getBySql(CharSequence sql, Map<String, ?> params) {

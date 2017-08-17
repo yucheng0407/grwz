@@ -8,11 +8,11 @@
     <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 </head>
 <body>
-<div class="navbar-wrapper">
-    <!--<iframe src="/test/main/header" frameborder="no" height="100%" width="100%"></iframe>-->
-</div>
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
-    <!-- Indicators -->
+    <!--菜单-->
+    <div class="navbar-wrapper">
+    </div>
+    <!-- 轮播 -->
     <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#myCarousel" data-slide-to="1" class=""></li>
@@ -29,7 +29,8 @@
                     <p>Note: If you're viewing this page via a <code>file://</code> URL, the "next" and "previous"
                         Glyphicon buttons on the left and right might not load/display properly due to web browser
                         security rules.</p>
-                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+                    <p><a class="btn btn-lg btn-primary" href="#myModal" data-toggle="modal" role="button">Sign up
+                        today</a></p>
                 </div>
             </div>
         </div>
@@ -102,10 +103,7 @@
             <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
         </div><!-- /.col-lg-4 -->
     </div><!-- /.row -->
-
-
     <!-- START THE FEATURETTES -->
-
     <hr class="featurette-divider">
 
     <div class="row featurette">
@@ -122,9 +120,7 @@
                  data-holder-rendered="true">
         </div>
     </div>
-
     <hr class="featurette-divider">
-
     <div class="row featurette">
         <div class="col-md-7 col-md-push-5">
             <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span>
@@ -160,10 +156,31 @@
 
     </footer>
 </div><!-- /.container -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">登录</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-signin"  method="post" action="/test/main/getUser">
+                    <input type="text"  class="form-control" name="user" placeholder="账号" required="" autofocus="">
+                    <input type="password"  class="form-control" name="pass" placeholder="密码" required="">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">登录</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript" src="/test/medias/js/require.js"></script>
 <script type="text/javascript" src="/test/medias/js/loadJs.js"></script>
 <script>
-    load({module:["http://v3.bootcss.com/assets/js/vendor/holder.min.js","http://v3.bootcss.com/assets/js/ie10-viewport-bug-workaround.js","/test/medias/js/grwz/header.js"]});
+    load({module: ["http://v3.bootcss.com/assets/js/vendor/holder.min.js","modal","http://v3.bootcss.com/assets/js/ie10-viewport-bug-workaround.js", "/test/medias/js/grwz/header.js","/test/medias/js/grwz/carousel/carlouselModal.js"]});
 </script>
 </body>
 </html>

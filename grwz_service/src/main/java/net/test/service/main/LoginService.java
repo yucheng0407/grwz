@@ -17,11 +17,11 @@ public class LoginService {
     @Autowired
     private LoginDao loginDao;
 
-    public Integer getUser(String user, String pass) {
+    public User getUser(String user, String pass) {
         return loginDao.getUser(user, pass);
     }
 
-    public  List<Menu> getMenu() {
-        return loginDao.getMenu();
+    public  List<Menu> getMenu(Integer userId) {
+        return loginDao.getMenu(userId);
     }
 }

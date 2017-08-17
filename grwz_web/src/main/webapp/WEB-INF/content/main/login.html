@@ -30,6 +30,9 @@
                     <label>
                         <input type="checkbox" value="remember-me">记住密码
                     </label>
+                    <label>
+                        <input type="checkbox" value="visitor">访客模式
+                    </label>
                 </div>
                 <button class="btn btn-lg btn-primary btn-block" type="submit"   value="登录">登录</button>
             </form>
@@ -42,6 +45,16 @@
 <script type="text/javascript" src="/test/medias/js/loadJs.js"></script>
 <script type="text/javascript">
   load({module:['TweenLite','EasePack','demo-2','rAF'],async:false,success:function () {
+$("input[value='visitor']").click(function () {
+   if($(this).is(':checked')){
+       $("input[value='remember-me']").prop("checked",false).prop("disabled",true);
+       $("input[name='user']").val("访客").prop("readOnly",true);
+       $("input[name='pass']").val("123456").prop("readOnly",true);
+   }else {
+       $("input[name='user']").val("").prop("readOnly",false);
+       $("input[name='pass']").val("").prop("readOnly",false);
+   }
+})
    }})
  </script>
 </body>

@@ -3,68 +3,65 @@
  * Created by rxnew on 2017/8/16.
  */
 //菜单model
-var Menu=Backbone.Model.extend()
-    ,Menus = Backbone.Collection.extend({
-    models:Menu,
+var Menu = Backbone.Model.extend()
+    , Menus = Backbone.Collection.extend({
+        models: Menu,
         url: '/test/main/getMenu',
         parse: function (response) {
             return response.data;
         }
     }),
     menus = new Menus();
-//渲染登录用户
-var SubMenuView = Backbone.View.extend({
-    el:'.dropdown-menu',//选择器
-    render: function (data) {
-        var html='';
-        _.forEach(data,function(t){
-            html=[html,'<li><a href="',t.url,'">',t.mc,'</a></li>'].join('');
-        });
-        $(this.el).append(html);
-    }
-});
+//渲染登录用户菜单
+function SubMenuView(data) {
+    var html = '';
+    if (data.length == 0)return html;
+    _.forEach(data, function (t) {
+        html = [html, '<li><a href="', t.url, '">', t.mc, '</a></li>'].join('');
+    });
+    return ['<ul class="dropdown-menu">', html, '</ul>'].join('');
+}
 //view
-var MenuView = Backbone.View.extend({
-    el:'.navbar-nav',//选择器
-    render: function (model) {
-        var html;
-        if(model.get('type')==1){//下拉
-            debugger
-             html=['<li class="dropdown" style="float: right" ><a href="#" ',
-             'class="dropdown-toggle" data-toggle="dropdown" ',
-             'role="button" aria-haspopup="true" aria-expanded="false">',model.get("mc"),
-                 ' <span class="caret"></span></a><ul id="f" class="dropdown-menu">',
-             '</ul></li>'].join('');
-            $(this.el).append(html);
-            var subMenuView=new SubMenuView();
-            subMenuView.render(model.get("menu"))
-        }else{//按钮
-             html=['<li><a href="',model.get("url"),'">',model.get("mc"),'</a></li>'].join('');
-            $(this.el).append(html);
+function loadMenu(collection) {
+    var html = '';
+    _.forEach(collection.models, function (model) {
+        switch (model.get('type')) {//下拉
+            case '1':
+                html = [html, '<li class="dropdown " style="float: right" ><a href="#" ',
+                    'class="dropdown-toggle " data-toggle="dropdown" ',
+                    'role="button" aria-haspopup="true" aria-expanded="false">',
+                    '<span class="btn btn-primary" style="display: inline"><span class="glyphicon glyphicon-user" style="margin-right: 20%"></span>',
+                    '<span class="caret"></span></span></a>', SubMenuView(model.get("menu")), '</li>'].join('');
+                break;
+            case '0':
+                html = [html, '<li><a href="', model.get("url"), '">', model.get("mc"), '</a></li>'].join('');
+                break;
+            case '2':
+                html = [html, '<li style="float: right"><a href="#myModal" ',
+                'data-toggle="modal" onfocus="this.blur()"><span class="btn ',
+                'btn-primary" style="display: inline">'
+                    , model.get("mc"), '</span></a></li>'].join('');
+                break;
         }
-    }
-});
-
+    });
+    return html
+}
 var MenusView = Backbone.View.extend({
     el:'.navbar-wrapper',//选择器
-    collection:menus,
-    initialize:function () {//数据更新
-        this.listenTo(this.collection,'reset',this.render)
+    collection: menus,
+    initialize: function () {//数据更新
+        this.listenTo(this.collection, 'reset', this.render)
     },
     render: function () {//渲染
-       var html=['<div class="container" style="width: 75%" >',
+        var html = ['<div class="container" style="width: 75%" >',
             '<nav class="navbar navbar-inverse navbar-static-top">',
             '<div class="container">',
             '<div id="navbar" class="navbar-collapse collapse " >',
             '<ul class="nav navbar-nav"style="width: 100%">',
-            '</ul></div></div></nav></div>'].join('');
+            loadMenu(this.collection), '</ul></div></div></nav></div>'].join('');
         $(this.el).append(html);
-        _.forEach(this.collection.models,function (model) {
-            var menuView=new MenuView();
-            menuView.render(model);
-        });
         return this;
     }
 });
 var menusView = new MenusView();
-menus.fetch({reset:true});
+menus.fetch({reset: true});

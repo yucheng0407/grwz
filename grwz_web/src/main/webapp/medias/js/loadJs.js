@@ -19,17 +19,18 @@ var option={//初始
                 });
     };
 require.config({//js
-    baseUrl: "/test/medias/js/baseJs/",
+    baseUrl: "/test/medias/js/",
     paths: {
-        "TweenLite":"TweenLite.min",
-        "EasePack": "EasePack.min",
-        "demo-1": "demo-1",
-        "rAF": "rAF",
-        "jQuery":"jquery-3.2.1.min",
-        "underscore":"underscore-min",
-        "backbone":"backbone-min",
-        "bootstrap":"bootstrap.min",
-        "formUtils":"formUtils"
+        "modal":"modal",
+        "TweenLite":"baseJs/TweenLite.min",
+        "EasePack": "baseJs/EasePack.min",
+        "demo-1": "baseJs/demo-1",
+        "rAF": "baseJs/rAF",
+        "jQuery":"baseJs/jquery-3.2.1.min",
+        "underscore":"baseJs/underscore-min",
+        "backbone":"baseJs/backbone-min",
+        "bootstrap":"baseJs/bootstrap.min",
+        "formUtils":"baseJs/formUtils"
     },
     shim:{
         "bootstrap":{
