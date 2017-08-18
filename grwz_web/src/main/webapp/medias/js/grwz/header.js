@@ -3,13 +3,8 @@
  * Created by rxnew on 2017/8/16.
  */
 //菜单model
-var Menu = Backbone.Model.extend()
-    , Menus = Backbone.Collection.extend({
-        models: Menu,
-        url: '/test/main/getMenu',
-        parse: function (response) {
-            return response.data;
-        }
+var Menus = BaseCollection.extend({
+        url: '/test/main/getMenu'
     }),
     menus = new Menus();
 //渲染登录用户菜单

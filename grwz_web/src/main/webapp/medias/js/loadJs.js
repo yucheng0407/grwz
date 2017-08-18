@@ -10,7 +10,7 @@ var option={//初始
         for (var data in _option){
          option[data]=_option[data];
         }
-        require(['backbone'], function () {
+        require(['BaseModel'], function () {
                 if(option.async==true) {require(option.module, function () {
                         option.success();
                     })}else {
@@ -21,7 +21,7 @@ var option={//初始
 require.config({//js
     baseUrl: "/test/medias/js/",
     paths: {
-        "modal":"modal",
+        "BaseModel":"BaseModel",
         "TweenLite":"baseJs/TweenLite.min",
         "EasePack": "baseJs/EasePack.min",
         "demo-2": "baseJs/demo-2",
@@ -29,6 +29,7 @@ require.config({//js
         "jQuery":"baseJs/jquery-3.2.1.min",
         "underscore":"baseJs/underscore-min",
         "backbone":"baseJs/backbone-min",
+        "backbone-relational":"baseJs/backbone-relational",
         "bootstrap":"baseJs/bootstrap.min",
         "formUtils":"baseJs/formUtils"
     },
@@ -45,6 +46,9 @@ require.config({//js
         "backbone":{
             deps:["underscore","jQuery","bootstrap"],
             exports:"Backbone"
+        },
+        "BaseModel":{
+            deps:["backbone"]
         }
     }
 });
