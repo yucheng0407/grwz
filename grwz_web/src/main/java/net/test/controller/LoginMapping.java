@@ -18,10 +18,6 @@ public class LoginMapping {
     public String header() {
         return "main/header";
     }
-    @RequestMapping("/carousel")
-    public String carousel() {
-        return "main/carousel";
-    }
     @RequestMapping("/index")
     public String index() {
         return "main/index";

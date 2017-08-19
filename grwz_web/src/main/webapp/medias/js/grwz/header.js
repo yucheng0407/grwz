@@ -25,7 +25,7 @@ function loadMenu(collection) {
                 html = [html, '<li class="dropdown " style="float: right" ><a href="#" ',
                     'class="dropdown-toggle " data-toggle="dropdown" ',
                     'role="button" aria-haspopup="true" aria-expanded="false">',
-                    '<span class="btn btn-primary" style="display: inline"><span class="glyphicon glyphicon-user" style="margin-right: 20%"></span>',
+                    '<span class="btn btn-primary" style="display: inline"><span class="glyphicon glyphicon-user"></span>',
                     '<span class="caret"></span></span></a>', SubMenuView(model.get("menu")), '</li>'].join('');
                 break;
             case '0':
@@ -60,3 +60,14 @@ var MenusView = Backbone.View.extend({
 });
 var menusView = new MenusView();
 menus.fetch({reset: true});
+function logout() {
+    $.ajax({
+        type:"post",
+        url: "/test/main/getUser",
+        data: {user:"访客",pass:123456},
+        success:function(){
+            window.location.reload();
+        }
+
+    })
+}

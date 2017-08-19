@@ -50,12 +50,17 @@ public class Menu {
     @Column(name = "TYPE")
     private String type;
     /**
+     *排列
+     */
+    @Column(name = "PL")
+    private Integer pl;
+    /**
      *下拉菜单list
      */
     @OneToMany(targetEntity = Menu.class, fetch = FetchType.LAZY)
     @JoinColumns(@JoinColumn(name = "SJMENU", referencedColumnName = "ID"))
     @Where(clause = "ZT='1' AND ID IN(SELECT L.MENUID FROM GRWZ_USER R,GRWZ_USER_MENU_GL L WHERE R.ID=L.USERID )")
-    @OrderBy("CJSJ")
+    @OrderBy("PL")
     private List<Menu> menu;
 
     public Integer getId() {
@@ -120,5 +125,13 @@ public class Menu {
 
     public void setSjMenu(Integer sjMenu) {
         this.sjMenu = sjMenu;
+    }
+
+    public Integer getPl() {
+        return pl;
+    }
+
+    public void setPl(Integer pl) {
+        this.pl = pl;
     }
 }

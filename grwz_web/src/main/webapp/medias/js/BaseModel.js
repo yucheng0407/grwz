@@ -12,23 +12,18 @@ var BaseModel = Backbone.Model.extend({
      *****************************************************************/
     validate: function () {
         var boolean = true;
+        var model=this;
         var attrs = this.getJson();
         var json = this.initJson;
-        var model = this.className;
-        $.each(attrs, function (key, value) {
-            if (json[key].rule == 'not null' && value == '') {
-                if (boolean) {
-                    $("[data-model=" + model + "][data-property=" + key + "]")
-                        .attr("data-content", "该项不能为空")
-                        .attr("data-placement", "bottom")
-                        .attr("data-trigger", "manual")
-                        .popover('show');
-                    $(".popover").css("color","#080808");
+        $(".popover").hide();
+            $.each(attrs, function (key, value) {
+                if (json[key].rule == 'not null' &&$.trim(value)  == '') {//为空
+                    model.tsk(key,"为空");
+                    boolean = false;
+                    return boolean;
                 }
-                boolean = false;
-            } else $("[data-model=" + model + "][data-property=" + key + "]").popover('destroy');
-        });
-        return boolean;
+            });
+            return boolean;
     },
     /*****************************************************************
      *  方法：内部方法，依据配置初始化属性参数(defaults)
@@ -52,7 +47,24 @@ var BaseModel = Backbone.Model.extend({
             model.set($(t).attr("data-property"), $(t).val());
         });
         return model.attributes;
+    },
+    /*****************************************************************
+     *  方法：文本框提示框
+     *****************************************************************/
+    tsk: function (key,str) {
+        var model = this.className;
+        $("[data-model=" + model + "][data-property=" + key + "]")
+            .attr("data-content", "该项不能"+str)
+            .attr("data-placement", "bottom")
+            .attr("data-trigger", "manual")
+            .focus().popover("show")
+            .unbind('blur').blur(function () {
+            $(".popover").hide();
+        });
+        $("[type='button']").button('reset');
+        $(".popover").css("color","#080808");
     }
+
 }), BaseCollection = Backbone.Collection.extend({
     model: BaseModel,
     parse: function (response) {

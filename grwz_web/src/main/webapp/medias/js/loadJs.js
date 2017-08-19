@@ -21,6 +21,7 @@ var option={//初始
 require.config({//js
     baseUrl: "/test/medias/js/",
     paths: {
+        "whichButtonJs":"utilJs/whichButtonJs",
         "BaseModel":"BaseModel",
         "TweenLite":"baseJs/TweenLite.min",
         "EasePack": "baseJs/EasePack.min",
@@ -34,6 +35,9 @@ require.config({//js
         "formUtils":"baseJs/formUtils"
     },
     shim:{
+        "whichButtonJs":{
+            deps:["jQuery"]
+        },
         "bootstrap":{
             deps:["jQuery"]
         },
@@ -44,7 +48,7 @@ require.config({//js
             exports:"_"
         },
         "backbone":{
-            deps:["underscore","jQuery","bootstrap"],
+            deps:["underscore","jQuery","bootstrap","whichButtonJs"],
             exports:"Backbone"
         },
         "BaseModel":{

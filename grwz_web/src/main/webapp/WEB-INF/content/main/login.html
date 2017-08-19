@@ -34,7 +34,7 @@
                             <input type="checkbox" value="visitor">访客模式
                         </label>
                     </div>
-                    <button class="btn btn-lg btn-primary btn-block" type="button" value="登录" onclick="login()">登录</button>
+                    <button class="btn btn-lg btn-primary btn-block"  type="button" value="登录"  onclick="login('login')">登录</button>
                 </div>
             </div>
         </div>
@@ -47,15 +47,16 @@
 <script type="text/javascript" src="/test/medias/js/loadJs.js"></script>
 <script type="text/javascript">
     load({
-        module: ['TweenLite', 'EasePack', 'demo-2', 'rAF','/test/medias/js/grwz/carousel/carlouselModal.js'], async: false, success: function () {
+        module: ['TweenLite', 'EasePack', 'demo-2', 'rAF','/test/medias/js/grwz/login/loginConfig.js'], async: false, success: function () {
             $("input[value='visitor']").click(function () {
                 if ($(this).is(':checked')) {
                     $("input[value='remember-me']").prop("checked", false).prop("disabled", true);
-                    $("input[name='user']").val("访客").prop("readOnly", true);
-                    $("input[name='pass']").val("123456").prop("readOnly", true);
+                    $("[data-property='user']").val("访客").prop("readOnly", true).popover("hide");
+                    $("[data-property='pass']").val("123456").prop("readOnly", true).popover("hide");
                 } else {
-                    $("input[name='user']").val("").prop("readOnly", false);
-                    $("input[name='pass']").val("").prop("readOnly", false);
+                    $("input[value='remember-me']").prop("disabled", false);
+                    $("[data-property='user']").val("").prop("readOnly", false);
+                    $("[data-property='pass']").val("").prop("readOnly", false);
                 }
             })
         }

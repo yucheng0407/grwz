@@ -26,14 +26,15 @@ import java.util.Map;
 public class LoginController {
     @Autowired
     private LoginService loginService;
+    @ResponseBody
     @RequestMapping("/getUser")
-    public void getUser(String user, String pass, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public AjaxReturn getUser(String user, String pass, HttpServletRequest request, HttpServletResponse response) throws Exception {
         User user_1=loginService.getUser(user, pass);
         if (user_1!= null) {
             SessionUtils.initSession();
             request.getSession().setAttribute(AuthInterceptor.USER_SESSION_KEY, user_1);
-            response.sendRedirect(request.getContextPath() + "/main/carousel");
-        } else  response.sendRedirect(request.getContextPath() + "/main/login");
+           return new AjaxReturn().setSuccess(true).setData(user_1);
+        } else return new AjaxReturn().setSuccess(false);
 
     }
     @ResponseBody
