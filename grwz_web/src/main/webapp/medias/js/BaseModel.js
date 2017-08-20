@@ -1,5 +1,9 @@
 /**
- * Created by rxnew on 2017/8/17.
+ * Created by yucheng on 2017/8/17.
+ */
+
+/**
+ *Model层
  */
 var BaseModel = Backbone.Model.extend({
     className: "",
@@ -8,7 +12,7 @@ var BaseModel = Backbone.Model.extend({
         this.initPropertys();
     },
     /*****************************************************************
-     *  方法：内部方法，验证参数(defaults)
+     *  方法：内部方法，验证参数
      *****************************************************************/
     validate: function () {
         var boolean = true;
@@ -67,8 +71,7 @@ var BaseModel = Backbone.Model.extend({
 
 }), BaseCollection = Backbone.Collection.extend({
     model: BaseModel,
-    parse: function (response) {
-        return response.data;
+    parse:function (response) {
+        if(response.success)return response.data;
     }
 });
-

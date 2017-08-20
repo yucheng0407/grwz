@@ -23,6 +23,7 @@ require.config({//js
     paths: {
         "whichButtonJs":"utilJs/whichButtonJs",
         "BaseModel":"BaseModel",
+        "BaseView":"BaseView",
         "TweenLite":"baseJs/TweenLite.min",
         "EasePack": "baseJs/EasePack.min",
         "demo-2": "baseJs/demo-2",
@@ -51,8 +52,11 @@ require.config({//js
             deps:["underscore","jQuery","bootstrap","whichButtonJs"],
             exports:"Backbone"
         },
-        "BaseModel":{
+        "BaseView":{
             deps:["backbone"]
+        },
+        "BaseModel":{
+            deps:["backbone","BaseView"]
         }
     }
 });

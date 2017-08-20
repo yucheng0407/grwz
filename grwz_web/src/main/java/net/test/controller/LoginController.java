@@ -39,8 +39,12 @@ public class LoginController {
     }
     @ResponseBody
     @RequestMapping("/backbone")
-    public String backbone(String website)  {
-        return "sdas";
+    public AjaxReturn backbone()  {
+        ArrayList list=new ArrayList();
+        for (int i=0;i<50;i++) {
+            list.add(1);
+        }
+        return  new AjaxReturn().setSuccess(true).setData(list);
     }
     @ResponseBody
     @RequestMapping("/getMenu")

@@ -4,10 +4,7 @@
 var dl = {
     user: {rule: "not null"},
     pass: {rule: "not null"}
-}, yhdl = {
-    url: "/test/main/getUser",
 }
-
 var Model = BaseModel.extend({
     className: "dl",
     initJson: dl
