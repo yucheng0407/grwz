@@ -25,21 +25,20 @@ var BaseView = Backbone.View.extend({
         this.collection.remove(cid);
     },
     /*****************************************************************
-     *  方法分页
+     *  方法添加分页
      *****************************************************************/
     nextRow:function () {
       if((this.collection.models.length-this.index*this.pageSize)>this.pageSize||
           this.collection.models.length==this.pageCount
       ) {
-          this.index++;
+          this.index++;//数据库取数据
           this.render()
       }else{
           this.index++;
-          this.collection.fetch({
+          this.collection.fetch({//后台添加
           remove:false,
               data:{PageNo:++this.PageNo},
       })
-
       }
     },
     // editRow: function (e) {
@@ -65,7 +64,7 @@ var BaseView = Backbone.View.extend({
      *****************************************************************/
     initialize: function () {
         var self = this;
-        _.forEach(['reset','add','remove'], function (e) {
+        _.forEach(['reset','add'], function (e) {
             self.listenTo(self.collection, e, self.render);
         });
     },
