@@ -39,12 +39,14 @@ public class LoginController {
     }
     @ResponseBody
     @RequestMapping("/backbone")
-    public AjaxReturn backbone()  {
+    public AjaxReturn backbone(Integer PageNo)  {
         ArrayList list=new ArrayList();
         for (int i=0;i<50;i++) {
-            list.add(1);
+            HashMap map=new HashMap();
+            map.put("id",i);
+            list.add(map);
         }
-        return  new AjaxReturn().setSuccess(true).setData(list);
+        return  new AjaxReturn().setSuccess(true).setData(list.subList(8*(PageNo-1),PageNo*8));
     }
     @ResponseBody
     @RequestMapping("/getMenu")
