@@ -12,11 +12,18 @@ function SubMenuView(data) {
     var html = '';
     if (data.length == 0)return html;
     _.forEach(data, function (t) {
-        html = [html, '<li><a href="', t.url, '">', t.mc, '</a></li>'].join('');
+        html = [html, '<li><a href="', YC.handleUrl(t.url), '">', t.mc, '</a></li>'].join('');
     });
+    debugger
     return ['<ul class="dropdown-menu">', html, '</ul>'].join('');
 }
 //view
+/**
+ * 菜单渲染
+ * 0普通菜单1下拉2登录
+ * @param collection
+ * @returns {string}
+ */
 function loadMenu(collection) {
     var html = '';
     _.forEach(collection.models, function (model) {
@@ -29,7 +36,7 @@ function loadMenu(collection) {
                     '<span class="caret"></span></span></a>', SubMenuView(model.get("menu")), '</li>'].join('');
                 break;
             case '0':
-                html = [html, '<li><a href="', model.get("url"), '">', model.get("mc"), '</a></li>'].join('');
+                html = [html, '<li><a href="', YC.handleUrl(model.get("url")), '">', model.get("mc"), '</a></li>'].join('');
                 break;
             case '2':
                 html = [html, '<li style="float: right"><a href="#myModal" ',

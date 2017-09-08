@@ -1,4 +1,4 @@
-package net.test.controller;
+package net.test.controller.main;
 
 import data.AjaxReturn;
 import net.test.daomain.main.User;

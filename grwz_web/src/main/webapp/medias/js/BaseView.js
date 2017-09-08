@@ -19,13 +19,16 @@ var BaseView = Backbone.View.extend({
         'blur td[contenteditable]':'saveRow',
         'click a.js-next':'nextRow'
     },
+    /*****************************************************************
+     *  删除Model
+     *****************************************************************/
     deleteRow:function (e) {
             var cid = e.currentTarget.parentElement.parentElement.id;
         this.collection.get(cid).destroy();
         this.collection.remove(cid);
     },
     /*****************************************************************
-     *  方法添加分页
+     *  方法分页
      *****************************************************************/
     nextRow:function () {
       if((this.collection.models.length-this.index*this.pageSize)>this.pageSize||

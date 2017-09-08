@@ -1,73 +1,81 @@
-      /*
+/*
  * Created by yucheng on 2017/8/13.
  */
-var option={//初始
+var YC={};
+var contentType = '/test'
+var option = {//初始
     module: null,//自定义js
     success: function () {//返回函数
     },
-    async:false//同步或异步导入JS(默认同步)
-},load=function (_option) {
-        for (var data in _option){
-         option[data]=_option[data];
+    async: false//同步或异步导入JS(默认同步)
+}, load = function (_option) {
+    for (var data in _option) {
+        option[data] = _option[data];
+    }
+    require(['BaseModel'], function () {
+        if (option.async == true) {
+            require(option.module, function () {
+                option.success();
+            })
+        } else {
+            tbload();
         }
-        require(['BaseModel'], function () {
-                if(option.async==true) {require(option.module, function () {
-                        option.success();
-                    })}else {
-                    tbload();
-                }
-                });
-    };
+    });
+};
 require.config({//js
-    baseUrl: "/test/medias/js/",
+    baseUrl: contentType+"/medias/js/",
     paths: {
-        "whichButtonJs":"utilJs/whichButtonJs",
-        "BaseModel":"BaseModel",
-        "BaseView":"BaseView",
-        "TweenLite":"baseJs/TweenLite.min",
+        "whichButtonJs": "utilJs/whichButtonJs",
+        "BaseModel": "BaseModel",
+        "BaseView": "BaseView",
+        "TweenLite": "baseJs/TweenLite.min",
         "EasePack": "baseJs/EasePack.min",
         "demo-2": "baseJs/demo-2",
         "rAF": "baseJs/rAF",
-        "jQuery":"baseJs/jquery-3.2.1.min",
-        "underscore":"baseJs/underscore-min",
-        "backbone":"baseJs/backbone-min",
-        "backbone-relational":"baseJs/backbone-relational",
-        "bootstrap":"baseJs/bootstrap.min",
-        "formUtils":"baseJs/formUtils"
+        "jQuery": "baseJs/jquery-3.2.1.min",
+        "underscore": "baseJs/underscore-min",
+        "backbone": "baseJs/backbone-min",
+        "backbone-relational": "baseJs/backbone-relational",
+        "bootstrap": "baseJs/bootstrap.min",
+        "formUtils": "baseJs/formUtils"
     },
-    shim:{
-        "whichButtonJs":{
-            deps:["jQuery"]
+    shim: {
+        "whichButtonJs": {
+            deps: ["jQuery"]
         },
-        "bootstrap":{
-            deps:["jQuery"]
+        "bootstrap": {
+            deps: ["jQuery"]
         },
-        "formUtils":{
-            deps:["jQuery"]
+        "formUtils": {
+            deps: ["jQuery"]
         },
-        "underscore":{
-            exports:"_"
+        "underscore": {
+            exports: "_"
         },
-        "backbone":{
-            deps:["underscore","jQuery","bootstrap","whichButtonJs"],
-            exports:"Backbone"
+        "backbone": {
+            deps: ["underscore", "jQuery", "bootstrap", "whichButtonJs"],
+            exports: "Backbone"
         },
-        "BaseView":{
-            deps:["backbone"]
+        "BaseView": {
+            deps: ["backbone"]
         },
-        "BaseModel":{
-            deps:["backbone","BaseView"]
+        "BaseModel": {
+            deps: ["backbone", "BaseView"]
         }
     }
 });
-var i=0;
+var i = 0;
 function tbload() {//同步加载
-    if(option.module==null||option.module[i]==null) { option.success();
-    return null;}
+    if (option.module == null || option.module[i] == null) {
+        option.success();
+        return null;
+    }
     require([option.module[i]], function () {
         i++;
         tbload();
     })
 }
-
+YC.handleUrl=function (url) {
+   return contentType+url;
+}
 
