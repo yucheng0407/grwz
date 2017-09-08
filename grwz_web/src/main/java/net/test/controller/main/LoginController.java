@@ -41,7 +41,7 @@ public class LoginController {
     @RequestMapping("/backbone")
     public AjaxReturn backbone(Integer PageNo)  {
         ArrayList list=new ArrayList();
-        for (int i=0;i<50;i++) {
+        for (int i=0;i<40;i++) {
             HashMap map=new HashMap();
             map.put("id",i);
             list.add(map);
