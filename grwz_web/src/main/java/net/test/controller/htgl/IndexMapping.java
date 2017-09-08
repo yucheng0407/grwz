@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/htgl")
-public class indexMapping {
+public class IndexMapping {
     @RequestMapping("/index")
     public String index() {
         return "/htgl/index";
