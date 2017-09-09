@@ -1,10 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Dashboard Template for Bootstrap</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/test/medias/css/carousel.css" rel="stylesheet">
+    <link href="/test/medias/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/test/medias/css/dashboard.css" rel="stylesheet">
+    <script type="text/javascript" src="/test/medias/js/require.js"></script>
+    <script type="text/javascript" src="/test/medias/js/loadJs.js"></script>
 </head>
 <body>
-
+<!--菜单.js-->
+<div class="navbar-wrapper" style="position: relative">
+    <div class="container"  ><nav class="navbar navbar-inverse navbar-static-top">
+    </nav></div>
+</div>
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">Reports</a></li>
+                <li><a href="#">Analytics</a></li>
+                <li><a href="#">Export</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <div class="table-responsive">
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    load({module: ["/medias/js/grwz/header.js","/medias/js/grwz/htgl/indexList.js"]});
+</script>
 </body>
 </html>

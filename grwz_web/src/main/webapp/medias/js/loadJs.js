@@ -13,6 +13,10 @@ var option = {//初始
         option[data] = _option[data];
     }
     require(['BaseModel'], function () {
+        //添加项目名
+        for (var i in option.module) {
+            if(option.module[i].indexOf("/")==0){option.module[i]=contentType+option.module[i]}
+        }
         if (option.async == true) {
             require(option.module, function () {
                 option.success();
@@ -24,10 +28,12 @@ var option = {//初始
 };
 require.config({//js
     baseUrl: contentType+"/medias/js/",
+    urlArgs:'v='+(new Date()).getTime(),//清楚缓存
     paths: {
         "whichButtonJs": "utilJs/whichButtonJs",
         "BaseModel": "BaseModel",
         "BaseView": "BaseView",
+        "BaseTable":"BaseTable",
         "TweenLite": "baseJs/TweenLite.min",
         "EasePack": "baseJs/EasePack.min",
         "demo-2": "baseJs/demo-2",
@@ -59,8 +65,11 @@ require.config({//js
         "BaseView": {
             deps: ["backbone"]
         },
+        "BaseTable":{
+            deps: ["backbone"]
+        },
         "BaseModel": {
-            deps: ["backbone", "BaseView"]
+            deps: ["backbone", "BaseView","BaseTable"]
         }
     }
 });

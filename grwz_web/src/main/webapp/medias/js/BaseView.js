@@ -75,13 +75,11 @@ var BaseView = Backbone.View.extend({
      *  方法动态渲染
      *****************************************************************/
     render: function () {
-        debugger
         var html = '';
         var view=this.view;
         var models =this.collection.models.slice(this.pageSize*(this.index-1),this.index*this.pageSize);
         _.forEach(models, function (model) {
-            var tr = new view();
-            html += tr.render(model).el.outerHTML;
+            html += view.render(model).el.outerHTML;
         });
         $("*[data-model=" + this.className + "]").html(html);
         return this;

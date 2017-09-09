@@ -14,7 +14,6 @@ function SubMenuView(data) {
     _.forEach(data, function (t) {
         html = [html, '<li><a href="', YC.handleUrl(t.url), '">', t.mc, '</a></li>'].join('');
     });
-    debugger
     return ['<ul class="dropdown-menu">', html, '</ul>'].join('');
 }
 //view
@@ -49,20 +48,17 @@ function loadMenu(collection) {
     return html
 }
 var MenusView = Backbone.View.extend({
-    el:'.navbar-wrapper',//选择器
     collection: menus,
     initialize: function () {//数据更新
         this.listenTo(this.collection, 'reset', this.render)
     },
     render: function () {//渲染
-        var html = ['<div class="container" style="width: 75%" >',
-            '<nav class="navbar navbar-inverse navbar-static-top">',
-            '<div class="container">',
+        var html = ['<div class="container">',
             '<div id="navbar" class="navbar-collapse collapse " >',
-            '<ul class="nav navbar-nav"style="width: 100%">',
-            loadMenu(this.collection), '</ul></div></div></nav></div>'].join('');
-        $(this.el).append(html);
-        return this;
+            '<ul class="nav navbar-nav"style="width:100%;height:0px">',
+            loadMenu(this.collection),
+            '</ul></div></div>'].join('');
+        $(".navbar-static-top").append(html);
     }
 });
 var menusView = new MenusView();

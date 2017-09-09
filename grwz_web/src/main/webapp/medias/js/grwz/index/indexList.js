@@ -18,10 +18,11 @@ var Xw = BaseCollection.extend({
     url: "/test/main/backbone"
 });
 var xw = new Xw();
+
 var GistRows = BaseView.extend({
     className: "xw",
     collection: xw,
-    view: GistRow,
+    view: new GistRow(),
     pageSize:3,
     pageCount:null
 });
