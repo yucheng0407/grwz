@@ -4,9 +4,8 @@
 var dl = {
     user: {rule: "not null"},
     pass: {rule: "not null"}
-}
-var Model = BaseModel.extend({
-    className: "dl",
+},Model = BaseModel.extend({
+    modelName: "dl",
     initJson: dl
 });
 var model = new Model();
@@ -14,12 +13,12 @@ function login(option) {
     if (model.validate()) {
         $.ajax({
             type:"post",
-            url: "/test/main/getUser",
+            url: YC.handleUrl("/main/getUser"),
             data: model.getJson(),
         success:function(data){
     $("[type='button']").button('reset');
     if(data.success){
-      if(option=='login') window.location.href="/test/main/index"
+      if(option=='login') window.location.href=YC.handleUrl("/main/index")
         else window.location.reload();
     }
     else alert("账号密码错误");

@@ -4,7 +4,7 @@
  */
 //菜单model
 var Menus = BaseCollection.extend({
-        url: '/test/main/getMenu'
+        url: YC.handleUrl('/main/getMenu')
     }),
     menus = new Menus();
 //渲染登录用户菜单
@@ -66,7 +66,7 @@ menus.fetch({reset: true});
 function logout() {
     $.ajax({
         type:"post",
-        url: "/test/main/getUser",
+        url: YC.handleUrl("/main/getUser"),
         data: {user:"访客",pass:123456},
         success:function(){
             window.location.reload();

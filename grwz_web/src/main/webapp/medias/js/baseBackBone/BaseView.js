@@ -10,22 +10,33 @@ var BaseView = Backbone.View.extend({
     PageNo:1,
     pageSize:null,
     pageCount:null,
-    className:'',
+    modelName:'',
     collection:'',
     view:'',
     events: {
         'click a.js-remove': 'deleteRow',
+        'click tr.table': 'select',
         'click a.js-edit': 'editRow',
         'blur td[contenteditable]':'saveRow',
         'click a.js-next':'nextRow'
     },
     /*****************************************************************
      *  删除Model
-     *****************************************************************/
+     ********************************
+     *
+     **********************************/
     deleteRow:function (e) {
             var cid = e.currentTarget.parentElement.parentElement.id;
         this.collection.get(cid).destroy();
         this.collection.remove(cid);
+    },
+    /*****************************************************************
+     *  选中
+     *****************************************************************/
+    select:function (e) {
+        var cid = e.currentTarget.id;
+$("#"+cid).attr("class","active");
+        alert(this.collection.get(cid).get("MM"));
     },
     /*****************************************************************
      *  方法分页
@@ -77,11 +88,13 @@ var BaseView = Backbone.View.extend({
     render: function () {
         var html = '';
         var view=this.view;
+        debugger
         var models =this.collection.models.slice(this.pageSize*(this.index-1),this.index*this.pageSize);
-        _.forEach(models, function (model) {
-            html += view.render(model).el.outerHTML;
-        });
-        $("*[data-model=" + this.className + "]").html(html);
+        html=view.append(models);
+        // _.forEach(models, function (model) {
+        //     html += view.render(model).el.outerHTML;
+        // });
+        $("*[data-model=" + this.modelName + "]").html(html);
         return this;
     }
 });

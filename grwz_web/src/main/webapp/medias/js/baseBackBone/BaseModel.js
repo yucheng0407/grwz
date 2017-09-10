@@ -6,7 +6,7 @@
  *Model层
  */
 var BaseModel = Backbone.Model.extend({
-    className: "",
+    modelName: "",
     initJson: "",
     initialize: function () {
         this.initPropertys();
@@ -47,7 +47,7 @@ var BaseModel = Backbone.Model.extend({
      *****************************************************************/
     getJson: function () {
         var model = this;
-        $("*[data-model=" + this.className + "][data-property]").each(function (i, t) {
+        $("*[data-model=" + this.modelName + "][data-property]").each(function (i, t) {
             model.set($(t).attr("data-property"), $(t).val());
         });
         return model.attributes;
@@ -56,7 +56,7 @@ var BaseModel = Backbone.Model.extend({
      *  方法：文本框提示框
      *****************************************************************/
     tsk: function (key,str) {
-        var model = this.className;
+        var model = this.modelName;
         $("[data-model=" + model + "][data-property=" + key + "]")
             .attr("data-content", "该项不能"+str)
             .attr("data-placement", "bottom")

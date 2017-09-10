@@ -12,7 +12,7 @@ var option = {//初始
     for (var data in _option) {
         option[data] = _option[data];
     }
-    require(['BaseModel'], function () {
+    require(['BaseTable'], function () {
         //添加项目名
         for (var i in option.module) {
             if(option.module[i].indexOf("/")==0){option.module[i]=contentType+option.module[i]}
@@ -31,9 +31,9 @@ require.config({//js
     urlArgs:'v='+(new Date()).getTime(),//清楚缓存
     paths: {
         "whichButtonJs": "utilJs/whichButtonJs",
-        "BaseModel": "BaseModel",
-        "BaseView": "BaseView",
-        "BaseTable":"BaseTable",
+        "BaseModel": "baseBackBone/BaseModel",
+        "BaseView": "baseBackBone/BaseView",
+        "BaseTable":"baseBackBone/BaseTable",
         "TweenLite": "baseJs/TweenLite.min",
         "EasePack": "baseJs/EasePack.min",
         "demo-2": "baseJs/demo-2",
@@ -63,13 +63,13 @@ require.config({//js
             exports: "Backbone"
         },
         "BaseView": {
-            deps: ["backbone"]
+            deps: ["backbone","BaseModel"]
         },
         "BaseTable":{
-            deps: ["backbone"]
+            deps: ["backbone","BaseView"]
         },
         "BaseModel": {
-            deps: ["backbone", "BaseView","BaseTable"]
+            deps: ["backbone"]
         }
     }
 });
