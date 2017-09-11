@@ -1,104 +1,54 @@
-/**
- * Created by yucheng on 2017/8/20.
- */
-/**、
- * View层
- */
+/******************************************************************
+ 初始化列表数据
+ ******************************************************************/
 var BaseView = Backbone.View.extend({
-    el:'body',
-    index:1,
-    PageNo:1,
-    pageSize:null,
-    pageCount:null,
-    modelName:'',
-    collection:'',
-    view:'',
-    events: {
-        'click a.js-remove': 'deleteRow',
-        'click tr.table': 'select',
-        'click a.js-edit': 'editRow',
-        'blur td[contenteditable]':'saveRow',
-        'click a.js-next':'nextRow'
+    modelName:null,//渲染入口（必须）
+    pageSize:null,//分页（必须）
+    url:null,//后台地址（必须）
+    data:null,//数据
+    /*****************************************************************
+     *  取得table选中值
+     *****************************************************************/
+    getSelect:function () {
+        var data=this.data;
+        var array=new Array();
+        $("[select]").each(function () {
+            array.push(data.get($(this).attr("id")).attributes)
+        });
+        return array;
     },
     /*****************************************************************
-     *  删除Model
-     ********************************
-     *
+     *  删除选中Model
      **********************************/
-    deleteRow:function (e) {
-            var cid = e.currentTarget.parentElement.parentElement.id;
-        this.collection.get(cid).destroy();
-        this.collection.remove(cid);
-    },
-    /*****************************************************************
-     *  选中
-     *****************************************************************/
-    select:function (e) {
-        var cid = e.currentTarget.id;
-$("#"+cid).attr("class","active");
-        alert(this.collection.get(cid).get("MM"));
-    },
-    /*****************************************************************
-     *  方法分页
-     *****************************************************************/
-    nextRow:function () {
-      if((this.collection.models.length-this.index*this.pageSize)>this.pageSize||
-          this.collection.models.length==this.pageCount
-      ) {
-          this.index++;//数据库取数据
-          this.render()
-      }else{
-          this.index++;
-          this.collection.fetch({//后台添加
-          remove:false,
-              data:{PageNo:++this.PageNo},
-      })
-      }
-    },
-    // editRow: function (e) {
-    //     var tr = e.currentTarget.parentElement.parentElement,
-    //         i = 0;
-    //
-    //     while (i < 3) {
-    //         tr.children[i].setAttribute('contenteditable', true);
-    //         i++;
-    //     }
-    // },
-    // saveRow: function (e) {
-    //     var tr = e.currentTarget.parentElement,
-    //         model = gists.get(tr.id);
-    //     model.set({
-    //         'description' : tr.children[0].innerText,
-    //         'url': tr.children[1].innerText,
-    //         'created_at': tr.children[2].innerText
-    //     });
-    // },
-    /*****************************************************************
-     *  方法初始化监听器
-     *****************************************************************/
-    initialize: function () {
-        var self = this;
-        _.forEach(['reset','add'], function (e) {
-            self.listenTo(self.collection, e, self.render);
+    deleteRow: function () {
+        var data=this.data;
+        // var cid = e.currentTarget.parentElement.parentElement.id;
+        // this.collection.get(cid).destroy();
+        $("[select]").each(function () {
+            data.remove($(this).attr("id"));
         });
     },
-    /*****************************************************************
-     *  方法动态渲染
-     *****************************************************************/
-    render: function () {
-        var html = '';
-        var view=this.view;
-        debugger
-        var models =this.collection.models.slice(this.pageSize*(this.index-1),this.index*this.pageSize);
-        html=view.append(models);
-        // _.forEach(models, function (model) {
-        //     html += view.render(model).el.outerHTML;
-        // });
-        $("*[data-model=" + this.modelName + "]").html(html);
-        return this;
+    /******************************************************************
+     初始化列表数据
+     ******************************************************************/
+    initialize:function () {
+        /**
+         查询列表数据
+         **/
+        var Xw = BaseCollection.extend({
+            url:this.url
+        });
+        this.data = new Xw();
+        var GistRows = BaseListenView.extend({
+            modelName:this.modelName,
+            collection:this.data,
+            view:this,
+            pageSize:this.pageSize
+        });
+        //开始监听
+        new GistRows();
+        this.data.fetch({reset: true,data:{PageNo: 1}});
     }
-});
-
-// this.el.innerHTML = '<td>' + model.get('description') + '</td><td>'+ model.get('url') + '</td><td>'
-//     + model.get('created_at') + '</td><td><a href="javascript:void(0)" class="js-remove">X</a> ' +
-//     '<a href="javascript:void(0)" class="js-edit">E</a>&nbsp;</td>
+});/**
+ * Created by rxnew on 2017/9/11.
+ */

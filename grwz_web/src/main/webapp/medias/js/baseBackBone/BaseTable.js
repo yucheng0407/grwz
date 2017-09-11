@@ -1,65 +1,57 @@
-var BaseTable = Backbone.View.extend({
+var BaseTable = BaseView.extend({
     tagName:'tr',//（必须）
-    modelName:null,//渲染入口（必须）
-    pageSize:10,//分页（必须）
-    url:null,//后台地址（必须）
-    column :null,//table渲染,other其他
-    i:1,
+    column :null,//table渲染,other其他{表头}
+    pageSize:10,//分页
+    i:null,//序号
     /*****************************************************************
-     *  方法渲染行
+     *  方法渲染行（View）
      *****************************************************************/
-    render: function (model) {
+    append: function (model) {
         this.el.id = model.cid;
         this.el.className="table";
-        var html='<th>'+this.i+'</th>';
+        var html='<td  style="text-align:center;" >'+this.i+'</td>';//序号
         $.each(this.column, function (i, data) {
-            html+='<th>'+model.get(data.type)+'</th>';
+            var _data
+            if(data.data=="date"){//时间搓转时间
+               var date =new Date(model.get(data.type))
+                 _data=date.Format("yyyy-MM-dd HH:mm:ss");
+            }else {
+                 _data=model.get(data.type);
+            }
+            html+='<td style="text-align:center;">'+_data+'</td>';//值
         });
         this.el.innerHTML=html;
         this.i++;
          return this;
     },
     /*****************************************************************
-     *  方法表头和行
+     *  方法表头和行（View）
      *****************************************************************/
-    append:function (models) {
+    render:function (models) {
         //表头
-        var html='<th>序号</th>';
+        var html='<th style="text-align:center;">序号</th>';
+        //宽度
+        var width='';
         var _html='';
         var self=this;
+        var sum=95;
         $.each(this.column, function (i, data) {
-            html+='<th>'+data.name+'</th>';
+            if(data.width){width+='<col style="width:'+data.width+'%">';
+            sum=sum-data.width;}
+            else {width+='<col style="width:'+50+'%">';}
+            html+='<th style="text-align:center;">'+data.name+'</th>';
         });
         //行
+        this.i=1;
         _.forEach(models, function (model) {
-            _html += self.render(model).el.outerHTML;
+            _html += self.append(model).el.outerHTML;
         });
-        if(!models){ _html='<tr><th>无数据</th></tr>';}
+        if(!models){ _html='<tr><td>无数据</td></tr>';}
+        else {width='<col style="width:5%">'+width}//序号宽度
         //拼接
-        html=['<table class="table table-striped"><thead><tr>'
+        // contenteditable="true"
+        html=['<table class="table table-striped " ><colgroup>',width,'</colgroup><thead><tr>'
             ,html,'</tr></thead><tbody>',_html,'</tbody></table>'].join('');
-        debugger
      return html;
-    },
-    /*****************************************************************
-     *  方法初始化数据
-     *****************************************************************/
-    initialize:function () {
-       /**
-       查询列表数据
-        **/
-        var Xw = BaseCollection.extend({
-            url:this.url
-        });
-        var xw = new Xw();
-        var GistRows = BaseView.extend({
-            modelName:this.modelName,
-            collection: xw,
-            view:this,
-            pageSize:this.pageSize
-        });
-        //开始监听
-        new GistRows();
-        xw.fetch({reset: true,data:{PageNo: 1}});
     }
 });

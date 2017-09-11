@@ -1,12 +1,12 @@
 /**
  * Created by yucheng on 2017/8/20.
  */
-var GistRow = BaseTable.extend({
+var GistRow = BaseView.extend({
     tagName: 'div',
     modelName:"xw",
     url:YC.handleUrl("/main/backbone"),
     pageSize:3,//分页
-    render: function (model) {
+    append: function (model) {
         this.el.id = model.cid;
         this.el.className ="col-lg-4";
         this.el.innerHTML = [
@@ -20,13 +20,12 @@ var GistRow = BaseTable.extend({
     /*****************************************************************
      *  方法表拼接
      *****************************************************************/
-    append:function (models) {
-
+    render:function (models) {
         var _html='';
         var self=this;
         //行
         _.forEach(models, function (model) {
-            _html += self.render(model).el.outerHTML;
+            _html += self.append(model).el.outerHTML;
         });
         //拼接
         return _html;
