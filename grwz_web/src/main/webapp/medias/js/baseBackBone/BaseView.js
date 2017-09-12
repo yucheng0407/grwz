@@ -47,7 +47,11 @@ var BaseView = Backbone.View.extend({
         });
         //开始监听
         new GistRows();
-        this.data.fetch({reset: true,data:{PageNo: 1}});
+        //分页数据
+        var date={
+        pageNo: 1
+        };
+        this.data.fetch({reset: true,data:{map:JSON.stringify(date)}});
     }
 });/**
  * Created by rxnew on 2017/9/11.

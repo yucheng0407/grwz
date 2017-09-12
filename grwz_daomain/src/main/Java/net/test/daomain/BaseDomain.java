@@ -1,4 +1,4 @@
-package net.ruixin.domain.baseModel;
+package net.test.daomain;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
