@@ -13,6 +13,8 @@ import org.springframework.beans.FatalBeanException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
+import paginate.FastPagination;
+
 import javax.annotation.Resource;
 import java.beans.PropertyDescriptor;
 import java.io.Serializable;
@@ -190,7 +192,98 @@ public class BaseDao<T>  {
         return queryObject.executeUpdate();
     }
 
-   
+    public FastPagination cacheNextTotalPaginationSql(CharSequence queryString, Map pageParam, List params) {
+        FastPagination fastPagination = new FastPagination();
+        int pageIndex = Integer.parseInt(String.valueOf(pageParam.get("pageNo")));
+        int pageSize = Integer.parseInt(String.valueOf(pageParam.get("pageSize")));
+        int oldPage = pageIndex;
+        if (null != pageParam.get("oldPage")) {
+            oldPage = Integer.parseInt(String.valueOf(pageParam.get("oldPage")));
+        }
+        String sql = "SELECT * FROM ( SELECT A.*, ROWNUM RN FROM( " +
+                queryString +
+                " ) A WHERE ROWNUM <= ? ) WHERE RN >= ?";
+        List<Object> args = new ArrayList<Object>();
+        args.addAll(params);
+        if (pageIndex == 1 || oldPage == 1) {
+            String totalsql = "SELECT count(*) as rn FROM( " + queryString + " ) A";
+            Integer total = ((BigDecimal) this.getJdbcTemplate().queryForMap(totalsql, args.toArray()).get("RN")).intValue();
+            fastPagination.setTotal(total);
+        }
+        Integer pages;
+        if (oldPage <= pageIndex) {//向前翻页
+            //end
+            args.add(pageIndex * pageSize + 1);
+            //start
+            args.add((oldPage - 1) * pageSize + 1);
+            pages = pageIndex - oldPage + 1;
+        } else {      //向后翻页
+            //end
+            args.add(oldPage * pageSize + 1);
+            //start
+            args.add((pageIndex - 1) * pageSize + 1);
+            pages = oldPage - pageIndex + 1;
+        }
+//        List rows = this.getListBySql(sql, args.toArray());
+        List rows = this.getJdbcTemplate().queryForList(sql, args.toArray());
+        fastPagination.setPageCurrent(pageIndex);
+        fastPagination.setPageSize(pageSize);
+        fastPagination.setRows(rows);
+        if (rows.size() <= pageSize * pages) {
+            fastPagination.setHasNext(false);
+        } else {
+            fastPagination.setHasNext(true);
+            fastPagination.getRows().remove(fastPagination.getRows().size() - 1);
+        }
+        return fastPagination;
+    }
+
+    public FastPagination cacheNextTotalPaginationSql(CharSequence queryString,Map pageParam,Object... params) {
+        FastPagination fastPagination = new FastPagination();
+        int pageIndex = Integer.parseInt(String.valueOf(pageParam.get("pageNo")));
+        int pageSize = Integer.parseInt(String.valueOf(pageParam.get("pageSize")));
+        int oldPage = pageIndex;
+        if (null != pageParam.get("oldPage")) {
+            oldPage = Integer.parseInt(String.valueOf(pageParam.get("oldPage")));
+        }
+        String sql = "SELECT * FROM ( SELECT A.*, ROWNUM RN FROM( " +
+                queryString +
+                " ) A WHERE ROWNUM <= ? ) WHERE RN >= ?";
+        List<Object> args = new ArrayList<Object>();
+        Collections.addAll(args, params);
+        if (pageIndex == 1 || oldPage == 1) {
+            String totalsql = "SELECT count(*) as rn FROM( " + queryString + " ) A";
+            Integer total = ((BigDecimal) this.getJdbcTemplate().queryForMap(totalsql, args.toArray()).get("RN")).intValue();
+            fastPagination.setTotal(total);
+        }
+        Integer pages;
+        if (oldPage <= pageIndex) {//向前翻页
+            //end
+            args.add(pageIndex * pageSize + 1);
+            //start
+            args.add((oldPage - 1) * pageSize + 1);
+            pages = pageIndex - oldPage + 1;
+        } else {      //向后翻页
+            //end
+            args.add(oldPage * pageSize + 1);
+            //start
+            args.add((pageIndex - 1) * pageSize + 1);
+            pages = oldPage - pageIndex + 1;
+        }
+//        List rows = this.getListBySql(sql, args.toArray());
+        List rows = this.getJdbcTemplate().queryForList(sql, args.toArray());
+        fastPagination.setPageCurrent(pageIndex);
+        fastPagination.setPageSize(pageSize);
+        fastPagination.setRows(rows);
+        if (rows.size() <= pageSize * pages) {
+            fastPagination.setHasNext(false);
+        } else {
+            fastPagination.setHasNext(true);
+            fastPagination.getRows().remove(fastPagination.getRows().size() - 1);
+        }
+        return fastPagination;
+    }
+
     public int executeHqlUpdate(CharSequence hql, Object... args) {
         Query queryObject = getSession().createQuery(hql.toString());
         for (int i = 0; i < args.length; ++i) {

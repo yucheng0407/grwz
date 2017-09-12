@@ -7,15 +7,16 @@
 var BaseListenView = Backbone.View.extend({
     el: 'body',//全局监听
     index: 1,//模型下标
-    PageNo: 1,//页码号
+    pageNo: 1,//页码号
     pageSize: null,//分页数（必须）
-    pageCount: null,//数据库总数
+    total: null,//数据库总数
     modelName: '',//（必须）
     collection: '',//(models数据)
     view: '',//视图自身
+    pageDate: null,//(后台传分页值)
     events: {
         'click tr.table': 'select',
-        'click a.js-next': 'nextRow'
+        'click a.js-next': 'next'
         // 'click a.js-remove': 'deleteRow',
         // 'click a.js-edit': 'editRow',
         // 'blur td[contenteditable]': 'saveRow',
@@ -35,20 +36,28 @@ var BaseListenView = Backbone.View.extend({
         }
     },
     /*****************************************************************
-     *  方法分页
+     *  方法分页(下一页小于等于页数)
      *****************************************************************/
-    nextRow: function () {
-        if ((this.collection.models.length - this.index * this.pageSize) > this.pageSize ||
-            this.collection.models.length == this.pageCount
+    next: function () {
+        this.index++;
+        this.update();
+    }
+    ,
+    /*****************************************************************
+     *  更新(下一页小于等于页数)
+     *****************************************************************/
+    update: function () {
+        //(下一页大于页数)
+        if ((this.collection.models.length - this.index * this.pageSize) > 0
         ) {
-            this.index++;
-            this.render()
+            this.render();
         } else {
-            this.index++;
+            ++this.pageNo;
+            this.pageDate.pageNo =this.pageNo;
             this.collection.fetch({//后台添加
                 remove: false,//(add:true（无效）用remove: false替代)
-                data: {PageNo: ++this.PageNo},
-            })
+                data: {map:JSON.stringify(this.pageDate)}
+            });
         }
     },
     // editRow: function (e) {
@@ -74,8 +83,8 @@ var BaseListenView = Backbone.View.extend({
      *****************************************************************/
     initialize: function () {
         var self = this;
-        _.forEach(['reset', 'add','remove'], function (e) {
-            self.listenTo(self.collection, e, self.render);
+        _.forEach(['reset', 'add', 'remove'], function (e) {
+            self.listenTo(self.collection, e, self.update);
         });
     },
     /*****************************************************************

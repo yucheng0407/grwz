@@ -12,7 +12,7 @@ public @interface FormModel {
     String value() default "";
 
     /**
-     * 是否必须，默认是
+     * 是否必须，Model
      */
     boolean required() default true;
 }

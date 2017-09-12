@@ -1,3 +1,7 @@
+
+/*****************************************************************
+ *  （View）表格渲染
+ *****************************************************************/
 var BaseTable = BaseView.extend({
     tagName: 'tr',//（必须）
     column: null,//table渲染,other其他{表头}
@@ -48,7 +52,7 @@ var BaseTable = BaseView.extend({
         _.forEach(models, function (model) {
             _html += self.append(model).el.outerHTML;
         });
-        if (!models) {
+        if (!models[0]) {
             _html = '<tr><td>无数据</td></tr>';
         }
         else {

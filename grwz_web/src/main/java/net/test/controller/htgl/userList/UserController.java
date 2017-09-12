@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import resolver.SearchModel;
-import java.util.HashMap;
+import resolver.Model;
+
+import java.util.Map;
 
 
 /**
@@ -20,7 +21,7 @@ public class UserController {
     private UserService userService;
     @ResponseBody
     @RequestMapping("/getUserList")
-    public AjaxReturn getUserList(@SearchModel Object map) {
-        return new AjaxReturn().setSuccess(true).setData(userService.getUserList());
+    public AjaxReturn getUserList(@Model Object map) {
+        return new AjaxReturn().setSuccess(true).setData(userService.getUserList((Map)map));
     }
 }
