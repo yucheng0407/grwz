@@ -61,9 +61,7 @@ var BaseListenView = Backbone.View.extend({
      *****************************************************************/
     deleteModel: function () {
         var view = this.view;
-        view.total--;
         //当前页减少数
-        debugger
         var i=parseInt((view.index * this.pageSize-view.total)/this.pageSize);
         if(i>=1){
             view.index=view.index-i;

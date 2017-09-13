@@ -1,12 +1,11 @@
 /*****************************************************************
- *  （View）表格渲染
+ *  （View）渲染
  *****************************************************************/
-var BaseTable = BaseView.extend({
-    tagName: 'tr',//（必须）
+var BasePage = Backbone.View.extend({
+    tagName: 'li',//（必须）
     column: null,//table渲染,other其他{表头}
-    pageSize: 10,//分页(页面)
+    pageSize: 5,//分页(页面)
     index: 1,//下标((当前页面)
-    i: null,//序号
     /*****************************************************************
      *  方法渲染行（View）
      *****************************************************************/
@@ -63,50 +62,8 @@ var BaseTable = BaseView.extend({
         html = ['<table class="table table-striped " ><colgroup>', width, '</colgroup><thead><tr>'
             , html, '</tr></thead><tbody>', _html, '</tbody></table>', this.page()].join('');
         return html;
-    },
-    /********************************************
-     * 分页
-     ********************************************/
-    page: function () {
-       var collection = new BaseCollection();
-        var GistRows = BaseListenView.extend({
-            modelName: this.modelName,
-            collection: collection,
-            view: new BasePage(),
-            pageSize:5
-        });
-        //开始监听
-        new GistRows();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      var  html = ['<ul class="pagination pagination-right" style="margin:0px;float: right"><li>',
-            '<a href="javascript:void(0)" class="previous">&laquo;</a></li><li>',
-            '<a href="javascript:void(0)">', this.index, '</a></li><li>',
-            '<a href="javascript:void(0)" class="next">&raquo;</a>',
-            '</li></ul>'].join('');
-        return html;
     }
 });
+/**
+ * Created by yucheng on 2017/9/13.
+ */

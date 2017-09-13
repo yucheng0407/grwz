@@ -25,8 +25,14 @@ var BaseView = Backbone.View.extend({
         var collection = this.collection;
         // var cid = e.currentTarget.parentElement.parentElement.id;
         // this.collection.get(cid).destroy();
-        $("[select]").each(function () {
-            collection.remove($(this).attr("id"));
+        var dom=$("[select]");
+        var len=dom.length;
+        this.total=this.total-len;
+        dom.each(function (i) {
+            if (i==len - 1) {
+                collection.remove($(this).attr("id"), {silent: false})
+            }
+            else collection.remove($(this).attr("id"), {silent: true});
         });
     },
     /******************************************************************
@@ -36,12 +42,14 @@ var BaseView = Backbone.View.extend({
         /**
          查询collection数据
          **/
+        var moder = this;
         var Xw = BaseCollection.extend({
             url: this.url,
             parse: function (response) {
                 if (response.success) {
                     if (response.data.total) {
-                        this.total = response.data.total;
+                        debugger
+                        moder.total = response.data.total;
                     }
                     return response.data.rows;
                 }
