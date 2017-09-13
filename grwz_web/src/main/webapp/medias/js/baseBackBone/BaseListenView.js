@@ -6,17 +6,17 @@
  */
 var BaseListenView = Backbone.View.extend({
     el: 'body',//全局监听
-    index: 1,//模型下标
-    pageNo: 1,//页码号
+    pageNo: 1,//数据库下标
     pageSize: null,//分页数（必须）
-    total: null,//数据库总数
     modelName: '',//（必须）
     collection: '',//(models数据)
     view: '',//视图自身
     pageDate: null,//(后台传分页值)
+    //事件监听
     events: {
         'click tr.table': 'select',
-        'click a.js-next': 'next'
+        'click a.next': 'next',
+        'click a.previous': 'previous'
         // 'click a.js-remove': 'deleteRow',
         // 'click a.js-edit': 'editRow',
         // 'blur td[contenteditable]': 'saveRow',
@@ -36,27 +36,56 @@ var BaseListenView = Backbone.View.extend({
         }
     },
     /*****************************************************************
+     *  方法分页(上一页)
+     *****************************************************************/
+    previous:function () {
+        var view = this.view;
+        if(view.index>1) {
+            view.index--;
+            this.update();
+        }else alert("没有上一页")
+    },
+    /*****************************************************************
      *  方法分页(下一页小于等于页数)
      *****************************************************************/
     next: function () {
-        this.index++;
+        var view = this.view;
+        if(view.total> view.index * this.pageSize) {
+            view.index++;
+            this.update();
+        }else alert("没有下一页")
+    }
+    ,
+    /*****************************************************************
+     *  删除model
+     *****************************************************************/
+    deleteModel: function () {
+        var view = this.view;
+        view.total--;
+        //当前页减少数
+        debugger
+        var i=parseInt((view.index * this.pageSize-view.total)/this.pageSize);
+        if(i>=1){
+            view.index=view.index-i;
+        }
         this.update();
     }
     ,
     /*****************************************************************
-     *  更新(下一页小于等于页数)
+     *  更新(一直到大于等于下一页数缓存)
      *****************************************************************/
     update: function () {
         //(下一页大于页数)
-        if ((this.collection.models.length - this.index * this.pageSize) > 0
+        var view = this.view;
+        if ((this.collection.models.length - view.index * this.pageSize) >= 0 || this.collection.models.length == view.total
         ) {
             this.render();
         } else {
             ++this.pageNo;
-            this.pageDate.pageNo =this.pageNo;
+            this.pageDate.pageNo = this.pageNo;
             this.collection.fetch({//后台添加
                 remove: false,//(add:true（无效）用remove: false替代)
-                data: {map:JSON.stringify(this.pageDate)}
+                data: {map: JSON.stringify(this.pageDate)}
             });
         }
     },
@@ -79,13 +108,14 @@ var BaseListenView = Backbone.View.extend({
     //     });
     // },
     /*****************************************************************
-     *  方法初始化监听器
+     *  Model监听器
      *****************************************************************/
     initialize: function () {
         var self = this;
-        _.forEach(['reset', 'add', 'remove'], function (e) {
+        _.forEach(['reset', 'add'], function (e) {
             self.listenTo(self.collection, e, self.update);
         });
+        self.listenTo(self.collection, 'remove', self.deleteModel);
     },
     /*****************************************************************
      *  方法动态渲染(分页)
@@ -93,7 +123,7 @@ var BaseListenView = Backbone.View.extend({
     render: function () {
         var html = '';
         var view = this.view;
-        var models = this.collection.models.slice(this.pageSize * (this.index - 1), this.index * this.pageSize);
+        var models = this.collection.models.slice(this.pageSize * (view.index - 1), view.index * this.pageSize);
         html = view.render(models);
         // _.forEach(models, function (model) {
         //     html += view.render(model).el.outerHTML;

@@ -5,7 +5,8 @@
 var BaseTable = BaseView.extend({
     tagName: 'tr',//（必须）
     column: null,//table渲染,other其他{表头}
-    pageSize: 10,//分页
+    pageSize: 10,//分页(页面)
+    index: 1,//下标((当前页面)
     i: null,//序号
     /*****************************************************************
      *  方法渲染行（View）
@@ -70,8 +71,7 @@ var BaseTable = BaseView.extend({
     page:function () {
         var html='';
         html=['<ul class="pagination pagination-right" style="margin:0px;float: right"><li>',
-        '<a href="#">&laquo;</a></li><li><a href="#">1</a>',
-            '</li><li><a href="#">2</a></li><li><a href="#">&raquo;</a>',
+        '<a href="javascript:void(0)" class="previous">&laquo;</a></li><li><a href="#">',this.index,'</a></li><li><a href="javascript:void(0)" class="next">&raquo;</a>',
             '</li></ul>'].join('');
         return html;
     }
