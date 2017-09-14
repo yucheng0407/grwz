@@ -5,6 +5,7 @@ var column =[{name:'ID',type:'ID',width:10},{name:'密码',type:'MM',width:60},{
     ,UserModel=BaseTable.extend({
     modelName:"table",
     column:column,
+    pageSize: 10,
     url:YC.handleUrl("/user/getUserList")
 
 }),userModel=new UserModel();

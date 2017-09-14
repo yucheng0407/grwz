@@ -3,9 +3,11 @@ package net.test.controller.htgl;
 import data.AjaxReturn;
 import net.test.daomain.main.User;
 import net.test.intercepter.AuthInterceptor;
+import net.test.service.htgl.MenuService;
 import net.test.service.main.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import session.SessionUtils;
@@ -22,5 +24,11 @@ import java.util.HashMap;
 @Controller
 @RequestMapping("/htgl")
 public class IndexController {
-
+    @Autowired
+    MenuService menuService;
+    @ResponseBody
+    @RequestMapping("/getGlMenu")
+    public AjaxReturn getGlMenu()  {
+        return new AjaxReturn().setSuccess(true).setData(menuService.getGlMenu());
+    }
 }

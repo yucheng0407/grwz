@@ -4,9 +4,10 @@
 var BaseTable = BaseView.extend({
     tagName: 'tr',//（必须）
     column: null,//table渲染,other其他{表头}
-    pageSize: 10,//分页(页面)
-    index: 1,//下标((当前页面)
-    i: null,//序号
+    i: null,//序号,(页面)
+    pageSize: 10,//分页(必须页面)
+    pageCount: 5,//(翻页数)
+    pageIndex: 1,//(翻页)
     /*****************************************************************
      *  方法渲染行（View）
      *****************************************************************/
@@ -65,47 +66,35 @@ var BaseTable = BaseView.extend({
         return html;
     },
     /********************************************
-     * 分页
+     * 翻页
      ********************************************/
     page: function () {
-       var collection = new BaseCollection();
-        var GistRows = BaseListenView.extend({
-            modelName: this.modelName,
-            collection: collection,
-            view: new BasePage(),
-            pageSize:5
-        });
-        //开始监听
-        new GistRows();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      var  html = ['<ul class="pagination pagination-right" style="margin:0px;float: right"><li>',
-            '<a href="javascript:void(0)" class="previous">&laquo;</a></li><li>',
-            '<a href="javascript:void(0)">', this.index, '</a></li><li>',
-            '<a href="javascript:void(0)" class="next">&raquo;</a>',
+        var html = '';
+        debugger
+        if (!((this.pageIndex < this.index))) {
+            if (this.index != 1) this.pageIndex--;//不是第一页
+        } else if (!(this.index < (this.pageIndex + this.pageCount) - 1)) {
+            if (this.index != (Math.ceil(this.total / this.pageSize))) this.pageIndex++;//最后一页
+        }
+        for (var i = 0; i < this.pageCount; i++) {//更新翻页（根据pageIndex）
+            var ind = parseInt(((this.pageIndex + i) * this.pageSize - this.total) / this.pageSize);
+            if (ind < 1) {
+                var str='';
+                var index=this.pageIndex + i;
+                if(index==this.index){
+                    str=' active';//当前页
+                }
+                html = html + '<li class="page'+str+'"><a href="javascript:void(0)">'+ (this.pageIndex + i) + '</a></li>';
+            }else break;
+        }
+        if(0==this.total){
+            str=' active';//当前页
+            html = html + '<li class="'+str+'"><a href="javascript:void(0)">1</a></li>';
+        }
+        html = ['<ul class="pagination pagination-right" style="margin:0px;float: right"><li>',
+            '<a href="javascript:void(0)" class="previous">&laquo;</a></li>',
+            html,
+            '<li><a href="javascript:void(0)" class="next">&raquo;</a>',
             '</li></ul>'].join('');
         return html;
     }

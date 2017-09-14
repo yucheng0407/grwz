@@ -5,8 +5,9 @@
 var BaseView = Backbone.View.extend({
     modelName: null,//渲染入口（必须）
     url: null,//后台地址（必须）
-    collection: null,//数据(models数据)(collection)
+    collection: null,//数据(models数据)(collection必须)
     total: null,//数据总长度
+    index: 1,//下标((当前页面)
     /*****************************************************************
      *  取得collection选中值
      *****************************************************************/
@@ -48,10 +49,11 @@ var BaseView = Backbone.View.extend({
             parse: function (response) {
                 if (response.success) {
                     if (response.data.total) {
-                        debugger
                         moder.total = response.data.total;
                     }
-                    return response.data.rows;
+                    if(response.data.rows){//分页
+                        return response.data.rows;
+                    }else return response.data;//不分页
                 }
             }
         });
@@ -59,7 +61,7 @@ var BaseView = Backbone.View.extend({
         //分页数据
         var pageDate = {
             pageNo: 1,
-            pageSize: 20//后台
+            pageSize: 20//后台缓存
         };
         var GistRows = BaseListenView.extend({
             modelName: this.modelName,

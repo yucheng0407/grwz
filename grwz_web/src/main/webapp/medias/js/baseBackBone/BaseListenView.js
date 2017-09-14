@@ -14,8 +14,11 @@ var BaseListenView = Backbone.View.extend({
     pageDate: null,//(后台传分页值)
     //事件监听
     events: {
-        'click tr.table': 'select',
+        //table行
+        'click tr.table': 'select',//table类可选
+        //翻页
         'click a.next': 'next',
+        'click li.page': 'page',//页号
         'click a.previous': 'previous'
         // 'click a.js-remove': 'deleteRow',
         // 'click a.js-edit': 'editRow',
@@ -35,25 +38,35 @@ var BaseListenView = Backbone.View.extend({
 
         }
     },
+    //翻页
     /*****************************************************************
      *  方法分页(上一页)
      *****************************************************************/
-    previous:function () {
+    previous: function () {
         var view = this.view;
-        if(view.index>1) {
+        if (view.index > 1) {
             view.index--;
             this.update();
-        }else alert("没有上一页")
+        } else alert("没有上一页")
     },
     /*****************************************************************
      *  方法分页(下一页小于等于页数)
      *****************************************************************/
     next: function () {
         var view = this.view;
-        if(view.total> view.index * this.pageSize) {
+        if (view.total > view.index * this.pageSize) {
             view.index++;
             this.update();
-        }else alert("没有下一页")
+        } else alert("没有下一页")
+    }
+    , /*****************************************************************
+     *  翻页(页数)
+     *****************************************************************/
+    page: function (e) {
+        var view = this.view;
+        var cid = e.currentTarget;
+        view.index = $(cid).text();
+        this.update();
     }
     ,
     /*****************************************************************
@@ -62,10 +75,13 @@ var BaseListenView = Backbone.View.extend({
     deleteModel: function () {
         var view = this.view;
         //当前页减少数
-        var i=parseInt((view.index * this.pageSize-view.total)/this.pageSize);
-        if(i>=1){
-            view.index=view.index-i;
+        var i = parseInt((view.index * this.pageSize - view.total) / this.pageSize);
+        if (i >= 1) {
+            view.index = view.index - i;//当前页减少数
+            view.pageIndex = view.pageIndex - i;//翻页页减少数
         }
+        if (view.index < 1) view.index = 1;
+        if (view.pageIndex < 1) view.pageIndex = 1;
         this.update();
     }
     ,
@@ -74,7 +90,9 @@ var BaseListenView = Backbone.View.extend({
      *****************************************************************/
     update: function () {
         //(下一页大于页数)
+        var baseListenView = this;
         var view = this.view;
+        if (!view.total) view.total = this.collection.models.length;
         if ((this.collection.models.length - view.index * this.pageSize) >= 0 || this.collection.models.length == view.total
         ) {
             this.render();
@@ -83,7 +101,11 @@ var BaseListenView = Backbone.View.extend({
             this.pageDate.pageNo = this.pageNo;
             this.collection.fetch({//后台添加
                 remove: false,//(add:true（无效）用remove: false替代)
-                data: {map: JSON.stringify(this.pageDate)}
+                silent: true,//不触发add监听器防止重复调用
+                data: {map: JSON.stringify(this.pageDate)},
+                success: function () {
+                    baseListenView.update();//触发add监听器(全部添加完)
+                }
             });
         }
     },
@@ -121,7 +143,13 @@ var BaseListenView = Backbone.View.extend({
     render: function () {
         var html = '';
         var view = this.view;
-        var models = this.collection.models.slice(this.pageSize * (view.index - 1), view.index * this.pageSize);
+        var models;
+        if (this.pageSize) {
+            models = this.collection.models.slice(this.pageSize * (view.index - 1), view.index * this.pageSize);
+        }
+        else {
+            models = this.collection.models;
+        }
         html = view.render(models);
         // _.forEach(models, function (model) {
         //     html += view.render(model).el.outerHTML;
