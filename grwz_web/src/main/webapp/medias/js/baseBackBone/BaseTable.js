@@ -77,7 +77,7 @@ var BaseTable = BaseView.extend({
             if (this.index != (Math.ceil(this.total / this.pageSize))) this.pageIndex++;//最后一页
         }
         for (var i = 0; i < this.pageCount; i++) {//更新翻页（根据pageIndex）
-            var ind = parseInt(((this.pageIndex + i) * this.pageSize - this.total) / this.pageSize);
+            var ind = parseInt(((this.pageIndex + i) * this.pageSize - this.total) / this.pageSize);//减少量
             if (ind < 1) {
                 var str='';
                 var index=this.pageIndex + i;

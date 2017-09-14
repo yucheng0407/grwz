@@ -50,7 +50,7 @@ var BaseListenView = Backbone.View.extend({
         } else alert("没有上一页")
     },
     /*****************************************************************
-     *  方法分页(下一页小于等于页数)
+     *  方法分页(下一页页数)
      *****************************************************************/
     next: function () {
         var view = this.view;
@@ -75,7 +75,7 @@ var BaseListenView = Backbone.View.extend({
     deleteModel: function () {
         var view = this.view;
         //当前页减少数
-        var i = parseInt((view.index * this.pageSize - view.total) / this.pageSize);
+        var i = parseInt((view.index * this.pageSize - view.total) / this.pageSize);//保留整数
         if (i >= 1) {
             view.index = view.index - i;//当前页减少数
             view.pageIndex = view.pageIndex - i;//翻页页减少数
@@ -93,7 +93,7 @@ var BaseListenView = Backbone.View.extend({
         var baseListenView = this;
         var view = this.view;
         if (!view.total) view.total = this.collection.models.length;
-        if ((this.collection.models.length - view.index * this.pageSize) >= 0 || this.collection.models.length == view.total
+        if ((this.collection.models.length >=view.index * this.pageSize)|| this.collection.models.length == view.total
         ) {
             this.render();
         } else {
