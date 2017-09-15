@@ -16,7 +16,7 @@ function deletes() {
 function edit() {
    alert(userModel.getSelect()[0].ID);
 }
-function add() {
+function add() {//add
    top.layer.open({
 
    })
