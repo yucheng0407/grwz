@@ -64,6 +64,7 @@ var BaseView = Backbone.View.extend({
             pageSize: 20//后台缓存
         };
         var GistRows = BaseListenView.extend({
+            el:"[data-model="+this.modelName+"]",
             modelName: this.modelName,
             collection: this.collection,
             view: this,

@@ -33,6 +33,8 @@ require.config({//js
         "whichButtonJs": "utilJs/whichButtonJs",
         "BaseModel": "baseBackBone/BaseModel",
         "BaseView": "baseBackBone/BaseView",
+        "BaseLayer": "layer/BaseLayer",
+        "Layer":"baseJs/layer",
         "BaseListenView": "baseBackBone/BaseListenView",
         "BaseTable":"baseBackBone/BaseTable",
         "TweenLite": "baseJs/TweenLite.min",
@@ -60,11 +62,17 @@ require.config({//js
             exports: "_"
         },
         "backbone": {
-            deps: ["underscore", "jQuery", "bootstrap", "whichButtonJs","formUtils"],
+            deps: ["underscore", "jQuery", "bootstrap", "whichButtonJs","formUtils","Layer"],
             exports: "Backbone"
         },
         "BaseListenView": {
             deps: ["backbone","BaseModel"]
+        },
+        "Layer":{
+            deps: ["jQuery"]
+        },
+        "BaseLayer": {
+            deps: ["backbone"]
         },
         "BaseView": {
             deps: ["BaseListenView"]
@@ -73,7 +81,7 @@ require.config({//js
             deps: ["backbone","BaseView"]
         },
         "BaseModel": {
-            deps: ["backbone"]
+            deps: ["backbone","BaseLayer"]
         }
     }
 });

@@ -13,7 +13,7 @@ var BaseTable = BaseView.extend({
      *****************************************************************/
     append: function (model) {
         this.el.id = model.cid;
-        this.el.className = "table";
+        this.el.className = "select-table";
         var html = '<td style="text-align:center;" >' + this.i + '</td>';//序号
         $.each(this.column, function (i, data) {
             var _data;

@@ -5,7 +5,7 @@
  * View层（配置监听器）
  */
 var BaseListenView = Backbone.View.extend({
-    el: 'body',//全局监听
+    el: null,//监听区域（data-model内）
     pageNo: 1,//数据库下标
     pageSize: null,//分页数（必须）
     modelName: '',//（必须）
@@ -14,8 +14,9 @@ var BaseListenView = Backbone.View.extend({
     pageDate: null,//(后台传分页值)
     //事件监听
     events: {
+        'click .select': 'select',//table类可选
         //table行
-        'click tr.table': 'select',//table类可选
+        'click .select-table': 'selectTable',//table类可选
         //翻页
         'click a.next': 'next',
         'click li.page': 'page',//页号
@@ -26,17 +27,26 @@ var BaseListenView = Backbone.View.extend({
 
     },
     /*****************************************************************
-     *  选中
+     *  选中(多选)
      *****************************************************************/
-    select: function (e) {
-        var cid = e.currentTarget.id;
-        if ($("#" + cid).attr("style")) {//已选中
-            $("#" + cid).removeAttr("style select");
+    selectTable: function (e) {
+        var dom = $(e.currentTarget);//触发事件的当前块
+        if (dom.attr("style")) {//已选中
+            dom.removeAttr("style select");
         }
         else {
-            $("#" + cid).css({"background-color": "#428bca"}).attr("select", true);//被选中
+            dom.css({"background-color": "#428bca"}).attr("select", true);//被选中
 
         }
+    },
+    /*****************************************************************
+     *  选中(单选)
+     *****************************************************************/
+    select: function (e) {
+        var dom = $(e.currentTarget);//当前块
+        $(this.el).find(".active")
+            .removeClass("active").removeAttr("select");//移除当前data-model下的被选块
+        dom.addClass("active").attr("select", true);//被选中
     },
     //翻页
     /*****************************************************************
@@ -64,8 +74,8 @@ var BaseListenView = Backbone.View.extend({
      *****************************************************************/
     page: function (e) {
         var view = this.view;
-        var cid = e.currentTarget;
-        view.index = $(cid).text();
+        var tag = e.currentTarget;
+        view.index = $(tag).text();
         this.update();
     }
     ,
