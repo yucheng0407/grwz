@@ -61,7 +61,7 @@ var BaseView = Backbone.View.extend({
         //分页数据
         var pageDate = {
             pageNo: 1,
-            pageSize: 20//后台缓存
+            pageSize:20//后台缓存
         };
         var GistRows = BaseListenView.extend({
             el:"[data-model="+this.modelName+"]",
