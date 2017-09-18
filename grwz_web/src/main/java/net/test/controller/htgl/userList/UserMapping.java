@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/user")
 public class UserMapping {
     @RequestMapping("/userList")
-    public String index() {
+    public String userList() {
         return "/htgl/user/userList";
+    }
+    @RequestMapping("/userEdit")
+    public String userEdit() {
+        return "/htgl/user/userEdit";
     }
 }

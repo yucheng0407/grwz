@@ -7,10 +7,10 @@
 /**********************************************
  * 标志位
  **********************************************/
-var isIE=!!window.ActiveXObject;
-var isIE6=isIE&&!window.XMLHttpRequest;
-var isIE8=isIE&&!!document.documentMode;
-var isIE7=isIE&&!isIE6&&!isIE8;
+var isIE = !!window.ActiveXObject;
+var isIE6 = isIE && !window.XMLHttpRequest;
+var isIE8 = isIE && !!document.documentMode;
+var isIE7 = isIE && !isIE6 && !isIE8;
 
 // var _ajax=$.ajax;
 //重写jquery的ajax方法
@@ -44,61 +44,61 @@ var isIE7=isIE&&!isIE6&&!isIE8;
 //     _ajax(_opt);
 // };
 
-var _post=$.post;
+var _post = $.post;
 //重写jquery的post方法
-$.post=function(url,data,success,error){
+$.post = function (url, data, success, error) {
     //备份opt中error和success方法
     url = RX.handlePath(url);
 
-    _post(url,data,success,error);
+    _post(url, data, success, error);
 };
 
-var _get=$.get;
+var _get = $.get;
 //重写jquery的post方法
-$.get=function(url,data,success,error){
+$.get = function (url, data, success, error) {
     //备份opt中error和success方法
     url = RX.handlePath(url);
 
-    _get(url,data,success,error);
+    _get(url, data, success, error);
 };
 /**********************************************
  * 布局js控制
  **********************************************/
 //初始化表单样式
-function resizeForm(){
-    $(".Boxform").height($(window).height() - $(".title2").outerHeight()-$(".WindowMenu").outerHeight());
-    $(window).resize(function() {
-        $(".Boxform").height($(window).height() - $(".title2").outerHeight()-$(".WindowMenu").outerHeight());
+function resizeForm() {
+    $(".Boxform").height($(window).height() - $(".title2").outerHeight() - $(".WindowMenu").outerHeight());
+    $(window).resize(function () {
+        $(".Boxform").height($(window).height() - $(".title2").outerHeight() - $(".WindowMenu").outerHeight());
     })
 }
 //初始化列表样式
-function resizeTable(){
-    window.setTimeout(function(){
+function resizeTable() {
+    window.setTimeout(function () {
         $(".BoxGenerallist").height($(window).height() - $(".title2").outerHeight() - $(".conditions").outerHeight() - 28);
         $(".BoxGenerallist").width($("bage-box").width());
-    },1);
+    }, 1);
     $(window).resize(function () {
         $(".BoxGenerallist").height($(window).height() - $(".title2").outerHeight() - $(".conditions").outerHeight() - 28);
         $(".BoxGenerallist").width($("bage-box").width());
     })
 }
 //载入中提示开启
-function openLoading(){
-    var height = Math.floor($(window).height()/2-10);
-    $(window.document.body).prepend("<div id='loadingGif' style='line-height:40px;height:100%;width:100%;text-align:center;position:absolute;padding-top: "+height+"px; background: #F9F9F9;opacity:0.8; -moz-opacity:0.8;filter: alpha(opacity=80)'>" +
-        "<img align='absmiddle' src='"+RX.handlePath("/medias/images/baseModel/exp_loading.gif")+"'/>" +
+function openLoading() {
+    var height = Math.floor($(window).height() / 2 - 10);
+    $(window.document.body).prepend("<div id='loadingGif' style='line-height:40px;height:100%;width:100%;text-align:center;position:absolute;padding-top: " + height + "px; background: #F9F9F9;opacity:0.8; -moz-opacity:0.8;filter: alpha(opacity=80)'>" +
+        "<img align='absmiddle' src='" + RX.handlePath("/medias/images/baseModel/exp_loading.gif") + "'/>" +
         "<span>数据加载中...</span>" +
         "</div>");
 }
 //载入中提示关闭
-function closeLoading(){
+function closeLoading() {
     $("#loadingGif").remove();
 }
 
 //页面滚动到第一个错误位置
-function scrollToError(){
-    var scrollTo = $(".TextBoxErr").eq(0),container = scrollTo.find(".Boxform").eq(0);
-    if(container.length){
+function scrollToError() {
+    var scrollTo = $(".TextBoxErr").eq(0), container = scrollTo.find(".Boxform").eq(0);
+    if (container.length) {
         container.scrollTop(
             scrollTo.offset().top - container.offset().top + container.scrollTop()
         );
@@ -106,24 +106,24 @@ function scrollToError(){
 }
 
 //给场景图绑定滚动事件
-function bindScroll(){
-    $(".prev").bind("click",function(){
+function bindScroll() {
+    $(".prev").bind("click", function () {
         scrollToEnd("prev");
     });
-    $(".next").bind("click",function(){
+    $(".next").bind("click", function () {
         scrollToEnd("next");
     });
 }
 
 //滚动到底
-function scrollToEnd(type){
+function scrollToEnd(type) {
     var scrollTo = $(".Boxcentont").scrollLeft();
-    if(type=="next"){
+    if (type == "next") {
         scrollTo = scrollTo + 200;
-    }else{
+    } else {
         scrollTo = scrollTo - 200;
     }
-    $(".Boxcentont").animate({scrollLeft:scrollTo},"slow");
+    $(".Boxcentont").animate({scrollLeft: scrollTo}, "slow");
 }
 
 /**********************************************
@@ -132,10 +132,10 @@ function scrollToEnd(type){
 /**
  * 获取表单jq元素
  */
-$.getEle = function (modelName,property,type) {
-    if(type == "layer"){
+$.getEle = function (modelName, property, type) {
+    if (type == "layer") {
         return $("*[layer-model=" + modelName + "][link-property=" + property + "]");
-    }else{
+    } else {
         return $("*[data-model=" + modelName + "][data-property=" + property + "]");
     }
 }
@@ -161,7 +161,7 @@ jQuery.fn.hideEle = function () {
  * 隐藏表单元素与其标志td
  */
 jQuery.fn.showDisabledEle = function () {
-    if($(this).next().hasClass("spanshow")){
+    if ($(this).next().hasClass("spanshow")) {
         $(this).next().remove();
     }
     $(this).show();
@@ -184,11 +184,11 @@ jQuery.fn.changeTag = function (value) {
     return $(this);
 }
 
-function checkSelected(gridmodel){
+function checkSelected(gridmodel) {
     var sel = gridmodel.getSelect();
-    if(sel.length > 0) {
+    if (sel.length > 0) {
         return sel;
-    }else{
+    } else {
         top.layer.alert("请先选择数据");
     }
     return null;
@@ -199,21 +199,22 @@ function checkSelected(gridmodel){
  **********************************************/
 $.prototype.val = function (base) {
     return function () {
-        var s = this, n = s.next(), t = s.prop("tagName"), a = "value", p = s.attr(a), isset = arguments.length > 0, v = isset ? arguments[0] : null;
+        var s = this, n = s.next(), t = s.prop("tagName"), a = "value", p = s.attr(a), isset = arguments.length > 0,
+            v = isset ? arguments[0] : null;
         //这里调用基类方法，当然基类方法在何时调用或者是否要调用取决于您的业务逻辑，在这里我们是要调用的，因为要保持它原有的功能。
-        if (isset&&typeof(base)=="function") {
+        if (isset && typeof(base) == "function") {
             base.call(s, v);
-            if (s.hasClass("spanparent")){
-                if(n != null && n.length > 0 && n.hasClass("spanshow")){
-                    if(t == "INPUT" && s.prop("type") == "text"){
+            if (s.hasClass("spanparent")) {
+                if (n != null && n.length > 0 && n.hasClass("spanshow")) {
+                    if (t == "INPUT" && s.prop("type") == "text") {
                         n.text(base.call(s));
-                    }else if(t == "SELECT"){
+                    } else if (t == "SELECT") {
                         n.text(s.find("option:selected").text());
                     }
                 }
             }
-            if (s.prop("tagName") == "INPUT"){
-                s.prop("title",v);
+            if (s.prop("tagName") == "INPUT") {
+                s.prop("title", v);
             }
             return s;
         } else {
@@ -226,7 +227,7 @@ $.prototype.val = function (base) {
 //文本框长度验证
 function textareachk(obj, name) {
     var maxl = 0;
-    if($(obj).attr("readOnly")){
+    if ($(obj).attr("readOnly")) {
         return;
     }
     var maxLength = parseInt($(obj).attr("maxLength"));
@@ -249,22 +250,22 @@ function textareachk(obj, name) {
     }
 }
 
-function replaceStrChar(str,reallyDo,replaceWith) {
-    var e=new RegExp(reallyDo,"g");
+function replaceStrChar(str, reallyDo, replaceWith) {
+    var e = new RegExp(reallyDo, "g");
     var words = str;
-    if(str != null){
+    if (str != null) {
         words = str.toString().replace(e, replaceWith);
     }
     return words;
 }
 
 //匹配checked状态
-function matchChecked(collection){
-    if(collection != null && collection.models.length > 0){
-        $.each(collection.models, function(key,model){
-            if(model.checked){
+function matchChecked(collection) {
+    if (collection != null && collection.models.length > 0) {
+        $.each(collection.models, function (key, model) {
+            if (model.checked) {
                 model.set("sfyx_st", "VALID");
-            }else{
+            } else {
                 model.set("sfyx_st", "UNVALID");
             }
         })
@@ -275,8 +276,8 @@ function matchChecked(collection){
  * @param str
  * @returns {boolean}
  *************************/
-function isNotNullStr(str){
-    if(str != null && $.trim(str.toString()) != ""){
+function isNotNullStr(str) {
+    if (str != null && $.trim(str.toString()) != "") {
         return true;
     }
     return false;
@@ -286,23 +287,23 @@ function isNotNullStr(str){
  * @param str
  * @returns {boolean}
  *************************/
-function isNotNullObj(obj){
-    if(obj != undefined && obj != null){
+function isNotNullObj(obj) {
+    if (obj != undefined && obj != null) {
         return true;
     }
     return false;
 }
 
-function getDictData(data){
-    if(data && data.data && data.data.sysSubDictList){
+function getDictData(data) {
+    if (data && data.data && data.data.sysSubDictList) {
         return data.data.sysSubDictList;
-    }else{
+    } else {
         return [];
     }
 }
 
-function getDictItem(data){
-     return {no: data.no, name: data.name, remark: data.remark, parentNo: data.parentNo}
+function getDictItem(data) {
+    return {no: data.no, name: data.name, remark: data.remark, parentNo: data.parentNo}
 }
 /**
  * 实现js缓存的方法
@@ -311,94 +312,94 @@ function getDictItem(data){
  * @returns {*}
  * @constructor
  */
-function JsCache(jspath,parentNo){
+function JsCache(jspath, parentNo) {
     var dictCode = jspath;
-    var loadpath="/medias/cache/"+jspath+".js?r="+Math.random();
-    var dictData = [],newData = [];
+    var loadpath = "/medias/cache/" + jspath + ".js?r=" + Math.random();
+    var dictData = [], newData = [];
     $.ajax({
-        async:false,
-        type:"GET",
-        url:loadpath,
-        dataType:"JSON",
-        data:{},
-        success:function(jsondata,textStatus){
+        async: false,
+        type: "GET",
+        url: loadpath,
+        dataType: "JSON",
+        data: {},
+        success: function (jsondata, textStatus) {
             //判断是否过期 如果过期 则删除过期文件 并使用服务器发回的最新数据
-            if(jsondata && jsondata.expires && jsondata.expires!=null){
+            if (jsondata && jsondata.expires && jsondata.expires != null) {
                 var expires = jsondata.expires;
-                var dateExp = expires.replace(/\-/gi,"/");
+                var dateExp = expires.replace(/\-/gi, "/");
                 var timeExp = new Date(dateExp).getTime();
                 var timeNow = new Date().getTime();
-                if(false){
+                if (false) {
                     //if(timeExp<timeNow){//过期了
                     $.ajax({
-                        async:false,
-                        type:"POST",
-                        url:"/jscache/jspath",
-                        data:{dictCode: dictCode,jspath:jspath,forceUpdate:true},
-                        dataType:"JSON",
-                        success:function(response2){
+                        async: false,
+                        type: "POST",
+                        url: "/jscache/jspath",
+                        data: {dictCode: dictCode, jspath: jspath, forceUpdate: true},
+                        dataType: "JSON",
+                        success: function (response2) {
                             dictData = getDictData(response2);
                         }
                     });
-                }else{//没过期
+                } else {//没过期
                     dictData = getDictData(jsondata);
                 }
 
-            }else{//文件有误 更新
+            } else {//文件有误 更新
                 $.ajax({
-                    async:false,
-                    type:"POST",
-                    url:"/jscache/jspath",
-                    data:{dictCode: dictCode,jspath:jspath,forceUpdate:true},
-                    dataType:"JSON",
-                    success:function(response1){
+                    async: false,
+                    type: "POST",
+                    url: "/jscache/jspath",
+                    data: {dictCode: dictCode, jspath: jspath, forceUpdate: true},
+                    dataType: "JSON",
+                    success: function (response1) {
                         dictData = getDictData(response1);
                     }
                 });
             }
-        },error:function(XMLHttpRequest, textStatus, errorThrown){
-            if(XMLHttpRequest.status=404){//文件不存在，择请求服务器生成文件
+        }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+            if (XMLHttpRequest.status = 404) {//文件不存在，择请求服务器生成文件
                 $.ajax({
-                    async:false,
-                    type:"POST",
-                    url:"/jscache/jspath",
-                    data:{dictCode: dictCode,jspath:jspath},
-                    dataType:"JSON",
-                    success:function(response){
+                    async: false,
+                    type: "POST",
+                    url: "/jscache/jspath",
+                    data: {dictCode: dictCode, jspath: jspath},
+                    dataType: "JSON",
+                    success: function (response) {
                         dictData = getDictData(response);
                     }
                 });
             }
         }
     });
-    if(parentNo && parentNo!=null){
-        if(typeof(parentNo) == "object"){
-            if(parentNo.length > 0){
-                for(var m = 0; m < parentNo.length; m++){
+    if (parentNo && parentNo != null) {
+        if (typeof(parentNo) == "object") {
+            if (parentNo.length > 0) {
+                for (var m = 0; m < parentNo.length; m++) {
                     $.each(dictData, function (i, item) {
-                        if(item.parentNo == parentNo[m]){
+                        if (item.parentNo == parentNo[m]) {
                             newData.push(getDictItem(item));
                         }
                     });
                 }
             }
-        }else{
+        } else {
             $.each(dictData, function (i, item) {
-                if(item.parentNo == parentNo){
+                if (item.parentNo == parentNo) {
                     newData.push(getDictItem(item));
                 }
             });
         }
         return newData;
-    }else if(parentNo === ""){
+    } else if (parentNo === "") {
         $.each(dictData, function (i, item) {
-            if(item.parentNo == null){
+            if (item.parentNo == null) {
                 item.parentNo = "";
                 newData.push(getDictItem(item));
             }
         });
         return newData;
-    }else{
+    } else {
         $.each(dictData, function (i, item) {
             newData.push(getDictItem(item));
         });
@@ -416,77 +417,77 @@ function JsCache(jspath,parentNo){
  * @returns {*}
  * @constructor
  */
-function JsMergeCache(mergePath,dictCodes,jspath,pcode){
-    var mergePathCache=mergePath+"Cache";
-    var loadpath="/medias/cache/"+mergePathCache+".js?r="+Math.random();
+function JsMergeCache(mergePath, dictCodes, jspath, pcode) {
+    var mergePathCache = mergePath + "Cache";
+    var loadpath = "/medias/cache/" + mergePathCache + ".js?r=" + Math.random();
     var dictData = [];
     $.ajax({
-        async:false,
-        type:"GET",
-        url:loadpath,
-        dataType:"JSON",
-        data:{},
-        success:function(jsondata,textStatus){
+        async: false,
+        type: "GET",
+        url: loadpath,
+        dataType: "JSON",
+        data: {},
+        success: function (jsondata, textStatus) {
             //判断是否过期 如果过期 则删除过期文件 并使用服务器发回的最新数据
-            if(jsondata && jsondata.expires && jsondata.expires!=null){
+            if (jsondata && jsondata.expires && jsondata.expires != null) {
                 var expires = jsondata.expires;
-                var dateExp = expires.replace(/\-/gi,"/");
+                var dateExp = expires.replace(/\-/gi, "/");
                 var timeExp = new Date(dateExp).getTime();
                 var timeNow = new Date().getTime();
-                if(false){
+                if (false) {
                     //if(timeExp<timeNow){//过期了
                     $.ajax({
-                        async:false,
-                        type:"POST",
-                        url:"/jscache/jsMergePath",
-                        data:{mergePath:mergePathCache,dictCodes: dictCodes,forceUpdate:true},
-                        dataType:"JSON",
-                        success:function(response2){
-                            if(typeof response2.data[jspath] !="undefined"){
-                                dictData= eval(response2.data[jspath]);
-                            }else{
-                                dictData =[];
+                        async: false,
+                        type: "POST",
+                        url: "/jscache/jsMergePath",
+                        data: {mergePath: mergePathCache, dictCodes: dictCodes, forceUpdate: true},
+                        dataType: "JSON",
+                        success: function (response2) {
+                            if (typeof response2.data[jspath] != "undefined") {
+                                dictData = eval(response2.data[jspath]);
+                            } else {
+                                dictData = [];
                             }
                         }
                     });
-                }else{//没过期
+                } else {//没过期
                     //dictData = jsondata.data;
-                    if(typeof jsondata.data[jspath] !="undefined"){
-                        dictData= eval(jsondata.data[jspath]);
-                    }else{
-                        dictData =[];
+                    if (typeof jsondata.data[jspath] != "undefined") {
+                        dictData = eval(jsondata.data[jspath]);
+                    } else {
+                        dictData = [];
                     }
                 }
 
-            }else{//文件有误 更新
+            } else {//文件有误 更新
                 $.ajax({
-                    async:false,
-                    type:"POST",
-                    url:"/jscache/jsMergePath",
-                    data:{mergePath:mergePathCache,dictCodes: dictCodes,forceUpdate:true},
-                    dataType:"JSON",
-                    success:function(response1){
-                        if(typeof response1.data[jspath] !="undefined"){
-                            dictData= eval(response1.data[jspath]);
-                        }else{
-                            dictData =[];
+                    async: false,
+                    type: "POST",
+                    url: "/jscache/jsMergePath",
+                    data: {mergePath: mergePathCache, dictCodes: dictCodes, forceUpdate: true},
+                    dataType: "JSON",
+                    success: function (response1) {
+                        if (typeof response1.data[jspath] != "undefined") {
+                            dictData = eval(response1.data[jspath]);
+                        } else {
+                            dictData = [];
                         }
                     }
                 });
             }
-        },error:function(XMLHttpRequest, textStatus, errorThrown){
-            if(XMLHttpRequest.status=404){//文件不存在，择请求服务器生成文件
+        }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+            if (XMLHttpRequest.status = 404) {//文件不存在，择请求服务器生成文件
                 $.ajax({
-                    async:false,
-                    type:"POST",
-                    url:"/jscache/jsMergePath",
-                    data:{mergePath:mergePathCache,dictCodes: dictCodes},
-                    dataType:"JSON",
-                    success:function(response){
-                        if(typeof response.data[jspath] !="undefined"){
-                            dictData= eval(response.data[jspath]);
-                        }else{
-                            dictData =[];
+                    async: false,
+                    type: "POST",
+                    url: "/jscache/jsMergePath",
+                    data: {mergePath: mergePathCache, dictCodes: dictCodes},
+                    dataType: "JSON",
+                    success: function (response) {
+                        if (typeof response.data[jspath] != "undefined") {
+                            dictData = eval(response.data[jspath]);
+                        } else {
+                            dictData = [];
                         }
                     }
                 });
@@ -494,36 +495,36 @@ function JsMergeCache(mergePath,dictCodes,jspath,pcode){
         }
     });
 
-    if(pcode && pcode!=null){
-        var newData=[];
-        if(typeof(pcode) == "object"){
-            if(pcode.length > 0){
-                for(var m = 0; m < pcode.length; m++){
+    if (pcode && pcode != null) {
+        var newData = [];
+        if (typeof(pcode) == "object") {
+            if (pcode.length > 0) {
+                for (var m = 0; m < pcode.length; m++) {
                     $.each(dictData, function (i, item) {
-                        if(item.parentNo == pcode[m]){
+                        if (item.parentNo == pcode[m]) {
                             newData.push(item);
                         }
                     });
                 }
             }
-        }else{
+        } else {
             $.each(dictData, function (i, item) {
-                if(item.pcode == pcode){
+                if (item.pcode == pcode) {
                     newData.push(item);
                 }
             });
         }
         return newData;
-    }else if(pcode === ""){
-        var newData=[];
+    } else if (pcode === "") {
+        var newData = [];
         $.each(dictData, function (i, item) {
-            if(item.parentNo == null){
+            if (item.parentNo == null) {
                 item.parentNo = "";
                 newData.push(item);
             }
         });
         return newData;
-    }else{
+    } else {
         return dictData;
     }
     //console.log("请求字典:"+dictType);
@@ -536,11 +537,11 @@ var ModuleRole = function () {
         module: null,
         roles: null,
         //判断参数role是否在角色数组中，在则返回true，不在false
-        inRoles:function (role) {
+        inRoles: function (role) {
             var inTag = false,
                 roles = this.roles;
-            if(roles != null && roles.length>0){
-                if($.inArray(role,roles) > -1){
+            if (roles != null && roles.length > 0) {
+                if ($.inArray(role, roles) > -1) {
                     inTag = true;
                 }
             }
@@ -556,26 +557,26 @@ var ModuleRole = function () {
  * @returns {*}
  * @constructor
  */
-function getModuleRole(moduleId){
+function getModuleRole(moduleId) {
     var moduleRole = new ModuleRole();
     moduleRole.module = moduleId;
     $.ajax({
-        async:false,
-        type:"POST",
-        url:"/main/getModuleRole",
-        data:{moduleId:moduleId},
-        success:function(ar){
-            if(ar.success){
+        async: false,
+        type: "POST",
+        url: "/main/getModuleRole",
+        data: {moduleId: moduleId},
+        success: function (ar) {
+            if (ar.success) {
                 var roleStr = ar.data;
-                if(roleStr != null && roleStr.toString().length > 0){
+                if (roleStr != null && roleStr.toString().length > 0) {
                     var roleArr = new Array();
                     var result = roleStr.toString().split(",");
-                    for(var i=0;i<result.length;i++){
+                    for (var i = 0; i < result.length; i++) {
                         roleArr.push(result[i]);
                     }
                     moduleRole.roles = roleArr;
                 }
-            }else{
+            } else {
                 top.layer.alert("获取用户权限错误");
             }
         }
@@ -588,20 +589,20 @@ var ModulesRole = function () {
         modules: null,
         roles: null,
         //判断参数role是否在角色数组中，在则返回true，不在false
-        inRoles:function (moduleId, role) {
+        inRoles: function (moduleId, role) {
             var inTag = false,
                 roles = this.roles[moduleId.toString()];
-            if(roles != null && roles.length>0){
-                if($.inArray(role,roles) > -1){
+            if (roles != null && roles.length > 0) {
+                if ($.inArray(role, roles) > -1) {
                     inTag = true;
                 }
             }
             return inTag;
         },
-        inRolesByIndex:function (index, role) {
+        inRolesByIndex: function (index, role) {
             var inTag = false;
-            if(index < this.modules.length) {
-                if(this.modules[index] != null && this.modules[index] != ""){
+            if (index < this.modules.length) {
+                if (this.modules[index] != null && this.modules[index] != "") {
                     var roles = this.roles[this.modules[index]];
                     if (roles != null && roles.length > 0) {
                         if ($.inArray(role, roles) > -1) {
@@ -622,24 +623,24 @@ var ModulesRole = function () {
  * @returns {*}
  * @constructor
  */
-function getModulesRole(moduleIds){
+function getModulesRole(moduleIds) {
     var modulesRole = new ModulesRole();
     var moduleArr = new Array();
-    if(moduleIds != null && moduleIds.toString().length > 0){
+    if (moduleIds != null && moduleIds.toString().length > 0) {
         moduleArr = moduleIds.toString().split(",");
     }
     modulesRole.modules = moduleArr;
     $.ajax({
-        async:false,
-        type:"POST",
-        url:"/main/getModulesRole",
-        data:{moduleIds:moduleIds},
-        success:function(ar){
-            if(ar.success){
-                if(ar.data != null){
+        async: false,
+        type: "POST",
+        url: "/main/getModulesRole",
+        data: {moduleIds: moduleIds},
+        success: function (ar) {
+            if (ar.success) {
+                if (ar.data != null) {
                     modulesRole.roles = ar.data;
                 }
-            }else{
+            } else {
                 top.layer.alert("获取用户权限错误");
             }
         }
@@ -647,21 +648,21 @@ function getModulesRole(moduleIds){
     return modulesRole;
 }
 
-function getFileSize(byteNum){
+function getFileSize(byteNum) {
     var byteFloat = parseFloat(byteNum);
-    if(byteFloat / 1024  <= 1){
+    if (byteFloat / 1024 <= 1) {
         return byteFloat + "B";
-    }else{
+    } else {
         byteFloat = (byteFloat / 1024).toFixed(2);
     }
-    if(byteFloat / 1024  <= 1){
+    if (byteFloat / 1024 <= 1) {
         return byteFloat + "K";
-    }else{
+    } else {
         byteFloat = (byteFloat / 1024).toFixed(2);
     }
-    if(byteFloat / 1024  <= 1){
+    if (byteFloat / 1024 <= 1) {
         return byteFloat + "M";
-    }else{
+    } else {
         byteFloat = (byteFloat / 1024).toFixed(2);
     }
     return byteFloat + "G";
@@ -677,7 +678,7 @@ Date.prototype.Format = function (fmt) { //author: meizz
     var o = {
         "M+": this.getMonth() + 1, //月份
         "d+": this.getDate(), //日
-        "h+" : this.getHours()%12 == 0 ? 12 : this.getHours()%12, //小时
+        "h+": this.getHours() % 12 == 0 ? 12 : this.getHours() % 12, //小时
         "H+": this.getHours(), //小时
         "m+": this.getMinutes(), //分
         "s+": this.getSeconds(), //秒
@@ -780,14 +781,14 @@ function GetQueryString(name) {
 }
 
 function GetParentQueryString(name) {
-    if(name){
+    if (name) {
         var query = window.location.search;
         if (query.indexOf("&") > -1) {
             query = query.substr(query.indexOf('&') + 1, query.length);
             if (query != null)return unescape(query);
         }
         return null;
-    }else{
+    } else {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
         var r = document.referrer.substr(1).match(reg);
         if (r != null)return unescape(r[2]);
@@ -976,18 +977,18 @@ window.forms = {
         }
         document.getElementById(m).value = g;
         return true;
-    },clearNoNumAndD:function (obj) {
+    }, clearNoNumAndD: function (obj) {
         obj.val(obj.val().replace(/[^\d.]/g, "").replace(/^\./g, "").replace(/\.{2,}/g, ".").replace(".", "$#$").replace(/\./g, "").replace("$#$", "."));
-    }, clearNoNum:function (obj) {
+    }, clearNoNum: function (obj) {
         obj.val(obj.val().replace(/[^\d]/g, ''));
     }
 };
 
-function isShow(id,is){
-    if(is){
-        $("#"+id).show();
-    }else{
-        $("#"+id).hide();
+function isShow(id, is) {
+    if (is) {
+        $("#" + id).show();
+    } else {
+        $("#" + id).hide();
     }
 }
 
@@ -1047,12 +1048,14 @@ function getAuthority() {
 }
 
 //深度复制方法
-function clone(obj){
-    function Fn(){}
+function clone(obj) {
+    function Fn() {
+    }
+
     Fn.prototype = obj;
     var o = new Fn();
-    for(var a in o){
-        if(typeof o[a] == "object") {
+    for (var a in o) {
+        if (typeof o[a] == "object") {
             o[a] = clone(o[a]);
         }
     }
@@ -1060,22 +1063,22 @@ function clone(obj){
 }
 
 String.prototype.trim = function () {
-    if(this.constructor == String){
-        return this .replace(/^\s\s*/, '' ).replace(/\s\s*$/, '' );
-    }else{
+    if (this.constructor == String) {
+        return this.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+    } else {
         return this;
     }
 };
 
-function pageAjax(text){
-    if(!text){
-            text = "数据处理中，请稍候...";
-        }
-    if(top.ZENG){
+function pageAjax(text) {
+    if (!text) {
+        text = "数据处理中，请稍候...";
+    }
+    if (top.ZENG) {
         $("body").ajaxStart(function () {
             //     index = layer.msg(text);
-            top.ZENG.msgbox.show(text,6,0);
-            }).ajaxStop(function () {
+            top.ZENG.msgbox.show(text, 6, 0);
+        }).ajaxStop(function () {
             top.ZENG.msgbox.hide(100);
         });
     }
@@ -1088,67 +1091,67 @@ function pageAjax(text){
  * @returns {*}
  * @constructor
  */
-function initTableSetting(gridModel,columns,searchJson){
+function initTableSetting(gridModel, columns, searchJson) {
     gridModel.searchView;
     columns = columns || gridModel.get("columns");
     searchJson = searchJson || gridModel.get("searchJson");
     var settingObj;  //setting面板
-    if(!columns){
+    if (!columns) {
         columns = [];
     }
     var tempJson;
     var tempKey;
-    if(!searchJson){
+    if (!searchJson) {
         tempJson = {};
-    }else{
-        for(key in searchJson){
+    } else {
+        for (key in searchJson) {
             tempKey = key;
             tempJson = searchJson[key];
         }
     }
     var jLen = 0;
-    for(key in tempJson){
+    for (key in tempJson) {
         jLen++;
     }
 
     var newColumns = columns;  //设置后的columns
     var newSearchJson = tempJson;   //设置后的SearchJson
-    if($(".btn-setting").length > 0){
-        if(gridModel || gridModel.searchView){
-            $(".btn-setting").live("click",function(){
-                if(!settingObj){
-                    var cloumnRows = Math.ceil(columns.length/3);
-                    cloumnRows = cloumnRows > 0?cloumnRows+1:0;
-                    var searchRows = Math.ceil(jLen/3);
-                    searchRows = searchRows > 0?searchRows+1:0;
+    if ($(".btn-setting").length > 0) {
+        if (gridModel || gridModel.searchView) {
+            $(".btn-setting").live("click", function () {
+                if (!settingObj) {
+                    var cloumnRows = Math.ceil(columns.length / 3);
+                    cloumnRows = cloumnRows > 0 ? cloumnRows + 1 : 0;
+                    var searchRows = Math.ceil(jLen / 3);
+                    searchRows = searchRows > 0 ? searchRows + 1 : 0;
                     var str = "<div class='settingObj' style='display:none;background-color:#ccc;position:absolute;" +
-                        "top:50px;right:10px;width:400px;height:"+((cloumnRows + searchRows)*20+30)+"px;'>";
-                    if(cloumnRows > 0){
+                        "top:50px;right:10px;width:400px;height:" + ((cloumnRows + searchRows) * 20 + 30) + "px;'>";
+                    if (cloumnRows > 0) {
                         var colStr = "<span style='height:20px'><b>列配置：</b></span>";
                         colStr += "<table><col width='130px'><col width='130px'><col width='130px'><tr>";
                         var i = 0;
-                        for(var i = 0; i < columns.length; i++){
-                            if(i > 0 && i % 3 == 0){
+                        for (var i = 0; i < columns.length; i++) {
+                            if (i > 0 && i % 3 == 0) {
                                 colStr += "</tr><tr>"
                             }
                             colStr += "<td style='height:20px;'><label>" +
-                                "<input type='checkbox' name='settingColumn' value='"+columns[i].id+"' checked>" +
-                                columns[i].title+"</label></td>";
+                                "<input type='checkbox' name='settingColumn' value='" + columns[i].id + "' checked>" +
+                                columns[i].title + "</label></td>";
                         }
                         str += colStr + "</tr></table>";
                     }
-                    if(searchRows > 0){
+                    if (searchRows > 0) {
                         var serStr = "<span style='height:20px'><b>搜索字段配置：</b></span>";
                         serStr += "<table><col width='130px'><col width='130px'><col width='130px'><tr>";
                         var i = 0;
-                        for(key in tempJson){
-                            if(i > 0 && i % 3 == 0){
+                        for (key in tempJson) {
+                            if (i > 0 && i % 3 == 0) {
                                 serStr += "</tr><tr>"
                             }
-                            if(tempJson[key].display){
+                            if (tempJson[key].display) {
                                 serStr += "<td style='height:20px;'><label>" +
-                                    "<input type='checkbox' name='settingSearch' value='"+key+"' checked>" +
-                                    tempJson[key].tagName+"</label></td>";
+                                    "<input type='checkbox' name='settingSearch' value='" + key + "' checked>" +
+                                    tempJson[key].tagName + "</label></td>";
                                 i++;
                             }
                         }
@@ -1157,45 +1160,45 @@ function initTableSetting(gridModel,columns,searchJson){
                     str += "<input type='button' value='确定' style='color:black' id='settingSure'/></div>";
                     settingObj = $(str);
                     $("body").append(settingObj);
-                    $("#settingSure").bind("click",function(){
-                        if(gridModel){
+                    $("#settingSure").bind("click", function () {
+                        if (gridModel) {
                             newColumns = [];
-                            $(".settingObj input[name=settingColumn]:checked").each(function(i,t){
-                                for(var i = 0; i < columns.length; i++){
-                                    if($(t).val() == columns[i].id){
+                            $(".settingObj input[name=settingColumn]:checked").each(function (i, t) {
+                                for (var i = 0; i < columns.length; i++) {
+                                    if ($(t).val() == columns[i].id) {
                                         newColumns.push(columns[i]);
                                         break;
                                     }
                                 }
                             })
-                            gridModel.set("columns",newColumns);
+                            gridModel.set("columns", newColumns);
                             gridModel.render();
                         }
-                        if(gridModel.searchView){
+                        if (gridModel.searchView) {
                             newSearchJson = {};
-                            $(".settingObj input[name=settingSearch]:checked").each(function(i,t){
+                            $(".settingObj input[name=settingSearch]:checked").each(function (i, t) {
                                 var key2 = $(t).val();
                                 newSearchJson[key2] = tempJson[key2];
                             })
                             //隐藏区json恢复
-                            for(key in tempJson){
-                                if(!tempJson[key].display){
+                            for (key in tempJson) {
+                                if (!tempJson[key].display) {
                                     newSearchJson[key] = tempJson[key];
                                 }
                             }
                             var json = {};
                             json[tempKey] = newSearchJson;
-                            gridModel.set("searchJson",json);
+                            gridModel.set("searchJson", json);
                             gridModel.buildSearchView();
                         }
                         settingObj.hide();
                         $("body").unbind('click.setting');
                     })
                 }
-                if(settingObj.is(":hidden")){
+                if (settingObj.is(":hidden")) {
                     settingObj.show();
-                    $("body").bind('click.setting',function(e){
-                        if(!$(e.target).hasClass("settingObj") && !$(e.target).parents().hasClass("settingObj")){
+                    $("body").bind('click.setting', function (e) {
+                        if (!$(e.target).hasClass("settingObj") && !$(e.target).parents().hasClass("settingObj")) {
                             settingObj.hide();
                             $("body").unbind('click.setting');
                             e.stopPropagation();
@@ -1205,18 +1208,18 @@ function initTableSetting(gridModel,columns,searchJson){
             })
         }
         return {
-            getNewColumns:function(){
+            getNewColumns: function () {
                 return newColumns;
             },
-            getNewSearchJson:function(){
-                if(!tempKey){
+            getNewSearchJson: function () {
+                if (!tempKey) {
                     return null;
-                }else{
-                    return {tempKey:newSearchJson};
+                } else {
+                    return {tempKey: newSearchJson};
                 }
             }
         };
-    }else{
+    } else {
         if (window.console && window.console.log) {
             console.log("页面不存在setting按钮，无法初始化设置面板。");
         }
@@ -1269,13 +1272,13 @@ function gotoUrl(obj, url) {
 }
 
 //layer注册(判断当前使用的layer版本是否和模型需要的layer版本相同，是则直接使用top层layer作为window的layer）
-if(top.layer && top.layer.RXLayerVersion == 1){
+if (top.layer && top.layer.RXLayerVersion == 1) {
     window.layer = top.layer;
     // window.layer.alert = t_alert;
     // window.layer.confirm = t_confirm;
 }
 //窗口管理模块（如果top层已经注册过layerManager则将所有窗口管理接口赋予本window，否则在本窗口重新注册窗口管理，并将接口赋予top层）
-if(top.hasLayerManager){
+if (top.hasLayerManager) {
     //加入层次页面（√）
     window.pushStackWin = top.pushStackWin;
     //加入子iframe页面（√）
@@ -1315,20 +1318,20 @@ if(top.hasLayerManager){
     window.handleSelect = top.handleSelect;
     window.handleFrameSelect = top.handleFrameSelect;
     //前往路径
-    window.gotoLocation = function(url,name){
-        top._gotoLocation(window,url,name);
+    window.gotoLocation = function (url, name) {
+        top._gotoLocation(window, url, name);
     };
     //前往路径
-    window.freshLocation = function(url,name){
-        top._freshLocation(window,url,name);
+    window.freshLocation = function (url, name) {
+        top._freshLocation(window, url, name);
     };
     //路径回退，index回退页数,url为可定制的新url，如不填写，则以历史url为准;name为可定制的新name，如不填写，则以历史name为准
-    window.backLocation = function(index,url,name){
-        top._backLocation(window,index,url,name);
+    window.backLocation = function (index, url, name) {
+        top._backLocation(window, index, url, name);
     };
     //（暂时停用）回退历史，bindex为退回次数，默认为1
-    window.backHistory = function(bindex){
-        top._backHistory(window,bindex);
+    window.backHistory = function (bindex) {
+        top._backHistory(window, bindex);
     };
     //iframe路径跳转，两个参数，第一个为iframe的jquery选择器元素，第二个为跳转的url
     window.frameGoto = top.frameGoto;
@@ -1342,7 +1345,7 @@ if(top.hasLayerManager){
     window.showMenu = top.showMenu;
     //获取用户相关信息
     window.getUserInfo = top.getUserInfo;
-}else{
+} else {
 
     top.hasLayerAlert = false;
 
@@ -1358,76 +1361,77 @@ if(top.hasLayerManager){
     var upperestName = "";
 
     //从仓储中查找页面窗口对象(未传入win则查找top层页面窗口对象)
-    function findWinPage(name){
+    function findWinPage(name) {
         name = name || top.window.name;
         return winStore[name];
     }
 
-    function findChildWinByName(win,name){
-         if(win.name == name){
-             return win;
-         }else{
-             var frames = win.frames,length = frames.length;
-             for(var i = 0; i < length; i++){
-                 var targetWin = findChildWinByName(frames[i],name);
-                 if(targetWin){
-                     return targetWin;
-                 }
-             }
-         }
-    }
-    function findPageWin(page){
-         if(page && page.name){
-             // var frames = window.frames;
-             // for()
-             //  if(name == "MainIframeR"){
-             //      return window["MainIframe"]["MainIframeR"];
-             //  }else{
-             //      var win = window[page.name];
-             //      if(!win) {
-             //          win = window["MainIframe"][page.name];
-             //          if (!win) {
-             //              win = window["MainIframe"]["MainIframeR"][page.name];
-             //          }
-             //      }
-             //      return win;
-             //  }
-             return findChildWinByName(window,page.name);
-         }
+    function findChildWinByName(win, name) {
+        if (win.name == name) {
+            return win;
+        } else {
+            var frames = win.frames, length = frames.length;
+            for (var i = 0; i < length; i++) {
+                var targetWin = findChildWinByName(frames[i], name);
+                if (targetWin) {
+                    return targetWin;
+                }
+            }
+        }
     }
 
-    function findWinByName(name){
-        if(name){
-            return findChildWinByName(window,name);
+    function findPageWin(page) {
+        if (page && page.name) {
+            // var frames = window.frames;
+            // for()
+            //  if(name == "MainIframeR"){
+            //      return window["MainIframe"]["MainIframeR"];
+            //  }else{
+            //      var win = window[page.name];
+            //      if(!win) {
+            //          win = window["MainIframe"][page.name];
+            //          if (!win) {
+            //              win = window["MainIframe"]["MainIframeR"][page.name];
+            //          }
+            //      }
+            //      return win;
+            //  }
+            return findChildWinByName(window, page.name);
+        }
+    }
+
+    function findWinByName(name) {
+        if (name) {
+            return findChildWinByName(window, name);
         }
     }
 
     //往仓储中存入页面窗口对象
-    function addWinPage(winPage){
-        if( winStore[winPage.name]){
+    function addWinPage(winPage) {
+        if (winStore[winPage.name]) {
             winPage.data = winStore[winPage.name].data;
         }
         winStore[winPage.name] = winPage;
     }
 
     //页面窗口类构造声明
-    var WinPage = function(win,type,sWin,param){
-        var sPage = (sWin ? findWinPage(sWin.name):null);
+    var WinPage = function (win, type, sWin, param) {
+        var sPage = (sWin ? findWinPage(sWin.name) : null);
         var twin = win || top.window;
         this.name = twin.name;
         this.type = type || "frame";
         this.dataPool = param || (findWinPage(this.name) && findWinPage(this.name).dataPool) || new Object();
         this.frameWinPool = new Array();
         this.history = new Array();
-        if(type == "frame"){
-            if(sPage){
+        if (type == "frame") {
+            if (sPage) {
                 this.parentName = sPage.name;
-                if( $.inArray( this.name, sPage.frameWinPool)<0 ){
+                if ($.inArray(this.name, sPage.frameWinPool) < 0) {
                     sPage.frameWinPool.push(this.name);
                 }
             }
-        }else if(type == "stack"){
-            if(sPage){
+        } else if (type == "stack") {
+            if (sPage) {
                 this.prevName = sPage.name;
                 sPage.nextName = this.name;
             }
@@ -1439,32 +1443,32 @@ if(top.hasLayerManager){
 
     //页面窗口属性声明
     WinPage.prototype = {
-        type:"",
-        name:"",
-        dataPool:null,
-        frameWinPool:null,
-        prevName:"",
-        nextName:"",
-        parentName:"",
-        history:null,
+        type: "",
+        name: "",
+        dataPool: null,
+        frameWinPool: null,
+        prevName: "",
+        nextName: "",
+        parentName: "",
+        history: null,
         // relateName:"",
         // workName:"",
-        frameIndex:0,
-        data:function(key,value){
+        frameIndex: 0,
+        data: function (key, value) {
             var p = this;
-            if(arguments.length === 0){
+            if (arguments.length === 0) {
                 return p.dataPool;
             }
-            if(!key && key !== 0){
+            if (!key && key !== 0) {
                 throw new Error("方法PageWin.data参数key赋值错误！");
-            }else if(typeof(arguments[1]) === "undefined"){
+            } else if (typeof(arguments[1]) === "undefined") {
                 return p.dataPool[key];
-            }else{
+            } else {
                 p.dataPool[key] = value;
             }
             return p;
         },
-        getFrameName:function(){
+        getFrameName: function () {
             return "son" + (this.frameIndex++) + "_" + this.name;
         }
     }
@@ -1472,32 +1476,32 @@ if(top.hasLayerManager){
     //对外接口
 
     //加入层次页面（√）
-    window.pushStackWin = function(win,relateWin,param){
-        if(!win){
-            win = {name:getFrameName(relateWin)};
+    window.pushStackWin = function (win, relateWin, param) {
+        if (!win) {
+            win = {name: getFrameName(relateWin)};
         }
-        var newPage = new WinPage(win,"stack",relateWin,param);
+        var newPage = new WinPage(win, "stack", relateWin, param);
         addWinPage(newPage);
         return newPage.name;
     }
     //加入子iframe页面（√）
-    window.addFrameWin = function(win,parentWin,param){
-        if(!win){
-            win = {name:getFrameName(parentWin)};
+    window.addFrameWin = function (win, parentWin, param) {
+        if (!win) {
+            win = {name: getFrameName(parentWin)};
         }
-        var newPage = new WinPage(win,"frame",parentWin,param);
+        var newPage = new WinPage(win, "frame", parentWin, param);
         addWinPage(newPage);
         return newPage.name;
     }
     //获取前一个层次的关联窗口 （√）
-    window.getPrevWin = function(index,win){
+    window.getPrevWin = function (index, win) {
         index = index || 1;
         var winPage = findWinPage(win ? win.name : upperestName);
-        for(var i = 0; i < index; i++){
-            if(winPage.prevName){
+        for (var i = 0; i < index; i++) {
+            if (winPage.prevName) {
                 winPage = findWinPage(winPage.prevName);
-            }else{
-                if(winPage.type == "frame"){
+            } else {
+                if (winPage.type == "frame") {
                     winPage = findWinPage(winPage.parentName);
                 }
                 winPage = findWinPage(winPage.prevName);
@@ -1507,23 +1511,23 @@ if(top.hasLayerManager){
         return findPageWin(winPage);
     }
     //获取前一个有reloadTable的关联窗口 （√）
-    window.getPrevReloadWin = function(index,win){
+    window.getPrevReloadWin = function (index, win) {
         index = index || 1;
         var winPage = findWinPage(win ? win.name : upperestName);
         var reloadWin = null;
-        for(var i = 0; i < index; i++){
+        for (var i = 0; i < index; i++) {
             reloadWin = null;
-            while(winPage.prevName || winPage.parentName){
-                if(winPage.type == "frame"){
+            while (winPage.prevName || winPage.parentName) {
+                if (winPage.type == "frame") {
                     winPage = findWinPage(winPage.parentName);
-                }else{
+                } else {
                     winPage = findWinPage(winPage.prevName);
                 }
                 var twin = findPageWin(winPage);
-                if(twin && twin.reloadTable){
+                if (twin && twin.reloadTable) {
                     reloadWin = twin;
                     break;
-                }else{
+                } else {
                     twin = null;
                 }
             }
@@ -1531,67 +1535,67 @@ if(top.hasLayerManager){
         return reloadWin;
     }
     //刷新前一个有reloadTable的关联窗口 （√）
-    window.reloadPrevWin = function(index,win){
-        var reloadWin = getPrevReloadWin(index,win);
-        if(reloadWin && reloadWin.reloadTable){
+    window.reloadPrevWin = function (index, win) {
+        var reloadWin = getPrevReloadWin(index, win);
+        if (reloadWin && reloadWin.reloadTable) {
             reloadWin.reloadTable();
         }
     }
     //或取下一个窗口（×）
-    window.getNextWin = function(index,win){
+    window.getNextWin = function (index, win) {
 
     }
     //获取父窗口window（zp add）
-    window.getParentWin = function(win){
-        if(!win){
+    window.getParentWin = function (win) {
+        if (!win) {
             return;
         }
         var selfPage;
         var parentPage;
-        if(typeof win == "string"){
+        if (typeof win == "string") {
             selfPage = findWinPage(win);
-        }else{
+        } else {
             selfPage = findWinPage(win.name);
         }
-        if(selfPage || selfPage.parentName){
-            parentPage =  findWinPage(selfPage.parentName);
-            if(parentPage)return findPageWin(parentPage);
-        }else{
+        if (selfPage || selfPage.parentName) {
+            parentPage = findWinPage(selfPage.parentName);
+            if (parentPage)return findPageWin(parentPage);
+        } else {
             return;
         }
     }
 
     //找stack层
-    function findStackWin(winPage){
-        if(winPage.type == "frame"){
+    function findStackWin(winPage) {
+        if (winPage.type == "frame") {
             return findStackWin(findWinPage(winPage.parentName));
-        }else{
+        } else {
             return winPage;
         }
     }
 
     //弹出层内部调用接口，处理关闭后置
-    window.closeLayerWin = function(name){
-        if(!name)return;
+    window.closeLayerWin = function (name) {
+        if (!name)return;
         var upperestPage = findWinPage(name);
 
-        while(upperestPage.type == "frame"){
+        while (upperestPage.type == "frame") {
             upperestPage = findWinPage(upperestPage.parentName);
         }
-        if(upperestPage.type !== "top"){
+        if (upperestPage.type !== "top") {
             if (name == upperestName) {
                 upperestName = findStackWin(findWinPage(upperestPage.prevName)).name;
             }
             var prevPage = findWinPage(upperestPage.prevName);
-            if(prevPage.nextName = name){
+            if (prevPage.nextName = name) {
                 prevPage.nextName = "";
             }
             delete winStore[upperestPage.name];
         }
     }
-    window.handleFrameSelect = function(win,isShow,notHandlePrev) {
-        if(win) {
-            if(!notHandlePrev) {
+    window.handleFrameSelect = function (win, isShow, notHandlePrev) {
+        if (win) {
+            if (!notHandlePrev) {
                 var handlePage = findWinPage(win.name);
                 while (handlePage.parentName && handlePage.parentName != "top") {
                     var frameWin = findPageWin(handlePage);
@@ -1612,55 +1616,55 @@ if(top.hasLayerManager){
                     handlePage = findWinPage(handlePage.parentName);
                 }
             }
-            $(win.document).find("select").each(function(si,st){
+            $(win.document).find("select").each(function (si, st) {
                 st = $(st);
-                if(isShow){
-                    if(st.hasClass("_zbselect") && !st.hasClass("_zbtabselect")){
+                if (isShow) {
+                    if (st.hasClass("_zbselect") && !st.hasClass("_zbtabselect")) {
                         st.removeClass("_zbselect").show();
                     }
-                }else{
-                    if(!st.is(":hidden") && !st.hasClass("_zbtabselect")){
+                } else {
+                    if (!st.is(":hidden") && !st.hasClass("_zbtabselect")) {
                         st.addClass("_zbselect").hide();
                     }
                 }
             })
             var handlePage = findWinPage(win.name);
-            if(handlePage.frameWinPool) {
-                for(var i = 0; i < handlePage.frameWinPool.length; i++) {
+            if (handlePage.frameWinPool) {
+                for (var i = 0; i < handlePage.frameWinPool.length; i++) {
                     var frameWin = win[handlePage.frameWinPool[i]];
                     window.handleFrameSelect(frameWin, isShow, true);
                 }
             }
         }
     }
-    window.handleSelect = function(win,isShow){
-        if(isIE6 && !top.hasLayerAlert){
+    window.handleSelect = function (win, isShow) {
+        if (isIE6 && !top.hasLayerAlert) {
             win = win ? win : findWinByName(window.upperestName);
             window.handleFrameSelect(win, isShow);
-            if(!isShow){
+            if (!isShow) {
                 var startWinName = win.name ? win.name : top.upperestName;
                 var handlePage = findWinPage(startWinName);
-                while(handlePage.type == "frame"){
+                while (handlePage.type == "frame") {
                     handlePage = findWinPage(handlePage.parentName);
                 }
-                while(handlePage && handlePage.type !== "top"){
-                    while(handlePage.type == "frame"){
+                while (handlePage && handlePage.type !== "top") {
+                    while (handlePage.type == "frame") {
                         handlePage = findWinPage(handlePage.parentName);
                     }
                     window.handleFrameSelect(findPageWin(handlePage), isShow);
-                    if(handlePage.prevName){
+                    if (handlePage.prevName) {
                         handlePage = findWinPage(handlePage.prevName);
-                    }else{
+                    } else {
                         break;
                     }
                 }
-            }else{
+            } else {
                 var startWinName = win.name ? win.name : top.upperestName;
                 var handlePage = findWinPage(startWinName);
-                while(handlePage.type == "frame"){
+                while (handlePage.type == "frame") {
                     handlePage = findWinPage(handlePage.parentName);
                 }
-                if(handlePage.prevName){
+                if (handlePage.prevName) {
                     handlePage = findWinPage(handlePage.prevName);
                     window.handleFrameSelect(findPageWin(handlePage), isShow);
                 }
@@ -1668,156 +1672,164 @@ if(top.hasLayerManager){
         }
     }
     //向前关闭窗口（√）
-    window.closeWin = function(index,win){
+    window.closeWin = function (index, win) {
         var tUpName = (win && win.name) ? win.name : upperestName;
-        setTimeout(function(){
+        setTimeout(function () {
             index = index || 1;
             var upperestPage = findWinPage(tUpName);
-            while(upperestPage.type == "frame"){
+            while (upperestPage.type == "frame") {
                 upperestPage = findWinPage(upperestPage.parentName);
             }
-            for(var i = 0; i < index; i++){
-                if(findPageWin(upperestPage)&&findPageWin(upperestPage).closeFunc){
+            for (var i = 0; i < index; i++) {
+                if (findPageWin(upperestPage) && findPageWin(upperestPage).closeFunc) {
                     findPageWin(upperestPage).closeFunc();
                 }
                 layer.close(layer.getFrameIndex(upperestPage.name));
                 upperestPage = findWinPage(upperestPage.prevName);
-                while(upperestPage.type == "frame"){
+                while (upperestPage.type == "frame") {
                     upperestPage = findWinPage(upperestPage.parentName);
                 }
             }
-        },1);
+        }, 1);
     }
     //向前关闭所有窗口 （√）       待关闭页面加上全局变量notCloseTag = true，若非最上层页面，则停止关闭
-    window.closeAllWin = function(){        //关闭全部窗口接口。待关闭页面加上全局变量notCloseTag = true，若非最上层页面，则停止关闭
+    window.closeAllWin = function () {        //关闭全部窗口接口。待关闭页面加上全局变量notCloseTag = true，若非最上层页面，则停止关闭
         var tUpName = upperestName;
-        setTimeout(function(){
+        setTimeout(function () {
             var upperestPage = findWinPage(tUpName);
-            if(upperestPage.type == "frame"){
+            if (upperestPage.type == "frame") {
                 upperestPage = findWinPage(upperestPage.parentName);
             }
             var notCloseTag = false;
-            while(upperestPage.type != "top" && !notCloseTag){
-                if(findPageWin(upperestPage)&&findPageWin(upperestPage).closeFunc){
+            while (upperestPage.type != "top" && !notCloseTag) {
+                if (findPageWin(upperestPage) && findPageWin(upperestPage).closeFunc) {
                     findPageWin(upperestPage).closeFunc();
                 }
                 layer.close(layer.getFrameIndex(upperestPage.name))
                 upperestPage = findWinPage(upperestPage.prevName);
-                if(findPageWin(upperestPage)&&findPageWin(upperestPage).notCloseTag){
+                if (findPageWin(upperestPage) && findPageWin(upperestPage).notCloseTag) {
                     notCloseTag = true;
                 }
-                if(upperestPage.type == "frame"){
+                if (upperestPage.type == "frame") {
                     upperestPage = findWinPage(upperestPage.parentName);
-                    if(findPageWin(upperestPage)&&findPageWin(upperestPage).notCloseTag){
+                    if (findPageWin(upperestPage) && findPageWin(upperestPage).notCloseTag) {
                         notCloseTag = true;
                     }
                 }
             }
-        },1);
+        }, 1);
     };
     //获取指定窗口的数据   （√）
-    window.winData = function(win,key,value){
-        if(arguments.length == 0){
+    window.winData = function (win, key, value) {
+        if (arguments.length == 0) {
             throw new Error("方法winData需包含参数！");
         }
-        if(win && win.name){
+        if (win && win.name) {
             win = win.name;
         }
-        var dataPage =  findWinPage(win);
-        if(arguments.length == 1){
+        var dataPage = findWinPage(win);
+        if (arguments.length == 1) {
             return dataPage.data();
-        }else if(arguments.length == 2){
+        } else if (arguments.length == 2) {
             return dataPage.data(key);
-        }else{
-            return dataPage.data(key,value);
+        } else {
+            return dataPage.data(key, value);
         }
     };
     //设置页面历史搜索记录
-    window.setHistorySearchData = function(data){
-        winData("top","listSearchJson",data);
+    window.setHistorySearchData = function (data) {
+        winData("top", "listSearchJson", data);
     };
     //获取页面历史搜索记录
-    window.getHistorySearchData = function(){
-        var data = winData("top","listSearchJson");
-        winData("top","listSearchJson",null);
+    window.getHistorySearchData = function () {
+        var data = winData("top", "listSearchJson");
+        winData("top", "listSearchJson", null);
         return data;
     }
     //获取最上层窗口
-    window.getUpperestWin = function(){
+    window.getUpperestWin = function () {
         return findWinByName(upperestName);
     }
     //获取需要的子窗口的win的name
-    window.getFrameName = function(parentWin){
+    window.getFrameName = function (parentWin) {
         var parentPage = findWinPage(parentWin.name);
         return parentPage.getFrameName();
     }
     //获取窗口下子窗口的名称数组
-    window.getFrameNameArray= function(win){
-        if(arguments.length == 0){
+    window.getFrameNameArray = function (win) {
+        if (arguments.length == 0) {
             throw new Error("方法winData需包含参数！");
         }
-        var dataPage =  findWinPage(win.name);
+        var dataPage = findWinPage(win.name);
         return dataPage ? dataPage.frameWinPool : new Array();
     }
     //关闭窗口（需关闭window为参数）
-    window.closeLayer = function(win){
-        if(win.closeFunc){
+    window.closeLayer = function (win) {
+        if (win.closeFunc) {
             win.closeFunc();
         }
         var index = layer.getFrameIndex(win.name); //获取窗口索引
         layer.close(index);
     }
     //新版窗口管理打开弹出层
-    window.openStack = function(win,title,areaType,url,param,callBacks){
+    window.openStack = function (win, title, areaType, url, param, callBacks) {
         var area;
         var iframeWinName = "";
-        if(areaType == "small"){
-            area = ['450px','350px'];
-        }else if(areaType == "medium"){
-            area = ['700px','500px'];
-        }else if(areaType == "big"){
-            area = ['900px','600px'];
-        }else if(areaType == "tree"){
+        if (areaType == "small") {
+            area = ['450px', '350px'];
+        } else if (areaType == "medium") {
+            area = ['700px', '500px'];
+        } else if (areaType == "big") {
+            area = ['900px', '600px'];
+        } else if (areaType == "tree") {
             area = ['400px', '600px'];
-        }else{
+        } else {
             area = areaType;
         }
+        layer.config({
+            extend: YC.handleUrl('/medias/js/layer/skin/layer.ext.css') //同样需要加载新皮肤
+        });
         top.layer.open({
             //zIndex:1,
-            type:2,
-            title:title,
-            area:area,
+            type: 2,
+            anim: 3,
+            title: title,
+            area: area,
             maxmin: true,
-            parentWin:win,
-            param:param,
-            content:RX.handlePath(url),
-            success:function(layero,index){
+            parentWin: win,
+            param: param,
+            content: YC.handleUrl(url),
+            success: function (layero, index) {
                 iframeWin = window[layero.find('iframe')[0]['name']];
                 iframeWinName = iframeWin && iframeWin.name;
-                top.pushStackWin(iframeWin,win);
-                if(win.successCallback){
+                top.pushStackWin(iframeWin, win);
+                if (win.successCallback) {
                     win.successCallback();
                 }
-                if(callBacks && typeof(callBacks.success) == "function"){
-                    callBacks.success(layero,index);
+                if (callBacks && typeof(callBacks.success) == "function") {
+                    callBacks.success(layero, index);
                 }
             },
-            end:function(){
-                if(top.ZENG)
+            end: function () {
+                if (top.ZENG)
                     top.ZENG.msgbox.hide();
                 top.closeLayerWin(iframeWinName);
-                if(callBacks && typeof(callBacks.end) == "function"){
+                if (callBacks && typeof(callBacks.end) == "function") {
                     callBacks.end();
                 }
             },
-            cancel:function(){
+            full: function (dom) {
+                debugger
+                $("#layui-layer-content").css({"height": "662px"})
+            },
+            cancel: function () {
                 var cwin = top.getUpperestWin();
-                if(cwin != null){
-                    if(cwin.cancelCheck){
+                if (cwin != null) {
+                    if (cwin.cancelCheck) {
                         return cwin.cancelCheck();
                     }
                 }
-                if(callBacks && typeof(callBacks.cancel) == "function"){
+                if (callBacks && typeof(callBacks.cancel) == "function") {
                     callBacks.cancel();
                 }
                 return true;
@@ -1826,24 +1838,24 @@ if(top.hasLayerManager){
     };
 
     //（暂时停用）回退历史，bindex为退回次数，默认为1
-    window._backHistory = function(win,bindex){
+    window._backHistory = function (win, bindex) {
         var page = findWinPage(win.name);
         bindex = bindex ? bindex : 1;
-        if(page){
+        if (page) {
             var url;
-            while(page.history.length > 0 && bindex > 0){
+            while (page.history.length > 0 && bindex > 0) {
                 url = page.history.pop();
                 bindex--;
             }
-            if(url){
+            if (url) {
                 page.frameWinPool = new Array();
-                win.location.href=url;
+                win.location.href = url;
             }
         }
     }
 
     //frame路径跳转
-    window.frameGoto = function(obj,url){
+    window.frameGoto = function (obj, url) {
         url = RX.handlePath(url);
         var el = obj[0], iframe = el.contentWindow;
         if (iframe != null) {
@@ -1865,7 +1877,7 @@ if(top.hasLayerManager){
     }
 
     //主菜单点击跳转
-    window.clickMainMenu = function(obj,url){
+    window.clickMainMenu = function (obj, url) {
         url = RX.handlePath(url);
         var mainIframe = $("#MainIframe");
         top.pushStackWin(window["MainIframe"], window);
@@ -1873,52 +1885,52 @@ if(top.hasLayerManager){
     }
 
     //子菜单点击跳转
-    window.clickSubMenu = function(obj,url){
+    window.clickSubMenu = function (obj, url) {
         url = RX.handlePath(url);
         var mainIframeWin = window["MainIframe"];
-        var mainIframeR = $("#MainIframeR",mainIframeWin.document);
+        var mainIframeR = $("#MainIframeR", mainIframeWin.document);
         top.pushStackWin(mainIframeWin.window["MainIframeR"], mainIframeWin);
         frameGoto(mainIframeR, url ? url : $(obj).find("a").attr("url"));
     }
 
-    window.menuFlushFlow = function(){
-        if(top.flushFlowTaskId){
+    window.menuFlushFlow = function () {
+        if (top.flushFlowTaskId) {
             $.post("/workflow/instance/flushWorkflowInstance", {id: top.flushFlowTaskId});
             top.flushFlowTaskId = null;
         }
     }
-    if(!window.name){
+    if (!window.name) {
         window.name = "top";
     }
 
     //top页初始化
-    var topPage = new WinPage(window,"top");
+    var topPage = new WinPage(window, "top");
     addWinPage(topPage);
     upperestName = topPage.name;
-    window.pushStackWin({name:"MainIframe"}, window);
-    window.pushStackWin({name:"MainIframeR"}, {name:"MainIframe"});
+    window.pushStackWin({name: "MainIframe"}, window);
+    window.pushStackWin({name: "MainIframeR"}, {name: "MainIframe"});
 
     var menuData = null;
-    window.getMenuData = function(obj){
+    window.getMenuData = function (obj) {
         $.ajax({
-            type:"post",
-            url:"/jwbzxt/getMenuData",
-            dataType:"json",
-            success:function(ar){
-                if(ar.success){
+            type: "post",
+            url: "/jwbzxt/getMenuData",
+            dataType: "json",
+            success: function (ar) {
+                if (ar.success) {
                     menuData = ar.data;
                     showMenu(obj);
-                }else{
+                } else {
                     layer.alert(ar.msg);
                 }
             }
         })
     }
-    window.showMenu = function(obj){
-        $(obj).find("li").each(function(){
+    window.showMenu = function (obj) {
+        $(obj).find("li").each(function () {
             var code = $(this).attr("code");
-            if(code){
-                if($.inArray(code,menuData) > -1){
+            if (code) {
+                if ($.inArray(code, menuData) > -1) {
                     $(this).removeClass("hideElement");
                 }
             }
@@ -1955,23 +1967,23 @@ if(top.hasLayerManager){
 
     var historyArray = [];
     //绘制历史路径区
-    window.drawHistory = function(){
+    window.drawHistory = function () {
         //清除区域
-        $("#breadcrumb").find("a").each(function(i,t){
-            if(!$(t).hasClass("tip-bottom")){
+        $("#breadcrumb").find("a").each(function (i, t) {
+            if (!$(t).hasClass("tip-bottom")) {
                 $(t).remove();
             }
         });
         //重新插入历史项
-        for(var i = 0; i<historyArray.length; i++){
-            $("#breadcrumb").append("<a href='javascript:void(0);' historyIndex='"+ i +
-                "' class='" + (historyArray.length == i + 1 ? "current ":" ") +
-                (historyArray[i].url ? "":"noCursor") + "'>"+historyArray[i].name+"</a>");
+        for (var i = 0; i < historyArray.length; i++) {
+            $("#breadcrumb").append("<a href='javascript:void(0);' historyIndex='" + i +
+                "' class='" + (historyArray.length == i + 1 ? "current " : " ") +
+                (historyArray[i].url ? "" : "noCursor") + "'>" + historyArray[i].name + "</a>");
         }
         //绑定点击事件
-        $("#breadcrumb").find("a").each(function(i,t){
-            if(!$(t).hasClass("tip-bottom") && !$(t).hasClass("noCursor")){
-                $(t).bind("click",function(){
+        $("#breadcrumb").find("a").each(function (i, t) {
+            if (!$(t).hasClass("tip-bottom") && !$(t).hasClass("noCursor")) {
+                $(t).bind("click", function () {
                     clickHistory($(this).attr("historyIndex"));
                 });
             }
@@ -1980,68 +1992,69 @@ if(top.hasLayerManager){
 
     //点击路径历史区某历史后置
     var iframeR = $("#MainIframeR");
-    function clickHistory(index){
+
+    function clickHistory(index) {
         //循环推出历史页，维护点击截取后历史array
-        var tempHistory = historyArray.pop(),tlength = historyArray.length;
-        for(var i = 0; i < tlength - index; i++){
+        var tempHistory = historyArray.pop(), tlength = historyArray.length;
+        for (var i = 0; i < tlength - index; i++) {
             tempHistory = historyArray.pop();
         }
         historyArray.push(tempHistory);
         //重新绘制路径历史区
         drawHistory();
         //跳转点击项url
-        if(tempHistory.url){
-            if(tempHistory.url.indexOf("?")>-1){
+        if (tempHistory.url) {
+            if (tempHistory.url.indexOf("?") > -1) {
                 tempHistory.url += "&_freshTag=1";
-            }else{
+            } else {
                 tempHistory.url += "?_freshTag=1";
             }
-            gotoUrl(iframeR,tempHistory.url);
+            gotoUrl(iframeR, tempHistory.url);
         }
     }
 
     //页面跳转，维护页面历史记录
     //handleTpe-'pMenu'点击主菜单跳转,'sMenu'点击子菜单跳转,'page'页面操作跳转
-    window.showHistory = function(handleType,url,name,pName){
+    window.showHistory = function (handleType, url, name, pName) {
         var lastOne = historyArray.length > 0 ? historyArray[historyArray.length - 1] : null;
-        if(name == "我的项目"){     //工作台特殊处理，只保留工作台
+        if (name == "我的项目") {     //工作台特殊处理，只保留工作台
             historyArray = [];
-            historyArray.push({name:name, url:url, type:"sMenu"});
-        }else if(handleType == "pMenu"){      //若点击父菜单，（暂）清空array，插入父菜单历史
+            historyArray.push({name: name, url: url, type: "sMenu"});
+        } else if (handleType == "pMenu") {      //若点击父菜单，（暂）清空array，插入父菜单历史
             historyArray = [];
-            historyArray.push({name:name, url:url, type:"pMenu"});
-        }else if(handleType == "sMenu"){         //若点击子菜单，如上一历史为父菜单，直接推入子菜单，否则清空array，推入父子菜单
-            if(lastOne && lastOne.type != "pMenu"){
+            historyArray.push({name: name, url: url, type: "pMenu"});
+        } else if (handleType == "sMenu") {         //若点击子菜单，如上一历史为父菜单，直接推入子菜单，否则清空array，推入父子菜单
+            if (lastOne && lastOne.type != "pMenu") {
                 historyArray = [];
-                historyArray.push({name:pName, url:null, type:"pMenu"});
+                historyArray.push({name: pName, url: null, type: "pMenu"});
             }
-            historyArray.push({name:name, url:url, type:"sMenu"});
-        }else{       //若为页面操作跳转，直接加入新页面历史
-            historyArray.push({name:name, url:url, type:"page"});
+            historyArray.push({name: name, url: url, type: "sMenu"});
+        } else {       //若为页面操作跳转，直接加入新页面历史
+            historyArray.push({name: name, url: url, type: "page"});
         }
         //重新绘制路径历史区
         drawHistory();
     }
 
     //刷新当前页历史
-    window.freshHistory = function(handleType,url,name){
+    window.freshHistory = function (handleType, url, name) {
         var oldH = historyArray.pop();
         handleType = handleType || oldH.type;
         url = url || oldH.url;
         name = name || oldH.name;
-        historyArray.push({name:name, url:url, type:handleType});
+        historyArray.push({name: name, url: url, type: handleType});
         //重新绘制路径历史区
         drawHistory();
         return url;
     }
 
     //页面后退，维护页面历史记录，返回退回url
-    window.showHistoryBack = function(index, url, name){
+    window.showHistoryBack = function (index, url, name) {
         //处理退回页数参数
-        index = (index>historyArray.length - 1? historyArray.length -1 : index)|| 1;
+        index = (index > historyArray.length - 1 ? historyArray.length - 1 : index) || 1;
         var tempHistory = historyArray.pop(); //将当前页作为初始temp页
         //循环推出最后一页
-        for(var i = 0; i < index; i++){
+        for (var i = 0; i < index; i++) {
             tempHistory = historyArray.pop();
         }
         //填入定制的url和name，若为空，则以原来的为准
@@ -2051,81 +2064,81 @@ if(top.hasLayerManager){
         historyArray.push(tempHistory);
         drawHistory();
         //若该页有url，则返回url
-        if(tempHistory && tempHistory.url){
+        if (tempHistory && tempHistory.url) {
             return tempHistory.url;
         }
     }
 
     //前往
-    window._freshLocation = function(win,url,name){
+    window._freshLocation = function (win, url, name) {
         url = RX.handlePath(url);
         var page = findWinPage(win.name);
-        if(page){
+        if (page) {
             page.history.pop();
             page.history.push(url);
             page.frameWinPool = new Array();
-            win.location.href= freshHistory(null,url,name);
+            win.location.href = freshHistory(null, url, name);
         }
     };
 
     //前往
-    window._gotoLocation = function(win,url,name){
+    window._gotoLocation = function (win, url, name) {
         url = RX.handlePath(url);
         var page = findWinPage(win.name);
-        if(page){
+        if (page) {
             page.history.push(url);
             page.frameWinPool = new Array();
-            win.location.href=url;
-            showHistory("page",url,name);
+            win.location.href = url;
+            showHistory("page", url, name);
         }
     };
 
     //回退
-    window._backLocation = function(win,index,url,name){
+    window._backLocation = function (win, index, url, name) {
         url = RX.handlePath(url);
         var page = findWinPage(win.name);
-        if(page){
+        if (page) {
             url = showHistoryBack(index, url, name);
-            if(url){
+            if (url) {
                 page.history.push(url);
                 page.frameWinPool = new Array();
-                win.location.href=url;
+                win.location.href = url;
             }
         }
     };
 
     //前往路径,url为跳转路径，name为历史区显示的历史项名称
-    window.gotoLocation = function(url,name){
-        top._gotoLocation(window,url,name);
+    window.gotoLocation = function (url, name) {
+        top._gotoLocation(window, url, name);
     };
     //路径回退，index回退页数,url为可定制的新url，如不填写，则以历史url为准，name为可定制的新历史项名称，如不填写，则以历史名称为准
-    window.backLocation = function(index,url,name){
-        top._backLocation(window,index,url,name);
+    window.backLocation = function (index, url, name) {
+        top._backLocation(window, index, url, name);
     };
 
     window.hasLayerManager = true;
 
 
-    window.getFeatureList = function(){
+    window.getFeatureList = function () {
         var featureData = [];
         $.ajax({
-            async:false,
-            type:"GET",
-            url:"/medias/cache/rx_features.js?r="+Math.random(),
-            dataType:"JSON",
-            success:function(jsondata,textStatus){
+            async: false,
+            type: "GET",
+            url: "/medias/cache/rx_features.js?r=" + Math.random(),
+            dataType: "JSON",
+            success: function (jsondata, textStatus) {
                 //判断是否过期 如果过期 则删除过期文件 并使用服务器发回的最新数据
-                if(jsondata){
+                if (jsondata) {
                     featureData = jsondata.data;
                 }
-            },error:function(XMLHttpRequest, textStatus, errorThrown){
-                if(XMLHttpRequest.status=404){//文件不存在，择请求服务器生成文件
+            }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                if (XMLHttpRequest.status = 404) {//文件不存在，择请求服务器生成文件
                     $.ajax({
-                        async:false,
-                        type:"POST",
-                        url:"/feature/featureFileCreate",
-                        dataType:"JSON",
-                        success:function(response){
+                        async: false,
+                        type: "POST",
+                        url: "/feature/featureFileCreate",
+                        dataType: "JSON",
+                        success: function (response) {
                             featureData = response;
                         }
                     });
@@ -2146,50 +2159,50 @@ if(top.hasLayerManager){
 }
 
 //IE内存回收
-function rx_gc(){
-    if(isIE){
-        setTimeout(CollectGarbage,1);
+function rx_gc() {
+    if (isIE) {
+        setTimeout(CollectGarbage, 1);
     }
 }
 
-function RXLog(content){
-    if(window.console && window.console.log){
+function RXLog(content) {
+    if (window.console && window.console.log) {
         console.log(content);
     }
 }
 
 //在页面上设置select选中的值
-function setSelectVal(t,value){
-    if(isIE6){
-        setTimeout(function(){
+function setSelectVal(t, value) {
+    if (isIE6) {
+        setTimeout(function () {
             $(t).val(value);
-        },0);
-    }else{
+        }, 0);
+    } else {
         $(t).val(value);
     }
 }
 
-function stopBubble(e){
-   // 如果传入了事件对象，那么就是非ie浏览器
-    if(e&&e.stopPropagation){
-      //因此它支持W3C的stopPropagation()方法
-       e.stopPropagation();
-       }else{
+function stopBubble(e) {
+    // 如果传入了事件对象，那么就是非ie浏览器
+    if (e && e.stopPropagation) {
+        //因此它支持W3C的stopPropagation()方法
+        e.stopPropagation();
+    } else {
         //否则我们使用ie的方法来取消事件冒泡
         window.event.cancelBubble = true;
-      }
+    }
 }
 
 //值过长处理
-function valueLimitShow(value,limit){
-    if(!value){
+function valueLimitShow(value, limit) {
+    if (!value) {
         return "";
     }
-    if(!limit){
+    if (!limit) {
         return value;
     }
     value = value.toString();
-    return value.length > limit ? value.substring(0,limit)+"…":value;
+    return value.length > limit ? value.substring(0, limit) + "…" : value;
 }
 
 //判断ie 7-11

@@ -17,7 +17,5 @@ function edit() {
    alert(userModel.getSelect()[0].ID);
 }
 function add() {//add
-   top.layer.open({
-
-   })
+    openStack(window,"添加用户","big","/user/userEdit")
 }

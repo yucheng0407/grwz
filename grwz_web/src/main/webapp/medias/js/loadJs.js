@@ -29,6 +29,11 @@ var option = {//初始
 require.config({//js
     baseUrl: contentType+"/medias/js/",
     urlArgs:'v='+(new Date()).getTime(),//清楚缓存
+    map: {
+        '*': {
+            "css":"baseJs/css.min"//导入css插件
+        }
+    },
     paths: {
         "whichButtonJs": "utilJs/whichButtonJs",
         "BaseModel": "baseBackBone/BaseModel",
@@ -69,7 +74,7 @@ require.config({//js
             deps: ["backbone","BaseModel"]
         },
         "Layer":{
-            deps: ["jQuery"]
+            deps: ["jQuery","css!/test/medias/js/layer/skin/layer.css"]
         },
         "BaseLayer": {
             deps: ["backbone"]
@@ -98,5 +103,5 @@ function tbload() {//同步加载
 }
 YC.handleUrl=function (url) {
    return contentType+url;
-}
+};
 
