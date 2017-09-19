@@ -39,7 +39,7 @@ require.config({//js
         "BaseModel": "baseBackBone/BaseModel",
         "BaseView": "baseBackBone/BaseView",
         "BaseLayer": "layer/BaseLayer",
-        "Layer":"baseJs/layer",
+        "Layer":"layer/layer",
         "BaseListenView": "baseBackBone/BaseListenView",
         "BaseTable":"baseBackBone/BaseTable",
         "TweenLite": "baseJs/TweenLite.min",

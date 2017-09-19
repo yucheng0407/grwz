@@ -1674,7 +1674,6 @@ if (top.hasLayerManager) {
     //向前关闭窗口（√）
     window.closeWin = function (index, win) {
         var tUpName = (win && win.name) ? win.name : upperestName;
-        setTimeout(function () {
             index = index || 1;
             var upperestPage = findWinPage(tUpName);
             while (upperestPage.type == "frame") {
@@ -1684,14 +1683,14 @@ if (top.hasLayerManager) {
                 if (findPageWin(upperestPage) && findPageWin(upperestPage).closeFunc) {
                     findPageWin(upperestPage).closeFunc();
                 }
-                layer.close(layer.getFrameIndex(upperestPage.name));
+                top.layer.close(top.layer.getFrameIndex(upperestPage.name));
                 upperestPage = findWinPage(upperestPage.prevName);
                 while (upperestPage.type == "frame") {
                     upperestPage = findWinPage(upperestPage.parentName);
                 }
             }
-        }, 1);
-    }
+        };
+
     //向前关闭所有窗口 （√）       待关闭页面加上全局变量notCloseTag = true，若非最上层页面，则停止关闭
     window.closeAllWin = function () {        //关闭全部窗口接口。待关闭页面加上全局变量notCloseTag = true，若非最上层页面，则停止关闭
         var tUpName = upperestName;
@@ -1786,9 +1785,6 @@ if (top.hasLayerManager) {
         } else {
             area = areaType;
         }
-        layer.config({
-            extend: YC.handleUrl('/medias/js/layer/skin/layer.ext.css') //同样需要加载新皮肤
-        });
         top.layer.open({
             //zIndex:1,
             type: 2,
@@ -1817,10 +1813,6 @@ if (top.hasLayerManager) {
                 if (callBacks && typeof(callBacks.end) == "function") {
                     callBacks.end();
                 }
-            },
-            full: function (dom) {
-                debugger
-                $("#layui-layer-content").css({"height": "662px"})
             },
             cancel: function () {
                 var cwin = top.getUpperestWin();

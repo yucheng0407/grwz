@@ -17,5 +17,5 @@ function edit() {
    alert(userModel.getSelect()[0].ID);
 }
 function add() {//add
-    openStack(window,"添加用户","big","/user/userEdit")
+    openStack(window,"添加用户","big","/user/userEdit");
 }

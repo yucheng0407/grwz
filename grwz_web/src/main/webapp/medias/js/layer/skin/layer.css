@@ -43,8 +43,8 @@ html #layui_layer_skinlayercss {
     animation-fill-mode: both;
     -webkit-animation-duration: .3s;
     animation-duration: .3s;
-	border-top:1px solid #dedee0;
-	border:1px solid #2f66af;
+    border-top: 1px solid #dedee0;
+    border: 1px solid #2f66af;
 }
 
 .layui-layer-close {
@@ -72,7 +72,7 @@ html #layui_layer_skinlayercss {
 }
 
 .layui-layer-load {
-    background: url(default/loading-0.gif) center center no-repeat #fff
+    background: url(default/loading-2.gif) center center no-repeat #fff
 }
 
 .layui-layer-ico {
@@ -376,12 +376,12 @@ html #layui_layer_skinlayercss {
     line-height: 34px;
     border-bottom: 1px solid #babfc1;
     font-size: 14px;
-    color: #fff;
+    /*color: #fff;*/
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     background-color: #F8F8F8;
-	background:#3b83e1 url(default/title_bg.png) left top repeat-x;
+    /*background: #3b83e1 url(default/title_bg - 副本.png) left top repeat-x;*/
     border-radius: 2px 2px 0 0
 }
 
@@ -592,10 +592,7 @@ html #layui_layer_skinlayercss {
 
 .layui-layer-iframe iframe {
     display: block;
-    width: 100%;
-    height: 100%;
-    padding: 1%;
-    background-color:rgb(255, 255, 255);
+    width: 100%
 }
 
 .layui-layer-loading {
@@ -707,14 +704,16 @@ html #layui_layer_skinlayercss {
 }
 
 .layui-layer-lan .layui-layer-btn .layui-layer-btn1 {
-    background: #C9C5C5;	
-	
+    background: #C9C5C5;
+
 }
+
 .layui-layer-btn .layui-layer-btn1 {
     background: #C9C5C5;
-	background:#cccccc;
-	color:#525252;	
+    background: #cccccc;
+    color: #525252;
 }
+
 .layui-layer-molv .layui-layer-title {
     background: #009f95;
     color: #fff;
@@ -727,5 +726,5 @@ html #layui_layer_skinlayercss {
 
 .layui-layer-molv .layui-layer-btn .layui-layer-btn1 {
     background: #92B8B1
-	
+
 }
