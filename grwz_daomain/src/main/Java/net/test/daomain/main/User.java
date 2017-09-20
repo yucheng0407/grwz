@@ -1,5 +1,6 @@
 package net.test.daomain.main;
 
+import net.test.daomain.BaseDomain;
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.Where;
 import javax.persistence.*;

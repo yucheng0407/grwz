@@ -1,6 +1,7 @@
 package net.test.controller.htgl.userList;
 
 import data.AjaxReturn;
+import net.test.daomain.main.User;
 import net.test.service.htgl.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,4 +25,13 @@ public class UserController {
     public AjaxReturn getUserList(@Model Object map) {
         return new AjaxReturn().setSuccess(true).setData(userService.getUserList((Map)map));
     }
+    @ResponseBody
+    @RequestMapping("/saveUser")
+    public AjaxReturn saveUser(@Model User user) {
+        userService.saveUser(user);
+        return new AjaxReturn().setSuccess(true);
+    }
+
+
+
 }

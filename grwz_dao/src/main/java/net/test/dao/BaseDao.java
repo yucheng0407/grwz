@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import paginate.FastPagination;
+import tools.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.beans.PropertyDescriptor;
@@ -95,7 +96,15 @@ public class BaseDao<T>  {
    
     public void saveOrUpdate(T entity) throws BeansException {
         Class<T> tClass = this.entityClazz;
-        getSession().saveOrUpdate(entity);
+        Object id = ObjectUtils.ifIdExist(entity);
+        Session session=getSession();
+        if(id != null){
+//          Object persistent = session.get(tClass, (Serializable) id);
+//          session.saveOrUpdate(persistent);
+        }else {
+            ObjectUtils.setEntityValue(entity,"cjsj");
+        }
+        session.saveOrUpdate(entity);
     }
 
 

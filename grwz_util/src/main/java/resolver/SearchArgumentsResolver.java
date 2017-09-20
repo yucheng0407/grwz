@@ -35,8 +35,8 @@ public class SearchArgumentsResolver implements HandlerMethodArgumentResolver {
         mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         Object domain = mapper.readValue(jsonStr, o.getClass());
-        if (domain != null && !(domain instanceof HashMap))
-            ((BaseDomain) domain).setInteractionFields(JacksonUtil.getJsonNode(jsonStr));
+//        if (domain != null && !(domain instanceof HashMap))
+//            ((BaseDomain) domain).setInteractionFields(JacksonUtil.getJsonNode(jsonStr));
         return domain;
     }
 }

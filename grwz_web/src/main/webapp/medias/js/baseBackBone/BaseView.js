@@ -14,7 +14,8 @@ var BaseView = Backbone.View.extend({
     getSelect: function () {
         var collection = this.collection;
         var array = new Array();
-        $("[select]").each(function () {
+        var dom=$("*[data-model=" + this.modelName + "]");
+        dom.find("[select]").each(function () {
             array.push(collection.get($(this).attr("id")).attributes)
         });
         return array;
@@ -26,10 +27,10 @@ var BaseView = Backbone.View.extend({
         var collection = this.collection;
         // var cid = e.currentTarget.parentElement.parentElement.id;
         // this.collection.get(cid).destroy();
-        var dom=$("[select]");
-        var len=dom.length;
+        var dom=$("*[data-model=" + this.modelName + "]");
+        var len=dom.find("[select]").length;
         this.total=this.total-len;
-        dom.each(function (i) {
+        dom.find("[select]").each(function (i) {
             if (i==len - 1) {
                 collection.remove($(this).attr("id"), {silent: false})
             }

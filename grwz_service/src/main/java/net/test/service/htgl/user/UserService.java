@@ -1,8 +1,10 @@
 package net.test.service.htgl.user;
 
 import net.test.dao.htgl.user.UserDao;
+import net.test.daomain.main.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import paginate.FastPagination;
 
 import java.util.List;
@@ -14,8 +16,14 @@ import java.util.Map;
 @Service
 public class UserService {
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
+
     public FastPagination getUserList(Map map) {
         return userDao.getUserList(map);
+    }
+
+    @Transactional
+    public void saveUser(User user) {
+        userDao.saveOrUpdate(user);
     }
 }
