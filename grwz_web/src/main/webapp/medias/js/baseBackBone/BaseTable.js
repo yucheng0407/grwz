@@ -9,7 +9,7 @@ var BaseTable = BaseView.extend({
     pageCount: 5,//(翻页数)
     pageIndex: 1,//(翻页)
     /*****************************************************************
-     *  方法渲染行（View）
+     *  方法渲染行（View字段）
      *****************************************************************/
     append: function (model) {
         this.el.id = model.cid;
@@ -17,13 +17,22 @@ var BaseTable = BaseView.extend({
         var html = '<td style="text-align:center;" >' + this.i + '</td>';//序号
         $.each(this.column, function (i, data) {
             var _data;
-            if (data.data == "date") {//时间搓转时间
-                var date = new Date(model.get(data.type));
-                _data = date.Format("yyyy-MM-dd HH:mm:ss");
-            } else {
-                _data = model.get(data.type);
+            switch (data.renderer) {
+                case "date": {
+                    var date = new Date(model.get(data.type));
+                    _data = date.Format("yyyy-MM-dd HH:mm:ss");
+                    break;
+                }
+                case "String": {
+                    _data = model.get(data.type);
+                    break;
+                }
+                default: {
+                    _data = data.renderer(model.get(data.type));
+                    break;
+                }
             }
-            html += '<td style="text-align:center;">' + _data + '</td>';//值
+            html += '<td style="text-align:center">' + _data + '</td>';//值
         });
         this.el.innerHTML = html;
         this.i++;
@@ -39,6 +48,7 @@ var BaseTable = BaseView.extend({
         var width = '';
         var _html = '';
         var self = this;
+        //表头名
         $.each(this.column, function (i, data) {
             if (data.width) {
                 width += '<col style="width:' + data.width + '%">';
@@ -48,7 +58,7 @@ var BaseTable = BaseView.extend({
             }
             html += '<th style="text-align:center;">' + data.name + '</th>';
         });
-        //行
+        //数据行
         this.i = 1;
         _.forEach(models, function (model) {
             _html += self.append(model).el.outerHTML;
@@ -79,17 +89,17 @@ var BaseTable = BaseView.extend({
         for (var i = 0; i < this.pageCount; i++) {//更新翻页（根据pageIndex）
             var ind = parseInt(((this.pageIndex + i) * this.pageSize - this.total) / this.pageSize);//减少量
             if (ind < 1) {
-                var str='';
-                var index=this.pageIndex + i;
-                if(index==this.index){
-                    str=' active';//当前页
+                var str = '';
+                var index = this.pageIndex + i;
+                if (index == this.index) {
+                    str = ' active';//当前页
                 }
-                html = html + '<li class="page'+str+'"><a href="javascript:void(0)">'+ (this.pageIndex + i) + '</a></li>';
-            }else break;
+                html = html + '<li class="page' + str + '"><a href="javascript:void(0)">' + (this.pageIndex + i) + '</a></li>';
+            } else break;
         }
-        if(0==this.total){
-            str=' active';//当前页
-            html = html + '<li class="'+str+'"><a href="javascript:void(0)">1</a></li>';
+        if (0 == this.total) {
+            str = ' active';//当前页
+            html = html + '<li class="' + str + '"><a href="javascript:void(0)">1</a></li>';
         }
         html = ['<ul class="pagination pagination-right" style="margin:0px;float: right"><li>',
             '<a href="javascript:void(0)" class="previous">&laquo;</a></li>',

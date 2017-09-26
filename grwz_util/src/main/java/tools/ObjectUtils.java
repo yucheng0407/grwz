@@ -54,6 +54,9 @@ public class ObjectUtils {
                     case "xgsj":
                         value = date;
                         break;
+                    case "zt":
+                        value = "1";
+                        break;
                     default:
                         break;
                 }

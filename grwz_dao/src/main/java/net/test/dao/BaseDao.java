@@ -102,7 +102,7 @@ public class BaseDao<T>  {
 //          Object persistent = session.get(tClass, (Serializable) id);
 //          session.saveOrUpdate(persistent);
         }else {
-            ObjectUtils.setEntityValue(entity,"cjsj");
+            ObjectUtils.setEntityValue(entity,"cjsj","zt");
         }
         session.saveOrUpdate(entity);
     }

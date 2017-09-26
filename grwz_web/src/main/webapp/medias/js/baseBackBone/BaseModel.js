@@ -21,6 +21,7 @@ var BaseModel = Backbone.Model.extend({
         var json = this.initJson;
         $(".popover").hide();
             $.each(attrs, function (key, value) {
+                debugger
                 if (json[key].rule == 'not null' &&$.trim(value)  == '') {//为空
                     model.tsk(key,"为空");
                     boolean = false;

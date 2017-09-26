@@ -11,7 +11,8 @@ import java.util.List;
 @Repository
 public class MenuDao extends BaseDao {
     public List getGlMenu() {
-        StringBuffer sql=new StringBuffer("select * from grwz_menu t where type=3");
+        StringBuffer sql=new StringBuffer("select t.*,decode(t.mc,'角色管理',(select count(1) from GRWZ_USER where type=0))" +
+                " TS from grwz_menu t where type=3");
         return super.getJdbcTemplate().queryForList(sql.toString());
     }
 }

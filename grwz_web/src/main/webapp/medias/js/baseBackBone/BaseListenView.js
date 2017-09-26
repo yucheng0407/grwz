@@ -14,9 +14,9 @@ var BaseListenView = Backbone.View.extend({
     pageDate: null,//(后台传分页值)
     //事件监听
     events: {
-        'click .select': 'select',//table类可选
+        'click .select': 'select',//(单选)
         //table行
-        'click .select-table': 'selectTable',//table类可选
+        'click .select-table': 'selectTable',//(多选)
         //翻页
         'click a.next': 'next',
         'click li.page': 'page',//页号
@@ -45,7 +45,7 @@ var BaseListenView = Backbone.View.extend({
     select: function (e) {
         var dom = $(e.currentTarget);//当前块
         $(this.el).find(".active")
-            .removeClass("active").removeAttr("select");//移除当前data-model下的被选块
+            .removeClass("active").removeAttr("select");//移除当前data-model下的所有被选块
         dom.addClass("active").attr("select", true);//被选中
     },
     //翻页

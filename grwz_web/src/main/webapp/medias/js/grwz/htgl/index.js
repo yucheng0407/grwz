@@ -9,9 +9,16 @@ var MenuBackBone = BaseView.extend(
         append: function (model, i) {
             var html = '';
             this.el.id = model.cid;
-            if(i==0){this.el.className = 'select active'}
-            else {this.el.className = 'select'}
-            html = ['<a href="', YC.handleUrl("/user/userList"), '" target="menu">' + model.get("MC") + '</a>'].join('');
+            if (i == 0) {
+                this.el.className = 'select active'
+            }
+            else {
+                this.el.className = 'select'
+            }
+            if (model.get("TS")) {
+                html = '<span class="badge" style="float:right">' + model.get("TS") + '</span>';
+            }//未激活角色
+            html = ['<a href="', YC.handleUrl("/user/userList"), '" target="menu">' + model.get("MC") + html + '</a>'].join('');
             this.el.innerHTML = html;
             return this;
         },
@@ -30,6 +37,9 @@ var MenuBackBone = BaseView.extend(
             //     '<li><a href="#">Export</a></li>',
             //      '</ul>'].join('')
             return html;
+        },
+        update: function () {
+
         }
     }
 );
