@@ -44,7 +44,7 @@ var BaseListenView = Backbone.View.extend({
      *****************************************************************/
     select: function (e) {
         var dom = $(e.currentTarget);//当前块
-        $(this.el).find(".active")
+        this.$(".active")
             .removeClass("active").removeAttr("select");//移除当前data-model下的所有被选块
         dom.addClass("active").attr("select", true);//被选中
     },
@@ -164,7 +164,7 @@ var BaseListenView = Backbone.View.extend({
         // _.forEach(models, function (model) {
         //     html += view.render(model).el.outerHTML;
         // });
-        $("*[data-model=" + this.modelName + "]").html(html);
+        this.el.innerHTML = html;
         return this;
     }
 });

@@ -29,7 +29,8 @@ function sure() {
             data: {user: JSON.stringify(model.getJson())},
             success: function (data) {
                 closeWin();
-                parent.window.frames[0].location.reload();
+                top.frames[0].location.reload();
+                top.menuBackBone.update();
             }
         })
     }

@@ -1,15 +1,15 @@
 /**
  * Created by yucheng on 2017/9/10.
  */
-var column = [{name: 'ID', type: 'ID', width: 10, renderer: "String"},
+var column = [
+    {name: 'ID', type: 'ID', width: 10, renderer: "String"},
     {name: '账号', type: 'YHZH', width: 20, renderer: "String"},
     {name: '密码', type: 'MM', width: 20, renderer: "String"},
-    {
-        name: '状态', type: 'TYPE', width: 20, renderer: function (v) {
+    {name: '状态', type: 'TYPE', width: 20, renderer: function (v) {
         var zt;
         switch (v) {
             case '0': {
-                zt = "未激活";
+                zt = "<span style='color: #cc0000'>未激活</span>";
                 break;
             }
             case '1': {
@@ -24,9 +24,9 @@ var column = [{name: 'ID', type: 'ID', width: 10, renderer: "String"},
                 zt = "超级用户";
                 break;
             }
-            default:{
-                zt="异常数据";
-             break;
+            default: {
+                zt = "异常数据";
+                break;
             }
         }
         return zt;
@@ -43,6 +43,7 @@ var column = [{name: 'ID', type: 'ID', width: 10, renderer: "String"},
 
 function deletes() {
     userModel.deleteRow();
+    top.menuBackBone.update();
 }
 function edit() {
     alert(userModel.getSelect()[0].ID);
