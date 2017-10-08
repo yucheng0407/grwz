@@ -74,6 +74,7 @@ var BaseView = Backbone.View.extend({
         });
         //开始监听
         new GistRows();
+        //初始化模型数据
         this.collection.fetch({reset: true, data: {map: JSON.stringify(pageDate)}});
     }
 });
