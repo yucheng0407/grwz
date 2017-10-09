@@ -35,7 +35,7 @@ var BaseListenView = Backbone.View.extend({
             dom.removeAttr("style select");
         }
         else {
-            dom.css({"background-color": "#428bca"}).attr("select", true);//被选中
+            dom.css({"background-color": "#428bca"}).attr("select", true);//未被选中
 
         }
     },
