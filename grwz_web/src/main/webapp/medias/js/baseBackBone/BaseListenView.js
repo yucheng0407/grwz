@@ -12,7 +12,7 @@ var BaseListenView = Backbone.View.extend({
     collection: '',//(models数据)
     view: '',//视图自身
     pageDate: null,//(后台传分页值)
-    //事件监听
+    //(绑定)事件监听
     events: {
         'click .select': 'select',//(单选)
         //table行
@@ -103,7 +103,7 @@ var BaseListenView = Backbone.View.extend({
         var baseListenView = this;
         var view = this.view;
         if (!view.total) view.total = this.collection.models.length;
-        if ((this.collection.models.length >=view.index * this.pageSize)|| this.collection.models.length == view.total
+        if ((this.collection.models.length >= view.index * this.pageSize) || this.collection.models.length == view.total
         ) {
             this.render();
         } else {
@@ -144,8 +144,10 @@ var BaseListenView = Backbone.View.extend({
         var self = this;
         _.forEach(['reset', 'add'], function (e) {
             self.listenTo(self.collection, e, self.update);
+            if (self.reqInterface) self.listenTo(self.collection, e, self.reqInterface);
         });
         self.listenTo(self.collection, 'remove', self.deleteModel);
+        if (self.reqInterface) self.listenTo(self.collection, 'remove', self.reqInterface);
     },
     /*****************************************************************
      *  方法动态渲染(分页)

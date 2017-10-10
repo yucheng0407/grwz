@@ -8,6 +8,7 @@ var BaseView = Backbone.View.extend({
     collection: null,//数据(models数据)(collection必须)
     total: null,//数据总长度
     index: 1,//下标((当前页面)
+    reqInterface:null,
     /*****************************************************************
      *  取得collection选中值
      *****************************************************************/
@@ -70,7 +71,8 @@ var BaseView = Backbone.View.extend({
             collection: this.collection,
             view: this,
             pageSize: this.pageSize,
-            pageDate: pageDate
+            pageDate: pageDate,
+            reqInterface:this.reqInterface
         });
         //开始监听
         new GistRows();

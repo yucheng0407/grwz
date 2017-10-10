@@ -5,7 +5,8 @@ var column = [
     {name: 'ID', type: 'ID', width: 10, renderer: "String"},
     {name: '账号', type: 'YHZH', width: 20, renderer: "String"},
     {name: '密码', type: 'MM', width: 20, renderer: "String"},
-    {name: '状态', type: 'TYPE', width: 20, renderer: function (v) {
+    {
+        name: '状态', type: 'TYPE', width: 20, renderer: function (v) {
         var zt;
         switch (v) {
             case '0': {
@@ -37,8 +38,8 @@ var column = [
     modelName: "table",
     column: column,
     pageSize: 10,
-    url: YC.handleUrl("/user/getUserList")
-
+    url: YC.handleUrl("/user/getUserList"),
+    reqInterface: top.update
 }), userModel = new UserModel();
 
 function deletes() {
@@ -49,5 +50,6 @@ function edit() {
     alert(userModel.getSelect()[0].ID);
 }
 function add() {//add
+    alert(top.update)
     openStack(window, "添加用户", "small", "/user/userEdit");
 }

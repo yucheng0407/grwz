@@ -14,7 +14,7 @@ import java.util.Map;
 @Repository
 public class UserDao extends BaseDao<User> {
     public FastPagination getUserList(Map map) {
-        StringBuffer sql = new StringBuffer("SELECT * FROM GRWZ_USER T WHERE ZT=1 ORDER BY CJSJ DESC");
+        StringBuffer sql = new StringBuffer("SELECT * FROM GRWZ_USER T WHERE ZT=1 ORDER BY TYPE,CJSJ DESC");
         return super.cacheNextTotalPaginationSql(sql.toString(),map);
     }
 }
