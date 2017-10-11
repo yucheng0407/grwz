@@ -16,7 +16,7 @@ var MenuBackBone = BaseView.extend(
                 this.el.className = 'select'
             }
             if (model.get("TS")) {
-                html = '<span class="badge" style="float:right">' + model.get("TS") + '</span>';
+                html = '<span menu="'+model.get("MC")+'" class="badge" style="float:right">' + model.get("TS") + '</span>';
             }//未激活角色
             html = ['<a href="', YC.handleUrl("/user/userList"), '" target="menu">' + model.get("MC") + html + '</a>'].join('');
             this.el.innerHTML = html;
@@ -40,9 +40,36 @@ var MenuBackBone = BaseView.extend(
         }
     }
 );
-var menuBackBone=new MenuBackBone();
-var update=function () {
-    debugger
-    var dom=$("*[data-model=" + this.modelName + "]");
-    dom.find("[class='active']");
+var menuBackBone = new MenuBackBone();
+var update = function () {
+    function Animal(name){
+        this.name = name;
+        this.showName = function(){
+            alert(this.name);
+        }
+        alert(131)
+    }
+
+    function Cat(name){
+        alert(111111111)
+        Animal.call(this,name);
+        debugger
+    }
+
+   var a=new Cat("Black Cat");
+    a.showName()
+
+
+
+   //  var dom = $("*[data-model=" + menuBackBone.modelName + "]");
+   // alert( dom.find(".active").find("span").attr("menu"))
+   //  debugger
+   //  $.ajax({
+   //      type: "post",
+   //      url: YC.handleUrl("/htgl/getMenu"),
+   //      data:{menuType:'阿达的'},
+   //      success: function (data) {
+   //
+   //      }
+   //  });
 }

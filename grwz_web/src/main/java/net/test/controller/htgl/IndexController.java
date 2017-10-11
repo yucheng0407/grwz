@@ -31,4 +31,9 @@ public class IndexController {
     public AjaxReturn getGlMenu()  {
         return new AjaxReturn().setSuccess(true).setData(menuService.getGlMenu());
     }
+    @ResponseBody
+    @RequestMapping("/getMenu")
+    public AjaxReturn getMenu(String menuType)  {
+        return new AjaxReturn().setSuccess(true).setData(menuService.getMenu(menuType));
+    }
 }

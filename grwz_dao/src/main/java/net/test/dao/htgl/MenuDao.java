@@ -15,4 +15,9 @@ public class MenuDao extends BaseDao {
                 " TS from grwz_menu t where type=3");
         return super.getJdbcTemplate().queryForList(sql.toString());
     }
+
+    public Integer getMenu(String type) {
+        StringBuffer sql=new StringBuffer("select count(1) from GRWZ_USER where type=?");
+        return super.getJdbcTemplate().queryForObject(sql.toString(),Integer.class,type);
+    }
 }

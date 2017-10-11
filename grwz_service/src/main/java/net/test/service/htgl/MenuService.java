@@ -13,7 +13,18 @@ import java.util.List;
 public class MenuService {
     @Autowired
     MenuDao menuDao;
+
     public List getGlMenu() {
         return menuDao.getGlMenu();
+    }
+
+    public Integer getMenu(String menuType) {
+        switch (menuType) {
+            case "阿达的": {
+                return menuDao.getMenu("0");
+            }
+            default:
+                return null;
+        }
     }
 }
