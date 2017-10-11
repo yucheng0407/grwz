@@ -42,34 +42,15 @@ var MenuBackBone = BaseView.extend(
 );
 var menuBackBone = new MenuBackBone();
 var update = function () {
-    function Animal(name){
-        this.name = name;
-        this.showName = function(){
-            alert(this.name);
+    var dom = $("*[data-model=" + menuBackBone.modelName + "]");
+   alert( dom.find(".active").find("span").attr("menu"))
+    debugger
+    $.ajax({
+        type: "post",
+        url: YC.handleUrl("/htgl/getMenu"),
+        data:{menuType:'阿达的'},
+        success: function (data) {
+
         }
-        alert(131)
-    }
-
-    function Cat(name){
-        alert(111111111)
-        Animal.call(this,name);
-        debugger
-    }
-
-   var a=new Cat("Black Cat");
-    a.showName()
-
-
-
-   //  var dom = $("*[data-model=" + menuBackBone.modelName + "]");
-   // alert( dom.find(".active").find("span").attr("menu"))
-   //  debugger
-   //  $.ajax({
-   //      type: "post",
-   //      url: YC.handleUrl("/htgl/getMenu"),
-   //      data:{menuType:'阿达的'},
-   //      success: function (data) {
-   //
-   //      }
-   //  });
+    });
 }
