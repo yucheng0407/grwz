@@ -41,7 +41,8 @@ var MenuBackBone = BaseView.extend(
     }
 );
 var menuBackBone=new MenuBackBone();
-var update=function (i) {
+var update=function () {
+    debugger
     var dom=$("*[data-model=" + this.modelName + "]");
     dom.find("[class='active']");
 }

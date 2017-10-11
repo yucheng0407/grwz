@@ -44,12 +44,10 @@ var column = [
 
 function deletes() {
     userModel.deleteRow();
-    top.menuBackBone.update();
 }
 function edit() {
     alert(userModel.getSelect()[0].ID);
 }
 function add() {//add
-    alert(top.update)
     openStack(window, "添加用户", "small", "/user/userEdit");
 }
