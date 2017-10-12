@@ -36,14 +36,13 @@ var MenuBackBone = BaseView.extend(
     }
 );
 var menuBackBone = new MenuBackBone();
+menuBackBone.reDraw();
 var update = function (model,type) {
-    debugger
     $.ajax({
         type: "post",
         url: YC.handleUrl("/htgl/getMenu"),
         data: {menuType:menuBackBone.getSelect()[0].ID},
         success: function (data) {
-
         }
     });
 }

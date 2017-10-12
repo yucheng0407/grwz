@@ -39,9 +39,14 @@ var column = [
     column: column,
     pageSize: 10,
     url: YC.handleUrl("/user/getUserList"),
-    reqInterface: top.update
-}), userModel = new UserModel();
-
+    backModel: top.update
+});
+var userModel = new UserModel();
+userModel.reDraw();
+function reloadTable(Data) {
+    userModel.addModel(Data)
+    userModel.reDraw();
+}
 function deletes() {
     userModel.deleteRow();
 }

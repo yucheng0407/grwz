@@ -30,6 +30,7 @@ var BaseListenView = Backbone.View.extend({
      *  选中(多选)
      *****************************************************************/
     selectTable: function (e) {
+        debugger
         var dom = $(e.currentTarget);//触发事件的当前块
         if (dom.attr("style")) {//已选中
             dom.removeAttr("style select");
@@ -80,7 +81,7 @@ var BaseListenView = Backbone.View.extend({
     }
     ,
     /*****************************************************************
-     *  删除model
+     *  删除model(多个)
      *****************************************************************/
     deleteModel: function () {
         var view = this.view;
@@ -142,25 +143,28 @@ var BaseListenView = Backbone.View.extend({
      *****************************************************************/
     initialize: function () {
         var self = this;
-        _.forEach(['reset', 'add'], function (e) {
-            self.listenTo(self.collection, e, self.update);
+        $.each(['add', 'remove', 'reset'], function (i, e) {//关联菜单
+            switch (e) {
+                case 'reset'://初始化
+                    self.listenTo(self.collection, "reset", self.update);
+                    break;
+                case 'add'://添加
+                    if (self.backModel) {
+                        self.listenTo(self.collection, e, function (e) {
+                            self.backModel(e, 'add');
+                        });
+                    }
+                    break;
+                case 'remove'://删除
+                    if (self.backModel) {
+                        self.listenTo(self.collection, e, function (e) {
+                            self.backModel(e, 'remove');
+                        });
+                    }
+                    break;
+            }
         });
-        if (self.reqInterface) {
-            $.each(['reset', 'remove'], function (i, e) {//关联菜单
-                switch (e) {
-                    case 'reset':
-                        self.listenTo(self.collection, e, function (e) {
-                            self.reqInterface(e,'add');
-                        });
-                        break;
-                    case 'remove':
-                        self.listenTo(self.collection, e, function (e) {
-                            self.reqInterface(e,'remove');
-                        });
-                        break;
-                }
-            });
-        }
+
     },
     /*****************************************************************
      *  方法动态渲染(分页)

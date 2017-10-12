@@ -8,8 +8,9 @@ var BaseView = Backbone.View.extend({
     collection: null,//数据(models数据)(collection必须)
     total: null,//数据总长度
     index: 1,//下标((当前页面)
-    reqInterface:null,
+    backModel:null,//返回模型
     baseListenView:null,//(监听器)
+    pageDate:null,
     /*****************************************************************
      *  取得collection选中值
      *****************************************************************/
@@ -37,8 +38,17 @@ var BaseView = Backbone.View.extend({
         });
         this.baseListenView.deleteModel();
     },
+    /*****************************************************************
+     *  添加model
+     **********************************/
+    addModel: function (model) {
+        var collection = this.collection;
+        // var cid = e.currentTarget.parentElement.parentElement.id;
+        // this.collection.get(cid).destroy();
+       collection.add(model)
+    },
     /******************************************************************
-     初始化collection
+     初始化collection(监听器)
      ******************************************************************/
     initialize: function () {
         /**
@@ -60,7 +70,7 @@ var BaseView = Backbone.View.extend({
         });
         this.collection = new Xw();
         //分页数据
-        var pageDate = {
+        this.pageDate = {
             pageNo: 1,
             pageSize:20//后台缓存
         };
@@ -70,13 +80,18 @@ var BaseView = Backbone.View.extend({
             collection: this.collection,
             view: this,
             pageSize: this.pageSize,
-            pageDate: pageDate,
-            reqInterface:this.reqInterface
+            pageDate: this.pageDate,
+            backModel:this.backModel
         });
         //开始监听
         this.baseListenView=new GistRows();
         //初始化模型数据
-        this.collection.fetch({reset: true, data: {map: JSON.stringify(pageDate)}});
+    },
+    /******************************************************************
+     初始化collection(数据)
+     ******************************************************************/
+    reDraw:function () {
+        this.collection.fetch({reset: true, data: {map: JSON.stringify(this.pageDate)}});
     }
 });
 
