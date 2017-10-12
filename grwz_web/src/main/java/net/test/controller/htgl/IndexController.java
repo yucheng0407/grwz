@@ -1,6 +1,7 @@
 package net.test.controller.htgl;
 
 import data.AjaxReturn;
+import net.test.daomain.enums.MenuEnum;
 import net.test.daomain.main.User;
 import net.test.intercepter.AuthInterceptor;
 import net.test.service.htgl.MenuService;
@@ -33,7 +34,7 @@ public class IndexController {
     }
     @ResponseBody
     @RequestMapping("/getMenu")
-    public AjaxReturn getMenu(String menuType)  {
+    public AjaxReturn getMenu(Integer menuType)  {
         return new AjaxReturn().setSuccess(true).setData(menuService.getMenu(menuType));
     }
 }

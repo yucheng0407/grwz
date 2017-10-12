@@ -144,10 +144,23 @@ var BaseListenView = Backbone.View.extend({
         var self = this;
         _.forEach(['reset', 'add'], function (e) {
             self.listenTo(self.collection, e, self.update);
-            if (self.reqInterface) self.listenTo(self.collection, e, self.reqInterface);
         });
-        self.listenTo(self.collection, 'remove', self.deleteModel);
-        if (self.reqInterface) self.listenTo(self.collection, 'remove', self.reqInterface);
+        if (self.reqInterface) {
+            $.each(['reset', 'remove'], function (i, e) {//关联菜单
+                switch (e) {
+                    case 'reset':
+                        self.listenTo(self.collection, e, function (e) {
+                            self.reqInterface(e,'add');
+                        });
+                        break;
+                    case 'remove':
+                        self.listenTo(self.collection, e, function (e) {
+                            self.reqInterface(e,'remove');
+                        });
+                        break;
+                }
+            });
+        }
     },
     /*****************************************************************
      *  方法动态渲染(分页)

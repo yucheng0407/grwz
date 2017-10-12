@@ -2,19 +2,18 @@
  *  （View）表格渲染
  *****************************************************************/
 var BaseTable = BaseView.extend({
-    tagName: 'tr',//（必须）
+    tagName: 'tr',//（必须行）
     column: null,//table渲染,other其他{表头}
-    i: null,//序号,(页面)
     pageSize: 10,//分页(必须页面)
     pageCount: 5,//(翻页数)
     pageIndex: 1,//(翻页)
     /*****************************************************************
      *  方法渲染行（View字段）
      *****************************************************************/
-    append: function (model) {
+    append: function (i, model) {
         this.el.id = model.cid;
         this.el.className = "select-table";
-        var html = '<td style="text-align:center;" >' + this.i + '</td>';//序号
+        var html = '<td style="text-align:center;" >' + ((this.pageSize * (this.index - 1) + 1) + i) + '</td>';//序号
         $.each(this.column, function (i, data) {
             var _data;
             switch (data.renderer) {
@@ -59,9 +58,8 @@ var BaseTable = BaseView.extend({
             html += '<th style="text-align:center;">' + data.name + '</th>';
         });
         //数据行
-        this.i = 1;
-        _.forEach(models, function (model) {
-            _html += self.append(model).el.outerHTML;
+        $.each(models, function (i, model) {
+            _html += self.append(i, model).el.outerHTML;
         });
         if (!models[0]) {
             _html = '<tr><td>无数据</td></tr>';
@@ -80,7 +78,6 @@ var BaseTable = BaseView.extend({
      ********************************************/
     page: function () {
         var html = '';
-        debugger
         if (!((this.pageIndex < this.index))) {
             if (this.index != 1) this.pageIndex--;//不是第一页
         } else if (!(this.index < (this.pageIndex + this.pageCount) - 1)) {

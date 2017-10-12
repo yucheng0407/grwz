@@ -9,14 +9,9 @@ var MenuBackBone = BaseView.extend(
         append: function (model, i) {
             var html = '';
             this.el.id = model.cid;
-            if (i == 0) {
-                this.el.className = 'select active'
-            }
-            else {
-                this.el.className = 'select'
-            }
+            this.el.className = 'select';
             if (model.get("TS")) {
-                html = '<span menu="'+model.get("MC")+'" class="badge" style="float:right">' + model.get("TS") + '</span>';
+                html = '<span  class="badge" style="float:right">' + model.get("TS") + '</span>';
             }//未激活角色
             html = ['<a href="', YC.handleUrl("/user/userList"), '" target="menu">' + model.get("MC") + html + '</a>'].join('');
             this.el.innerHTML = html;
@@ -41,14 +36,12 @@ var MenuBackBone = BaseView.extend(
     }
 );
 var menuBackBone = new MenuBackBone();
-var update = function () {
-    var dom = $("*[data-model=" + menuBackBone.modelName + "]");
-   alert( dom.find(".active").find("span").attr("menu"))
+var update = function (model,type) {
     debugger
     $.ajax({
         type: "post",
         url: YC.handleUrl("/htgl/getMenu"),
-        data:{menuType:'阿达的'},
+        data: {menuType:menuBackBone.getSelect()[0].ID},
         success: function (data) {
 
         }

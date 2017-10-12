@@ -18,9 +18,9 @@ public class MenuService {
         return menuDao.getGlMenu();
     }
 
-    public Integer getMenu(String menuType) {
+    public Integer getMenu(Integer menuType) {
         switch (menuType) {
-            case "阿达的": {
+            case 1: {
                 return menuDao.getMenu("0");
             }
             default:

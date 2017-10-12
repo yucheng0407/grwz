@@ -30,7 +30,6 @@ function sure() {
             success: function (data) {
                 closeWin();
                 top.frames[0].location.reload();
-                top.menuBackBone.update();
             }
         })
     }

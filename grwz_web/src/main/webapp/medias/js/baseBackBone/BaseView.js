@@ -9,6 +9,7 @@ var BaseView = Backbone.View.extend({
     total: null,//数据总长度
     index: 1,//下标((当前页面)
     reqInterface:null,
+    baseListenView:null,//(监听器)
     /*****************************************************************
      *  取得collection选中值
      *****************************************************************/
@@ -32,11 +33,9 @@ var BaseView = Backbone.View.extend({
         var len=dom.find("[select]").length;
         this.total=this.total-len;
         dom.find("[select]").each(function (i) {
-            if (i==len - 1) {
-                collection.remove($(this).attr("id"), {silent: false})
-            }
-            else collection.remove($(this).attr("id"), {silent: true});
+                collection.remove($(this).attr("id"));
         });
+        this.baseListenView.deleteModel();
     },
     /******************************************************************
      初始化collection
@@ -75,7 +74,7 @@ var BaseView = Backbone.View.extend({
             reqInterface:this.reqInterface
         });
         //开始监听
-        new GistRows();
+        this.baseListenView=new GistRows();
         //初始化模型数据
         this.collection.fetch({reset: true, data: {map: JSON.stringify(pageDate)}});
     }
