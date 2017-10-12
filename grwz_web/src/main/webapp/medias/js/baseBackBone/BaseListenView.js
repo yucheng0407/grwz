@@ -6,7 +6,6 @@
  */
 var BaseListenView = Backbone.View.extend({
     el: null,//监听区域（data-model内）
-    pageNo: 1,//数据库下标
     pageSize: null,//分页数（必须）
     modelName: '',//（必须）
     collection: '',//(models数据)
@@ -108,8 +107,7 @@ var BaseListenView = Backbone.View.extend({
         ) {
             this.render();
         } else {
-            ++this.pageNo;
-            this.pageDate.pageNo = this.pageNo;
+            this.pageDate.pageNo++;
             this.collection.fetch({//后台添加
                 remove: false,//(add:true（无效）用remove: false替代)
                 silent: true,//不触发add监听器防止重复调用

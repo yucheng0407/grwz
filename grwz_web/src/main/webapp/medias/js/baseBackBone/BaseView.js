@@ -7,7 +7,7 @@ var BaseView = Backbone.View.extend({
     url: null,//后台地址（必须）
     collection: null,//数据(models数据)(collection必须)
     total: null,//数据总长度
-    index: 1,//下标((当前页面)
+    index: null,//下标((当前页面)
     backModel:null,//返回模型
     baseListenView:null,//(监听器)
     pageDate:null,
@@ -70,10 +70,7 @@ var BaseView = Backbone.View.extend({
         });
         this.collection = new Xw();
         //分页数据
-        this.pageDate = {
-            pageNo: 1,
-            pageSize:20//后台缓存
-        };
+        this.pageDate = {};
         var GistRows = BaseListenView.extend({
             el:"[data-model="+this.modelName+"]",
             modelName: this.modelName,
@@ -91,6 +88,10 @@ var BaseView = Backbone.View.extend({
      初始化collection(数据)
      ******************************************************************/
     reDraw:function () {
+        this.pageIndex=1;//(翻页)
+        this.index=1;
+        this.pageDate.pageNo=1;
+        this.pageDate.pageSize=20;
         this.collection.fetch({reset: true, data: {map: JSON.stringify(this.pageDate)}});
     }
 });
