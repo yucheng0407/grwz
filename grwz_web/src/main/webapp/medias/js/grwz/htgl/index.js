@@ -37,12 +37,24 @@ var MenuBackBone = BaseView.extend(
 );
 var menuBackBone = new MenuBackBone();
 menuBackBone.reDraw();
-var update = function (model,type) {
-    $.ajax({
-        type: "post",
-        url: YC.handleUrl("/htgl/getMenu"),
-        data: {menuType:menuBackBone.getSelect()[0].ID},
-        success: function (data) {
+var update = function (model, type) {
+    var dom=menuBackBone.currentModel.find('[select]').find('span');//被选中
+    switch (type) {
+        case "add": {
+            if (model.TYPE == 0) {
+                alert('+1');
+            } else alert('+0');
+            break;
         }
-    });
+        case "remove": {
+            if (model.TYPE == 0) {
+                var model=menuBackBone.getSelect()[0];
+                model.set('TS',model.get('TS')-1);
+                var i=model.get('TS');
+                if(i>0)dom.text(i)
+                else dom.empty();
+            } else alert('-0');
+            break;
+        }
+    }
 }

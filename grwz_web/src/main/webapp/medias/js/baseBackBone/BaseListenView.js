@@ -29,7 +29,6 @@ var BaseListenView = Backbone.View.extend({
      *  选中(多选)
      *****************************************************************/
     selectTable: function (e) {
-        debugger
         var dom = $(e.currentTarget);//触发事件的当前块
         if (dom.attr("style")) {//已选中
             dom.removeAttr("style select");
@@ -100,6 +99,7 @@ var BaseListenView = Backbone.View.extend({
      *****************************************************************/
     update: function () {
         //(下一页大于页数)
+        debugger
         var baseListenView = this;
         var view = this.view;
         if (!view.total) view.total = this.collection.models.length;
@@ -141,7 +141,7 @@ var BaseListenView = Backbone.View.extend({
      *****************************************************************/
     initialize: function () {
         var self = this;
-        $.each(['add', 'remove', 'reset'], function (i, e) {//关联菜单
+        $.each(['add', 'remove', 'reset','change'], function (i, e) {//关联菜单
             switch (e) {
                 case 'reset'://初始化
                     self.listenTo(self.collection, "reset", self.update);
@@ -149,14 +149,14 @@ var BaseListenView = Backbone.View.extend({
                 case 'add'://添加
                     if (self.backModel) {
                         self.listenTo(self.collection, e, function (e) {
-                            self.backModel(e, 'add');
+                            self.backModel(e.attributes, 'add');
                         });
                     }
                     break;
                 case 'remove'://删除
                     if (self.backModel) {
                         self.listenTo(self.collection, e, function (e) {
-                            self.backModel(e, 'remove');
+                            self.backModel(e.attributes, 'remove');
                         });
                     }
                     break;

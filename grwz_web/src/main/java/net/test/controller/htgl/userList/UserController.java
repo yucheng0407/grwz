@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import resolver.Model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -20,11 +22,25 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    /**
+     * 用户列表
+     *
+     * @param map
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/getUserList")
     public AjaxReturn getUserList(@Model Object map) {
-        return new AjaxReturn().setSuccess(true).setData(userService.getUserList((Map)map));
+        return new AjaxReturn().setSuccess(true).setData(userService.getUserList((Map) map));
     }
+
+    /**
+     * 保存用户
+     *
+     * @param user
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/saveUser")
     public AjaxReturn saveUser(@Model User user) {
@@ -32,6 +48,17 @@ public class UserController {
         return new AjaxReturn().setSuccess(true);
     }
 
+    /**
+     * 删除用户
+     *
+     * @param ids
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/deleteUser")
+    public AjaxReturn deleteUser(String ids) {
+        return new AjaxReturn().setSuccess(true);
+    }
 
 
 }

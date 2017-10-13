@@ -8,18 +8,19 @@ var BaseView = Backbone.View.extend({
     collection: null,//数据(models数据)(collection必须)
     total: null,//数据总长度
     index: null,//下标((当前页面)
-    backModel:null,//返回模型
-    baseListenView:null,//(监听器)
-    pageDate:null,
+    backModel: null,//返回模型
+    baseListenView: null,//(监听器)
+    pageDate: null,
+    currentModel: null,//jquery选择
     /*****************************************************************
      *  取得collection选中值
      *****************************************************************/
     getSelect: function () {
         var collection = this.collection;
         var array = new Array();
-        var dom=$("*[data-model=" + this.modelName + "]");
+        var dom = this.currentModel;
         dom.find("[select]").each(function () {
-            array.push(collection.get($(this).attr("id")).attributes)
+            array.push(collection.get($(this).attr("id")))
         });
         return array;
     },
@@ -30,22 +31,22 @@ var BaseView = Backbone.View.extend({
         var collection = this.collection;
         // var cid = e.currentTarget.parentElement.parentElement.id;
         // this.collection.get(cid).destroy();
-        var dom=$("*[data-model=" + this.modelName + "]");
-        var len=dom.find("[select]").length;
-        this.total=this.total-len;
-        dom.find("[select]").each(function (i) {
-                collection.remove($(this).attr("id"));
+        var dom = this.currentModel;
+        var len = dom.find("[select]").length;
+        this.total = this.total - len;
+        dom.find("[select]").each(function () {
+            collection.remove($(this).attr("id"));
         });
         this.baseListenView.deleteModel();
     },
     /*****************************************************************
-     *  添加model
+     *  比较model
      **********************************/
-    addModel: function (model) {
+    compareModel: function (model) {
         var collection = this.collection;
         // var cid = e.currentTarget.parentElement.parentElement.id;
         // this.collection.get(cid).destroy();
-       collection.add(model)
+        collection.add(model)
     },
     /******************************************************************
      初始化collection(监听器)
@@ -54,6 +55,8 @@ var BaseView = Backbone.View.extend({
         /**
          查询collection数据
          **/
+        var currentModel="[data-model=" + this.modelName + "]";
+        this.currentModel = $(currentModel);
         var moder = this;
         var Xw = BaseCollection.extend({
             url: this.url,
@@ -62,9 +65,9 @@ var BaseView = Backbone.View.extend({
                     if (response.data.total) {
                         moder.total = response.data.total;
                     }
-                    if(response.data.rows){//分页
+                    if (response.data.rows) {//分页
                         return response.data.rows;
-                    }else return response.data;//不分页
+                    } else return response.data;//不分页
                 }
             }
         });
@@ -72,26 +75,26 @@ var BaseView = Backbone.View.extend({
         //分页数据
         this.pageDate = {};
         var GistRows = BaseListenView.extend({
-            el:"[data-model="+this.modelName+"]",
+            el: currentModel,
             modelName: this.modelName,
             collection: this.collection,
             view: this,
             pageSize: this.pageSize,
             pageDate: this.pageDate,
-            backModel:this.backModel
+            backModel: this.backModel
         });
         //开始监听
-        this.baseListenView=new GistRows();
+        this.baseListenView = new GistRows();
         //初始化模型数据
     },
     /******************************************************************
      初始化collection(数据)
      ******************************************************************/
-    reDraw:function () {
-        this.pageIndex=1;//(翻页)
-        this.index=1;
-        this.pageDate.pageNo=1;
-        this.pageDate.pageSize=20;
+    reDraw: function () {
+        this.pageIndex = 1;//(翻页)
+        this.index = 1;
+        this.pageDate.pageNo = 1;
+        this.pageDate.pageSize = 20;
         this.collection.fetch({reset: true, data: {map: JSON.stringify(this.pageDate)}});
     }
 });

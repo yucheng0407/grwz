@@ -44,14 +44,25 @@ var column = [
 var userModel = new UserModel();
 userModel.reDraw();
 function reloadTable(Data) {
-    userModel.addModel(Data)
+    userModel.compareModel(Data);
     userModel.reDraw();
 }
 function deletes() {
-    userModel.deleteRow();
+    var ids = '';
+    $.each(userModel.getSelect(), function (i, e) {
+        ids += e.get("ID") + ',';
+    })
+    $.ajax({
+        type: "post",
+        url: YC.handleUrl("/user/deleteUser"),
+        data: {ids:ids,list:[0,1,2]},
+        success: function (data) {
+            userModel.deleteRow();
+        }
+    });
 }
 function edit() {
-    alert(userModel.getSelect()[0].ID);
+    alert(userModel.getSelect()[0].get('ID'));
 }
 function add() {//add
     openStack(window, "添加用户", "small", "/user/userEdit");
