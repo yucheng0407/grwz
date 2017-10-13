@@ -55,7 +55,7 @@ function deletes() {
     $.ajax({
         type: "post",
         url: YC.handleUrl("/user/deleteUser"),
-        data: {ids:ids,list:[0,1,2]},
+        data: {ids:ids},
         success: function (data) {
             userModel.deleteRow();
         }
