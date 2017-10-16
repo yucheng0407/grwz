@@ -99,7 +99,6 @@ var BaseListenView = Backbone.View.extend({
      *****************************************************************/
     update: function () {
         //(下一页大于页数)
-        debugger
         var baseListenView = this;
         var view = this.view;
         if (!view.total) view.total = this.collection.models.length;

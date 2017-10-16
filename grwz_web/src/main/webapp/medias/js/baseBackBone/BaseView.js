@@ -55,7 +55,7 @@ var BaseView = Backbone.View.extend({
         /**
          查询collection数据
          **/
-        var currentModel="[data-model=" + this.modelName + "]";
+        var currentModel='[data-model="' + this.modelName + '"]';
         this.currentModel = $(currentModel);
         var moder = this;
         var Xw = BaseCollection.extend({

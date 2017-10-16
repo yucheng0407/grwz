@@ -13,7 +13,7 @@ var MenuBackBone = BaseView.extend(
             if (model.get("TS")) {
                 html = '<span  class="badge" style="float:right">' + model.get("TS") + '</span>';
             }//未激活角色
-            html = ['<a href="', YC.handleUrl("/user/userList"), '" target="menu">' + model.get("MC") + html + '</a>'].join('');
+            html = ['<a href="', YC.handleUrl(model.get("URL")), '" target="menu">', model.get("MC"), html, '</a>'].join('');
             this.el.innerHTML = html;
             return this;
         },
@@ -38,7 +38,7 @@ var MenuBackBone = BaseView.extend(
 var menuBackBone = new MenuBackBone();
 menuBackBone.reDraw();
 var update = function (model, type) {
-    var dom=menuBackBone.currentModel.find('[select]').find('span');//被选中
+    var dom = menuBackBone.currentModel.find('[select]').find('span');//被选中
     switch (type) {
         case "add": {
             if (model.TYPE == 0) {
@@ -48,10 +48,10 @@ var update = function (model, type) {
         }
         case "remove": {
             if (model.TYPE == 0) {
-                var model=menuBackBone.getSelect()[0];
-                model.set('TS',model.get('TS')-1);
-                var i=model.get('TS');
-                if(i>0)dom.text(i)
+                var model = menuBackBone.getSelect()[0];
+                model.set('TS', model.get('TS') - 1);
+                var i = model.get('TS');
+                if (i > 0) dom.text(i)
                 else dom.empty();
             } else alert('-0');
             break;
