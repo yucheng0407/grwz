@@ -41,9 +41,9 @@
 <script>
     load({module: ["/medias/js/grwz/header.js","BaseView","/medias/js/grwz/htgl/index.js"],success:function () {
 //初始化尺寸
-        $("#list").height($(".sidebar").height());
+        $("#list").height($(".sidebar").height()-$(".navbar-wrapper").height()-10);
         $(window).resize(function () {
-            $("#list").height($(".sidebar").height());
+            $("#list").height($(".sidebar").height()-$(".navbar-wrapper").height()-10);
         })
     }});
 </script>

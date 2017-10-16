@@ -52,7 +52,7 @@
                      Color, dom, on) {
             //初始化地图
             map = new Map("mapDiv", {
-                basemap: "streets",
+                basemap: "gray",
                 center: [-25.312, 34.307],
                 zoom: 3
             });
@@ -130,7 +130,7 @@
 <body>
 <!--画图工具栏-->
 <div id="info">
-    <div>Select a shape then draw on map to add graphic</div>
+    <div>选择一个形状，然后在地图上绘制以添加图形</div>
     <button id="Point">Point</button>
     <button id="Multipoint">Multipoint</button>
     <button id="Line">Line</button>
