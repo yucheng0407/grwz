@@ -11,9 +11,11 @@ var MenuBackBone = BaseView.extend(
             this.el.id = model.cid;
             this.el.className = 'select';
             if (model.get("TS")) {
-                html = '<span  class="badge" style="float:right">' + model.get("TS") + '</span>';
+                html = model.get("TS");
+            } else {
+                model.set("TS", 0);
             }//未激活角色
-            html = ['<a href="', YC.handleUrl(model.get("URL")), '" target="menu">', model.get("MC"), html, '</a>'].join('');
+            html = ['<a href="', YC.handleUrl(model.get("URL")), '" target="menu">', model.get("MC"), '<span  class="badge" style="float:right">' + html + '</span>', '</a>'].join('');
             this.el.innerHTML = html;
             return this;
         },
@@ -42,18 +44,24 @@ var update = function (model, type) {
     switch (type) {
         case "add": {
             if (model.TYPE == 0) {
-                alert('+1');
-            } else alert('+0');
+                var menuModel = menuBackBone.getSelect()[0];
+                menuModel.set('TS', menuModel.get('TS') + 1);
+                var i = menuModel.get('TS');
+                dom.text(i);
+            }
             break;
         }
         case "remove": {
             if (model.TYPE == 0) {
-                var model = menuBackBone.getSelect()[0];
-                model.set('TS', model.get('TS') - 1);
-                var i = model.get('TS');
-                if (i > 0) dom.text(i)
-                else dom.empty();
-            } else alert('-0');
+                var menuModel = menuBackBone.getSelect()[0];
+                if (menuModel.get('TS') > 0) {
+                    menuModel.set('TS', menuModel.get('TS') - 1);
+                    var i = menuModel.get('TS');
+                    if (i <= 0) {
+                        dom.empty();
+                    }else dom.text(i);
+                }
+            }
             break;
         }
     }

@@ -39,20 +39,26 @@
     <script>
         var map, tb;
 
-        require([
+        require(["esri/basemaps",
             "esri/map", "esri/toolbars/draw",
             "esri/symbols/SimpleMarkerSymbol", "esri/symbols/SimpleLineSymbol",
             "esri/symbols/PictureFillSymbol", "esri/symbols/CartographicLineSymbol",
             "esri/graphic",
             "esri/Color", "dojo/dom", "dojo/on", "dojo/domReady!"
-        ], function (Map, Draw,
+        ], function (esriBasemaps, Map, Draw,
                      SimpleMarkerSymbol, SimpleLineSymbol,
                      PictureFillSymbol, CartographicLineSymbol,
                      Graphic,
                      Color, dom, on) {
+            esriBasemaps.delorme = {
+                baseMapLayers: [{url: "https://services.arcgisonline.com/ArcGIS/rest/services/Specialty/DeLorme_World_Base_Map/MapServer"}
+                ],
+                thumbnailUrl: "https://www.example.com/images/thumbnail_2014-11-25_61051.png",
+                title: "Delorme"
+            };
             //初始化地图
             map = new Map("mapDiv", {
-                basemap: "gray",
+                basemap: "delorme",
                 center: [-25.312, 34.307],
                 zoom: 3
             });
