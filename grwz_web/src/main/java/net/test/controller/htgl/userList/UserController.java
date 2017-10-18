@@ -57,6 +57,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping("/deleteUser")
     public AjaxReturn deleteUser(String ids) {
+        userService.deleteUser(ids);
         return new AjaxReturn().setSuccess(true);
     }
 

@@ -26,4 +26,8 @@ public class UserService {
     public void saveUser(User user) {
         userDao.saveOrUpdate(user);
     }
+    @Transactional
+    public void deleteUser(String ids) {
+        userDao.deleteUser(ids);
+    }
 }

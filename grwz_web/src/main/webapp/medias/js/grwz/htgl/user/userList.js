@@ -51,11 +51,11 @@ function deletes() {
     var ids = '';
     $.each(userModel.getSelect(), function (i, e) {
         ids += e.get("ID") + ',';
-    })
+    });
     $.ajax({
         type: "post",
         url: YC.handleUrl("/user/deleteUser"),
-        data: {ids:ids},
+        data: {ids:ids.substring(0,ids.length-1)},
         success: function (data) {
             userModel.deleteRow();
         }
