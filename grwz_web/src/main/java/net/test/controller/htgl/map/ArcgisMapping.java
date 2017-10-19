@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ArcgisMapping {
     @RequestMapping("/arcgis")
     public String arcgis() {
-        return "/htgl/map/arcgis";
+        return "/htgl/map/baiduMap";
     }
 }

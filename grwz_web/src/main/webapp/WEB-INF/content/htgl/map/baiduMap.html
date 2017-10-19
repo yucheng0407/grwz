@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+    <style type="text/css">
+        body, html, #allmap {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin: 0;
+            font-family: "微软雅黑";
+        }
+    </style>
+    <script type="text/javascript"
+            src="http://api.map.baidu.com/api?v=2.0&ak=7G21AeGkO9u42Mwv4EeOiCG1Xbk5bG8A"></script>
+    <title>设置点的新图标</title>
+</head>
+<body>
+<div style="position: relative;z-index:999;float: right;">
+    <button onclick="edit()">标记</button>
+</div>
+<div id="allmap" style="position: absolute"></div>
+</body>
+</html>
+<script type="text/javascript">
+    // 百度地图API功能
+    var map = new BMap.Map("allmap");
+    var geoc = new BMap.Geocoder();//地址解析
+    var point = new BMap.Point(116.404, 39.915);
+    var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
+    var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+    map.centerAndZoom("芜湖市万科城", 15);
+    map.enableScrollWheelZoom();   //启用滚轮放大缩小，默认禁用
+    map.enableContinuousZoom();    //启用地图惯性拖拽，默认禁用
+    map.addControl(top_left_control);
+    map.addControl(top_left_navigation);
+    // 打开单击标注模式
+    function edit() {
+        map.addEventListener("click",editMarker);
+        map.setDefaultCursor("crosshair");//鼠标样式
+    }
+    // 获得单击标注中
+    function editMarker(e) {
+//        var pt = new BMap.Point(e.point.lng, e.point.lat);//地址
+//        var myIcon = new BMap.Icon("http://lbsyun.baidu.com/jsdemo/img/fox.gif", new BMap.Size(300, 157));
+        var marker = new BMap.Marker(e.point);  // 创建标注
+        addMarker(marker);
+        map.removeEventListener("click",editMarker)
+
+    }
+
+    // 将标注添加到地图中
+    function addMarker(marker) {
+        marker.addEventListener("mouseover", function () {
+//            map.openInfoWindow(infoWindow, point); //移动到标注
+            var p = this.getPosition();
+            var marker = this;//获取marker的位置
+            geoc.getLocation(p, function (rs) {//坐标转地址
+                var infoWindow = new BMap.InfoWindow(rs.address);
+                marker.openInfoWindow(infoWindow);
+            })
+        });
+        marker.addEventListener("mouseout", function () {
+//            map.openInfoWindow(infoWindow, point); //移出标注
+            this.closeInfoWindow();
+        });
+        var markerMenu = new BMap.ContextMenu(); //创建右键菜单
+        markerMenu.addItem(new BMap.MenuItem('删除', removeMarker.bind(marker)));
+        marker.addContextMenu(markerMenu);
+        map.addOverlay(marker);
+    }
+    // 将标注删除到地图中
+    function removeMarker(e, ee, marker) {
+        map.removeOverlay(marker);
+    }
+</script>
