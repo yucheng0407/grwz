@@ -10,7 +10,7 @@ var BaseView = Backbone.View.extend({
     index: null,//下标((当前页面)
     backModel: null,//返回模型
     baseListenView: null,//(监听器)
-    pageDate: null,
+    pageData: null,
     currentModel: null,//jquery选择
     /*****************************************************************
      *  取得collection选中值
@@ -73,14 +73,14 @@ var BaseView = Backbone.View.extend({
         });
         this.collection = new Xw();
         //分页数据
-        this.pageDate = {};
+        this.pageData = {};
         var GistRows = BaseListenView.extend({
             el: currentModel,
             modelName: this.modelName,
             collection: this.collection,
             view: this,
             pageSize: this.pageSize,
-            pageDate: this.pageDate,
+            pageData: this.pageData,
             backModel: this.backModel
         });
         //开始监听
@@ -93,9 +93,9 @@ var BaseView = Backbone.View.extend({
     reDraw: function () {
         this.pageIndex = 1;//(翻页)
         this.index = 1;
-        this.pageDate.pageNo = 1;
-        this.pageDate.pageSize = 20;
-        this.collection.fetch({reset: true, data: {map: JSON.stringify(this.pageDate)}});
+        this.pageData.pageNo = 1;
+        this.pageData.pageSize = 20;
+        this.collection.fetch({reset: true, data: {map: JSON.stringify(this.pageData)}});
     }
 });
 

@@ -28,6 +28,7 @@
 <script type="text/javascript">
     // 百度地图API功能
     var map = new BMap.Map("allmap");
+    var drawingManager;
     var geoc = new BMap.Geocoder();//地址解析
     var point = new BMap.Point(116.404, 39.915);
     var overlays = [];
@@ -36,9 +37,6 @@
     map.centerAndZoom("芜湖市万科城", 15);
     map.enableScrollWheelZoom();   //启用滚轮放大缩小，默认禁用
     map.enableContinuousZoom();    //启用地图惯性拖拽，默认禁用
-    map.addControl(top_left_control);
-    map.addControl(top_left_navigation);
-
     var styleOptions = {
         strokeColor: "red",    //边线颜色。
 //        fillColor:"red",      //填充颜色。当参数为空时，圆形将没有填充效果。
@@ -46,41 +44,55 @@
         strokeOpacity: 0.8,	   //边线透明度，取值范围0 - 1。
         fillOpacity: 0.6,      //填充的透明度，取值范围0 - 1。
         strokeStyle: 'solid' //边线的样式，solid或dashed。
-    }
-    //实例化鼠标绘制工具
-    var drawingManager = new BMapLib.DrawingManager(map, {
-        isOpen: false, //是否开启绘制模式
-        enableDrawingTool: true, //是否显示工具栏
-        drawingToolOptions: {
-            anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
-            offset: new BMap.Size(5, 5), //偏离值
-        },
-        circleOptions: styleOptions, //圆的样式
-        polylineOptions: styleOptions, //线的样式
-        polygonOptions: styleOptions, //多边形的样式
-        rectangleOptions: styleOptions //矩形的样式
+    };
+    //地图加载完
+    map.addEventListener("tilesloaded",function(){
+        //缩放工具栏
+        map.addControl(top_left_control);
+        map.addControl(top_left_navigation);
+        //实例化鼠标绘制工具
+        drawingManager = new BMapLib.DrawingManager(map, {
+            isOpen: false, //是否开启绘制模式
+            enableDrawingTool: true, //是否显示工具栏
+            drawingToolOptions: {
+                anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
+                offset: new BMap.Size(5, 5), //偏离值
+                scale: 0.9//缩放比例
+            },
+            circleOptions: styleOptions, //圆的样式
+            polylineOptions: styleOptions, //线的样式
+            polygonOptions: styleOptions, //多边形的样式
+            rectangleOptions: styleOptions //矩形的样式
+        });
+        drawingManager.addEventListener('overlaycomplete', overlaycomplete);
+        initData();
+
     });
-    drawingManager.addEventListener('overlaycomplete', overlaycomplete);
-    drawingManager.enableCalculate();
-    // 添加完标签
+    // 绘图完标签
     function overlaycomplete(e) {
 //        var pt = new BMap.Point(e.point.lng, e.point.lat);//地址
 //        var myIcon = new BMap.Icon("http://lbsyun.baidu.com/jsdemo/img/fox.gif", new BMap.Size(300, 157));
 //        var marker = new BMap.Marker(e.point);  // 创建标注
-        addMarker(e.overlay);
-      $(".BMapLib_hander").click();
+        addMarkerData(e.overlay);
         overlays.push(e.overlay);
+        addRemoverMenu(e.overlay)
     }
-
-    // 将事件添加到标签中
-    function addMarker(marker) {
-        marker.addEventListener("mouseover", function () {//标签移动
-            var date = this;//获取当前标签
-            if (date instanceof BMap.Marker) {
+    // 将后台添加到标签
+    function initData() {
+        var pt = new BMap.Point(118.428044,31.376431);//地址
+        var marker = new BMap.Marker(pt);
+        map.addOverlay(marker);
+        addMarkerData(marker);
+    }
+    // 将事件,数据添加到标签中
+    function addMarkerData(overlay) {
+        overlay.addEventListener("mouseover", function () {//标签移动
+            var data = this;//获取当前标签
+            if (data instanceof BMap.Marker) {
                 var p = this.getPosition();
                 geoc.getLocation(p, function (rs) {//坐标转地址
                     var infoWindow = new BMap.InfoWindow(rs.address);
-                    marker.openInfoWindow(infoWindow);
+                    data.openInfoWindow(infoWindow);
                 })
             } else if (date instanceof BMap.Circle) {//该覆盖物是圆
                 alert("该覆盖物是圆，圆的半径是：" + date.getRadius() + "，圆的中心点坐标是：" + date.getCenter().lng + "," + date.getCenter().lat);
@@ -92,12 +104,15 @@
                 alert("无法获知该覆盖物类型");
             }
         });
-        marker.addEventListener("mouseout", function () {
+        overlay.addEventListener("mouseout", function () {
             this.closeInfoWindow();
         });
+    }
+    // 将右键标注删除到地图中
+    function addRemoverMenu(overlay) {
         var markerMenu = new BMap.ContextMenu(); //创建右键菜单
-        markerMenu.addItem(new BMap.MenuItem('删除', removeMarker.bind(marker)));
-        marker.addContextMenu(markerMenu);
+        markerMenu.addItem(new BMap.MenuItem('删除', removeMarker.bind(overlay)));
+        overlay.addContextMenu(markerMenu);
     }
     // 将标注删除到地图中
     function removeMarker(e, ee, marker) {

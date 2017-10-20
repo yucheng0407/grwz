@@ -10,7 +10,7 @@ var BaseListenView = Backbone.View.extend({
     modelName: '',//（必须）
     collection: '',//(models数据)
     view: '',//视图自身
-    pageDate: null,//(后台传分页值)
+    pageData: null,//(后台传分页值)
     //(绑定)事件监听
     events: {
         'click .select': 'select',//(单选)
@@ -106,11 +106,11 @@ var BaseListenView = Backbone.View.extend({
         ) {
             this.render();
         } else {
-            this.pageDate.pageNo++;
+            this.pageData.pageNo++;
             this.collection.fetch({//后台添加
                 remove: false,//(add:true（无效）用remove: false替代)
                 silent: true,//不触发add监听器防止重复调用
-                data: {map: JSON.stringify(this.pageDate)},
+                data: {map: JSON.stringify(this.pageData)},
                 success: function () {
                     baseListenView.update();//触发add监听器(全部添加完)
                 }

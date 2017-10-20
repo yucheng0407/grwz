@@ -840,7 +840,7 @@ var BMAP_DRAWING_MARKER    = "marker",     // 鼠标画点模式
         this._isOpen = !!(opts.isOpen === true);
         if (this._isOpen) {
             this._open();
-        }
+        }else  this._close();
 
         this.markerOptions    = opts.markerOptions    || {};
         this.circleOptions    = opts.circleOptions    || {};
