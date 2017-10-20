@@ -13,4 +13,8 @@ public class ArcgisMapping {
     public String arcgis() {
         return "/htgl/map/baiduMap";
     }
+    @RequestMapping("/infoWindow")
+    public String infoWindow() {
+        return "/htgl/map/infoWindow";
+    }
 }

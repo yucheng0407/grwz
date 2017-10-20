@@ -31,7 +31,7 @@ var BaseTable = BaseView.extend({
                     break;
                 }
             }
-            html += '<td style="text-align:center">' + _data + '</td>';//值
+            html += '<td title="'+_data+'" style="text-align:center">' + _data + '</td>';//值
         });
         this.el.innerHTML = html;
         this.i++;
