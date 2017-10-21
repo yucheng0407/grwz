@@ -75,7 +75,7 @@ function add() {//add
 function openMap() {
     var opt = {
         mapData: {xm:'余程'},
-        enableDrawingTool: true,
+        enableDrawingTool: false,
         callBack:f
     };
     openBaiduMap(opt)

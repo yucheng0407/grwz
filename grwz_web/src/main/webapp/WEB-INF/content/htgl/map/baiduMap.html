@@ -53,6 +53,7 @@
 
     //地图加载完(初始化)
     (function loadMap() {
+        if(!window.data)window.data={};
         var tilesloaded = function () {
             //缩放工具栏
             map.addControl(top_left_control);
@@ -72,6 +73,12 @@
                     polygonOptions: styleOptions, //多边形的样式
                     rectangleOptions: styleOptions //矩形的样式
                 });
+                // 绘图完添加标签
+                var overlaycomplete = function (e) {
+                    addMenu(e.overlay);
+                    setOverlay(e.overlay);//存放数据
+                    openInfoWindow(e.overlay, 'xg');
+                };
                 drawingManager.addEventListener('overlaycomplete', overlaycomplete);
             }
             initData();
@@ -80,35 +87,40 @@
         map.addEventListener("tilesloaded", tilesloaded);
 
     })();
-    // 绘图完添加标签
-    function overlaycomplete(e) {
-//        var pt = new BMap.Point(e.point.lng, e.point.lat);//地址
-//        var myIcon = new BMap.Icon("http://lbsyun.baidu.com/jsdemo/img/fox.gif", new BMap.Size(300, 157));
-//        var marker = new BMap.Marker(e.point);  // 创建标注
-//        addOverlayData(e.overlay);
-        addMenu(e.overlay);
-        setOverlay(e.overlay);//存放数据
-    }
     // 将后台添加标签
     function initData() {
         var mapData = window.data.mapData;
         var pt = new BMap.Point(118.428044, 31.376431);//地址
         var marker = new BMap.Marker(pt);
-        addMenu(marker);
-        setOverlay(marker, mapData);
-        map.addOverlay(marker)
-//        addOverlayData(marker);
+        if (window.data.enableDrawingTool) {
+            addMenu(marker);
+        }
+        setOverlay(marker, mapData);//绑定数据
+        map.addOverlay(marker);
+        addSelectOverlay(marker);
     }
     /**
      *  将事件,数据添加到标签中(查询弹框)
      */
-    function addOverlayData(overlay) {
-        overlay.addEventListener("mouseover", function () {//标签移动
+    function addSelectOverlay(overlay) {
+        var openWin = function () {//标签移动
             openInfoWindow(overlay, 'ck');
-        });
-        overlay.addEventListener("mouseout", function () {
-//            overlay.closeInfoWindow();
-        });
+        };
+        var closeWin = function () {
+
+            overlay.closeInfoWindow();
+        };
+        overlay.addEventListener("mouseover", openWin);
+        overlay.addEventListener("mouseout", closeWin);
+        overlay.openWin = openWin;
+        overlay.closeWin = closeWin;
+    }
+    /**
+     *  将事件,数据移除到标签中(查询弹框)
+     */
+    function removeSelectOverlay(overlay) {
+        overlay.removeEventListener("mouseover", overlay.openWin);
+        overlay.removeEventListener("mouseout", overlay.closeWin);
     }
     /**
      *  右键菜单(编辑数据)
@@ -120,35 +132,44 @@
         };
         //修改备注(修改弹框)
         var editMarker = function (e, ee, overlay) {
-            openInfoWindow(overlay, 'xg');
+            openInfoWindow(overlay, 'xg')
         };
         var markerMenu = new BMap.ContextMenu(); //创建右键菜单
         if (overlay instanceof BMap.Marker) markerMenu.addItem(new BMap.MenuItem('修改', editMarker.bind(overlay)));
         markerMenu.addItem(new BMap.MenuItem('删除', removeMarker.bind(overlay)));
         overlay.addContextMenu(markerMenu);
     }
+
     /**
      * 弹出窗口
      */
     function openInfoWindow(overlay, type) {
         var id = overlay.id;
+        overlay.type=type;
         //窗口(查询和修改)
         var addHtml = function (html) {
             var p = overlay.getPosition();
+
             geoc.getLocation(p, function (rs) {//坐标转地址
+                if (!overlay.data.dz) overlay.data.dz = rs.address;
+                if (!opts) opts = {
+                    width: 300,
+                    title: "基本信息" // 信息窗口标题
+                };
+                var infoWindow;
                 switch (type) {
                     case 'ck':
-
+                        infoWindow = new BMap.InfoWindow(html, opts);
                         break;
                     case 'xg':
                         html = html + '<button style="float: right" onclick="save(' + id + ')">确定</button>';
+                        infoWindow = new BMap.InfoWindow(html, opts);
+                        removeSelectOverlay(overlay);//关闭查询
+                        infoWindow.addEventListener('close', function () {
+                            addSelectOverlay(overlay);//开启查询
+                        });
                         break;
                 }
-                if (!opts) opts = {
-                    title: "基本信息" // 信息窗口标题
-                };
-                if(!overlay.data.dz)overlay.data.dz=rs.address;
-                var infoWindow = new BMap.InfoWindow(html, opts);
                 overlay.openInfoWindow(infoWindow);
             })
         };
@@ -164,30 +185,32 @@
             alert("无法获知该覆盖物类型");
         }
     }
+
     /**
      * 渲染弹出窗口(外部)
      */
     function render(id) {
-        opts.width = $(window.frames["overlay"].document).width();
+//        opts.width = $(window.frames["overlay"].document).width();
         $.each(getOverlay(id).data, function (key, value) {
             $(window.frames["overlay"].document).find("#" + key).val(value).attr('title', value);
         });
+        $(window.frames["overlay"].document).find("#id").val(getOverlay(id).id)
     }
+
     /**
      * 得到弹出窗口值(外部)
      */
     function save(id) {
         var data = {};
-        $(window.frames["overlay"].document).find("[name='map']").each(function ()
-
-        {
+        $(window.frames["overlay"].document).find("[name='map']").each(function () {
             data[$(this).attr('id')] = $(this).val();
         });
         var overlay = getOverlay(id);
         data.x = overlay.point.lng;
         data.y = overlay.point.lat;
         setOverlay(overlay, data);
-        window.data.callBack(data)
+        window.data.callBack(data);
+        overlay.closeInfoWindow();
     }
 
 
@@ -203,6 +226,7 @@
             }
         }
     }
+
     /**
      * 存放指定标签
      * @param e
