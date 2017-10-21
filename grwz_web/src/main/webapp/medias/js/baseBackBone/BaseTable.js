@@ -16,14 +16,17 @@ var BaseTable = BaseView.extend({
         var html = '<td style="text-align:center;" >' + ((this.pageSize * (this.index - 1) + 1) + i) + '</td>';//序号
         $.each(this.column, function (i, data) {
             var _data;
+            var title='';
             switch (data.renderer) {
                 case "date": {
                     var date = new Date(model.get(data.type));
                     _data = date.Format("yyyy-MM-dd HH:mm:ss");
+                    title=_data;
                     break;
                 }
                 case "String": {
                     _data = model.get(data.type);
+                    title=_data;
                     break;
                 }
                 default: {
@@ -31,7 +34,8 @@ var BaseTable = BaseView.extend({
                     break;
                 }
             }
-            html += '<td title="'+_data+'" style="text-align:center">' + _data + '</td>';//值
+
+            html += '<td title="'+title+'" style="text-align:center">' + _data + '</td>';//值
         });
         this.el.innerHTML = html;
         this.i++;

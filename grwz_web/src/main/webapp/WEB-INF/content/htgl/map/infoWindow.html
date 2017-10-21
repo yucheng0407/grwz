@@ -21,23 +21,35 @@
 <body>
 <table border="0" cellpadding="1" cellspacing="1">
     <tr>
+        <td>id:</td>
+        <td colspan="2"><input name="map" id="id" type="text" maxlength="50"></td>
+    </tr>
+    <tr>
         <td>名称:</td>
         <td colspan="2"><input name="map" id="xm" type="text" maxlength="50"></td>
     </tr>
     <tr>
         <td>地址:</td>
-        <td colspan="2"><input  name="map" id="dz" type="text" maxlength="50"></td>
+        <td colspan="2"><input name="map" id="dz" type="text" maxlength="50"></td>
     </tr>
     <tr>
         <td>备注:</td>
-        <td><textarea  maxlength="50"></textarea></td>
+        <td><textarea maxlength="50"></textarea></td>
     </tr>
 
 </table>
 <script type="text/javascript">
-$(function () {
-window.parent.render();
-})
+    $(function () {
+        var id = GetQueryString('id');
+        window.parent.render(id);
+    })
+
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null)return unescape(r[2]);
+        return null;
+    }
 </script>
 </body>
 </html>

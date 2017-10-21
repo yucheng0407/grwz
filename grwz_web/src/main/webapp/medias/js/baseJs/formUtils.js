@@ -1674,22 +1674,22 @@ if (top.hasLayerManager) {
     //向前关闭窗口（√）
     window.closeWin = function (index, win) {
         var tUpName = (win && win.name) ? win.name : upperestName;
-            index = index || 1;
-            var upperestPage = findWinPage(tUpName);
+        index = index || 1;
+        var upperestPage = findWinPage(tUpName);
+        while (upperestPage.type == "frame") {
+            upperestPage = findWinPage(upperestPage.parentName);
+        }
+        for (var i = 0; i < index; i++) {
+            if (findPageWin(upperestPage) && findPageWin(upperestPage).closeFunc) {
+                findPageWin(upperestPage).closeFunc();
+            }
+            top.layer.close(top.layer.getFrameIndex(upperestPage.name));
+            upperestPage = findWinPage(upperestPage.prevName);
             while (upperestPage.type == "frame") {
                 upperestPage = findWinPage(upperestPage.parentName);
             }
-            for (var i = 0; i < index; i++) {
-                if (findPageWin(upperestPage) && findPageWin(upperestPage).closeFunc) {
-                    findPageWin(upperestPage).closeFunc();
-                }
-                top.layer.close(top.layer.getFrameIndex(upperestPage.name));
-                upperestPage = findWinPage(upperestPage.prevName);
-                while (upperestPage.type == "frame") {
-                    upperestPage = findWinPage(upperestPage.parentName);
-                }
-            }
-        };
+        }
+    };
 
     //向前关闭所有窗口 （√）       待关闭页面加上全局变量notCloseTag = true，若非最上层页面，则停止关闭
     window.closeAllWin = function () {        //关闭全部窗口接口。待关闭页面加上全局变量notCloseTag = true，若非最上层页面，则停止关闭
@@ -2222,4 +2222,14 @@ function IEType() {
             return "11";
         }
     }
+}
+function openBaiduMap(opt) {
+    var callBack =
+        {
+            success: function (layero, index) {
+                var iframeWin =  top.frames[layero.find('iframe')[0]['name']];
+                iframeWin.data = opt;
+            }
+        };
+    openStack(window, "地图", "big", "/map/arcgis", null, callBack);
 }

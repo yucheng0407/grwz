@@ -25,7 +25,8 @@
 <div id="allmap" style="position: absolute"></div>
 <script type="text/javascript">
     // 百度地图API功能
-    var id = 1;//唯一标志
+    var i = 1;//唯一标志
+    var overlays = [];
     var opts;
     var map = new BMap.Map("allmap");
     var drawingManager;
@@ -44,46 +45,58 @@
         fillOpacity: 0.6,      //填充的透明度，取值范围0 - 1。
         strokeStyle: 'solid' //边线的样式，solid或dashed。
     };
-    //地图加载完
-    map.addEventListener("tilesloaded", function () {
-        //缩放工具栏
-        map.addControl(top_left_control);
-        map.addControl(top_left_navigation);
-        //实例化鼠标绘制工具
-        drawingManager = new BMapLib.DrawingManager(map, {
-            isOpen: false, //是否开启绘制模式
-            enableDrawingTool: true, //是否显示工具栏
-            drawingToolOptions: {
-                anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
-                offset: new BMap.Size(5, 5), //偏离值
-                scale: 0.9//缩放比例
-            },
-            circleOptions: styleOptions, //圆的样式
-            polylineOptions: styleOptions, //线的样式
-            polygonOptions: styleOptions, //多边形的样式
-            rectangleOptions: styleOptions //矩形的样式
-        });
-        drawingManager.addEventListener('overlaycomplete', overlaycomplete);
-        initData();
+    var _openBaiduMap = {//在window.data中
+        mapData: null,//父页面数据
+        enableDrawingTool: null,//是否展示工具栏
+        callBack: null//返回函数
+    };
 
-    });
+    //地图加载完(初始化)
+    (function loadMap() {
+        var tilesloaded = function () {
+            //缩放工具栏
+            map.addControl(top_left_control);
+            map.addControl(top_left_navigation);
+            //实例化鼠标绘制工具
+            if (window.data.enableDrawingTool) {
+                drawingManager = new BMapLib.DrawingManager(map, {
+                    isOpen: false, //是否开启绘制模式
+                    enableDrawingTool: true, //是否显示工具栏
+                    drawingToolOptions: {
+                        anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
+                        offset: new BMap.Size(5, 5), //偏离值
+                        scale: 0.9//缩放比例
+                    },
+                    circleOptions: styleOptions, //圆的样式
+                    polylineOptions: styleOptions, //线的样式
+                    polygonOptions: styleOptions, //多边形的样式
+                    rectangleOptions: styleOptions //矩形的样式
+                });
+                drawingManager.addEventListener('overlaycomplete', overlaycomplete);
+            }
+            initData();
+            map.removeEventListener("tilesloaded", tilesloaded);
+        };
+        map.addEventListener("tilesloaded", tilesloaded);
+
+    })();
     // 绘图完添加标签
     function overlaycomplete(e) {
 //        var pt = new BMap.Point(e.point.lng, e.point.lat);//地址
 //        var myIcon = new BMap.Icon("http://lbsyun.baidu.com/jsdemo/img/fox.gif", new BMap.Size(300, 157));
 //        var marker = new BMap.Marker(e.point);  // 创建标注
 //        addOverlayData(e.overlay);
-        id++;//标记标签
-        e.overlay.id = id;
-        addMenu(e.overlay)
+        addMenu(e.overlay);
+        setOverlay(e.overlay);//存放数据
     }
     // 将后台添加标签
     function initData() {
+        var mapData = window.data.mapData;
         var pt = new BMap.Point(118.428044, 31.376431);//地址
         var marker = new BMap.Marker(pt);
-        id++;//标记标签
-        marker.id = id;
-        map.addOverlay(marker);
+        addMenu(marker);
+        setOverlay(marker, mapData);
+        map.addOverlay(marker)
 //        addOverlayData(marker);
     }
     /**
@@ -118,7 +131,7 @@
      * 弹出窗口
      */
     function openInfoWindow(overlay, type) {
-        var id=overlay.id;
+        var id = overlay.id;
         //窗口(查询和修改)
         var addHtml = function (html) {
             var p = overlay.getPosition();
@@ -134,12 +147,13 @@
                 if (!opts) opts = {
                     title: "基本信息" // 信息窗口标题
                 };
+                if(!overlay.data.dz)overlay.data.dz=rs.address;
                 var infoWindow = new BMap.InfoWindow(html, opts);
                 overlay.openInfoWindow(infoWindow);
             })
         };
         if (overlay instanceof BMap.Marker) {
-            addHtml('<iframe frameborder="no" name="overlay"  src=/test/map/infoWindow?type=' + type + '></iframe>');
+            addHtml('<iframe frameborder="no" name="overlay"  src=/test/map/infoWindow?id=' + id + '&type=' + type + '></iframe>');
         } else if (overlay instanceof BMap.Circle) {//该覆盖物是圆
             alert("该覆盖物是圆，圆的半径是：" + overlay.getRadius() + "，圆的中心点坐标是：" + overlay.getCenter().lng + "," + overlay.getCenter().lat);
         } else if (overlay instanceof BMap.Polyline) {//覆盖物是折线
@@ -150,32 +164,61 @@
             alert("无法获知该覆盖物类型");
         }
     }
-    function render() {
+    /**
+     * 渲染弹出窗口(外部)
+     */
+    function render(id) {
         opts.width = $(window.frames["overlay"].document).width();
-        $.each({xm: 'yucheng', dz: '213213213213', sa: 213213212131}, function (key, value) {
+        $.each(getOverlay(id).data, function (key, value) {
             $(window.frames["overlay"].document).find("#" + key).val(value).attr('title', value);
         });
     }
+    /**
+     * 得到弹出窗口值(外部)
+     */
     function save(id) {
         var data = {};
-        $(window.frames["overlay"].document).find("[name='map']").each(function () {
+        $(window.frames["overlay"].document).find("[name='map']").each(function ()
+
+        {
             data[$(this).attr('id')] = $(this).val();
         });
-        var overlay=getOverlay(id);
-        alert(overlay.point.lng+"                                 id为"+overlay.id)
+        var overlay = getOverlay(id);
+        data.x = overlay.point.lng;
+        data.y = overlay.point.lat;
+        setOverlay(overlay, data);
+        window.data.callBack(data)
     }
+
+
     /**
      * 获取指定标签
      * @param e
      * @returns {*}
      */
     function getOverlay(e) {
-        var allOverlay = map.getOverlays();
-        for (var i = 0; i < allOverlay.length -1; i++){
-            if(allOverlay[i].id ==e){
-                return allOverlay[i];
+        for (var i = 0; i < overlays.length; i++) {
+            if (overlays[i].id == e) {
+                return overlays[i];
             }
         }
+    }
+    /**
+     * 存放指定标签
+     * @param e
+     * @returns {*}
+     */
+    function setOverlay(overlay, data) {
+
+        if (data) {
+            overlay.data = data
+        } else overlay.data = {};//存放数据
+        if (!overlay.id) {//添加
+            overlay.id = i;
+            overlays.push(overlay);//修改和添加
+            i++;//标记标签
+            return i - 1;
+        } else overlay.id;//修改
     }
 </script>
 </body>

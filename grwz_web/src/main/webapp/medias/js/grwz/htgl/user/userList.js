@@ -33,7 +33,12 @@ var column = [
         return zt;
     }
     },
-    {name: '时间', type: 'CJSJ', width: 20, renderer: "date"}]
+    {name: '时间', type: 'CJSJ', width: 20, renderer: "date"},
+    {
+        name: '地图', type: 'MAP', width: 20, renderer: function () {
+        return '<a href="javascript:void(0)" onclick="openMap()">打开地图</a>';
+    }
+    },]
     , UserModel = BaseTable.extend({
     modelName: "table",
     column: column,
@@ -55,7 +60,7 @@ function deletes() {
     $.ajax({
         type: "post",
         url: YC.handleUrl("/user/deleteUser"),
-        data: {ids:ids.substring(0,ids.length-1)},
+        data: {ids: ids.substring(0, ids.length - 1)},
         success: function (data) {
             userModel.deleteRow();
         }
@@ -66,4 +71,15 @@ function edit() {
 }
 function add() {//add
     openStack(window, "添加用户", "small", "/user/userEdit");
+}
+function openMap() {
+    var opt = {
+        mapData: {xm:'余程'},
+        enableDrawingTool: true,
+        callBack:f
+    };
+    openBaiduMap(opt)
+}
+function f(e) {
+    debugger
 }
