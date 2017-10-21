@@ -1025,7 +1025,7 @@ var BMAP_DRAWING_MARKER    = "marker",     // 鼠标画点模式
             map          = this._map,
             mask         = this._mask,
             points       = [],   //用户绘制的点
-            drawPoint    = null; //实际需要画在地图上的点
+            drawPoint    = null, //实际需要画在地图上的点
             overlay      = null,
             isBinded     = false;
 
@@ -1091,7 +1091,7 @@ var BMAP_DRAWING_MARKER    = "marker",     // 鼠标画点模式
             me.close();
 
         }
-        
+
         mask.addEventListener('mousedown', startAction);
 
         //双击时候不放大地图级别
