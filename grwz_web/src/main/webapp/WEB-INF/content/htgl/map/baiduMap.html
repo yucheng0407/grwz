@@ -53,7 +53,7 @@
 
     //地图加载完(初始化)
     (function loadMap() {
-        if(!window.data)window.data={};
+        if(!window.data)window.data={}; //加载完(初始化页面数据)
         var tilesloaded = function () {
             //缩放工具栏
             map.addControl(top_left_control);
@@ -76,8 +76,8 @@
                 // 绘图完添加标签
                 var overlaycomplete = function (e) {
                     addMenu(e.overlay);
-                    setOverlay(e.overlay);//存放数据
-                    openInfoWindow(e.overlay, 'xg');
+                    setOverlay(e.overlay);//存放标签
+                    openInfoWindow(e.overlay, 'xg');//填写数据
                 };
                 drawingManager.addEventListener('overlaycomplete', overlaycomplete);
             }
@@ -161,7 +161,7 @@
                     case 'ck':
                         infoWindow = new BMap.InfoWindow(html, opts);
                         break;
-                    case 'xg':
+                    case 'xg'://修改窗口
                         html = html + '<button style="float: right" onclick="save(' + id + ')">确定</button>';
                         infoWindow = new BMap.InfoWindow(html, opts);
                         removeSelectOverlay(overlay);//关闭查询
@@ -176,6 +176,7 @@
         if (overlay instanceof BMap.Marker) {
             addHtml('<iframe frameborder="no" name="overlay"  src=/test/map/infoWindow?id=' + id + '&type=' + type + '></iframe>');
         } else if (overlay instanceof BMap.Circle) {//该覆盖物是圆
+            debugger
             alert("该覆盖物是圆，圆的半径是：" + overlay.getRadius() + "，圆的中心点坐标是：" + overlay.getCenter().lng + "," + overlay.getCenter().lat);
         } else if (overlay instanceof BMap.Polyline) {//覆盖物是折线
             alert("该覆盖物是折线，所画点的个数是：" + overlay.getPath().length);
