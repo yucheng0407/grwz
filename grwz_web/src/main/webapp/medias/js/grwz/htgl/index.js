@@ -39,6 +39,9 @@ var MenuBackBone = BaseView.extend(
 );
 var menuBackBone = new MenuBackBone();
 menuBackBone.reDraw();
+var array=[];
+var map={};
+debugger
 var update = function (model, type) {
     var dom = menuBackBone.currentModel.find('[select]').find('span');//被选中
     switch (type) {
