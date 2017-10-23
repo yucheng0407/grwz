@@ -34,7 +34,7 @@
     var point = new BMap.Point(116.404, 39.915);
     var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
     var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
-    map.centerAndZoom("芜湖市万科城", 15);
+    map.centerAndZoom("芜湖市", 15);
     map.enableScrollWheelZoom();   //启用滚轮放大缩小，默认禁用
     map.enableContinuousZoom();    //启用地图惯性拖拽，默认禁用
     var styleOptions = {
@@ -76,11 +76,12 @@
                 // 绘图完添加标签
                 var overlaycomplete = function (e) {
                     addMenu(e.overlay);
-                    if (isJson(window.data.mapData)) {
-                        setOverlay(e.overlay,window.data.mapData);//存放标签{}对象
+                    if (e.overlay instanceof BMap.Marker) {
+                        if (isJson(window.data.mapData)) {
+                            setOverlay(e.overlay, window.data.mapData);//存放标签{}对象
+                        }
+                        else setOverlay(e.overlay);//存放标签
                     }
-                    else setOverlay(e.overlay);//存放标签
-
                     openInfoWindow(e.overlay, 'xg');//填写数据
                 };
                 drawingManager.addEventListener('overlaycomplete', overlaycomplete);
@@ -101,6 +102,7 @@
         }
         setOverlay(marker, mapData);//绑定数据
         map.addOverlay(marker);
+        map.setCenter(pt);
         addSelectOverlay(marker);
     }
     /**
@@ -139,7 +141,10 @@
             openInfoWindow(overlay, 'xg')
         };
         var markerMenu = new BMap.ContextMenu(); //创建右键菜单
-        if (overlay instanceof BMap.Marker) markerMenu.addItem(new BMap.MenuItem('修改', editMarker.bind(overlay)));
+        if (overlay instanceof BMap.Marker) {//标签
+            markerMenu.addItem(new BMap.MenuItem('修改', editMarker.bind(overlay)));
+            overlay.setTitle("鼠标右键标签打开菜单")
+        }
         markerMenu.addItem(new BMap.MenuItem('删除', removeMarker.bind(overlay)));
         overlay.addContextMenu(markerMenu);
     }
@@ -158,14 +163,15 @@
                 if (!overlay.data.dz) overlay.data.dz = rs.address;
                 if (!opts) opts = {
                     width: 300,
-                    title: "基本信息" // 信息窗口标题
                 };
                 var infoWindow;
                 switch (type) {
                     case 'ck':
+                        opts.title = "基本信息" // 信息窗口标题
                         infoWindow = new BMap.InfoWindow(html, opts);
                         break;
                     case 'xg'://修改窗口
+                        opts.title = "编辑信息" // 信息窗口标题
                         html = html + '<button style="float: right" onclick="save(' + id + ')">确定</button>';
                         infoWindow = new BMap.InfoWindow(html, opts);
                         removeSelectOverlay(overlay);//关闭查询
@@ -254,7 +260,7 @@
      * @param e
      * @returns {*}
      */
-    isJson = function(obj){
+    isJson = function (obj) {
         var isjson = typeof(obj) == "object" && Object.prototype.toString.call(obj).toLowerCase() == "[object object]" && !obj.length;
         return isjson;
     }

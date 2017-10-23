@@ -3,10 +3,10 @@
  */
 var column = [
     {name: 'ID', type: 'ID', width: 10, renderer: "String"},
-    {name: '账号', type: 'YHZH', width: 20, renderer: "String"},
-    {name: '密码', type: 'MM', width: 20, renderer: "String"},
+    {name: '账号', type: 'YHZH', width: 15, renderer: "String"},
+    {name: '密码', type: 'MM', width: 15, renderer: "String"},
     {
-        name: '状态', type: 'TYPE', width: 20, renderer: function (v) {
+        name: '状态', type: 'TYPE', width: 10, renderer: function (v) {
         var zt;
         switch (v) {
             case '0': {
@@ -35,7 +35,7 @@ var column = [
     },
     {name: '时间', type: 'CJSJ', width: 20, renderer: "date"},
     {
-        name: '地图', type: 'MAP', width: 20, renderer: function () {
+        name: '地图', type: 'MAP', width: 10, renderer: function () {
         return '<a href="javascript:void(0)" onclick="openMap()">打开地图</a>';
     }
     },]
