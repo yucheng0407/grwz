@@ -73,10 +73,16 @@ function add() {//add
     openStack(window, "添加用户", "small", "/user/userEdit");
 }
 function openMap() {
+    var list = [];
+    list.push()
+    for (var i = 0; i < 1000; i++) {
+        list.push({xm: '余程'+i, dz: '问问企鹅额', x: 118.428044, y: 31.376431+i/100})
+    }
+
     var opt = {
-        mapData: {xm:'余程',dz:'问问企鹅额'},
-        enableDrawingTool:true,
-        callBack:f
+        mapData: list,
+        enableDrawingTool: true,
+        callBack: f
     };
     openBaiduMap(opt)
 }

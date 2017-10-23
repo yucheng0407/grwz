@@ -50,58 +50,75 @@
 
     //地图加载完(初始化)
     (function loadMap() {
-        if (!window.data) window.data = {}; //加载完(初始化页面数据)
         var tilesloaded = function () {
-            //缩放工具栏
+            setTimeout(function () {
+                if (!window.data) window.data = {}; //加载完(初始化页面数据)
+                //实例化鼠标绘制工具
+                if (window.data.enableDrawingTool) {
+                    drawingManager = new BMapLib.DrawingManager(map, {
+                        isOpen: false, //是否开启绘制模式
+                        enableDrawingTool: true, //是否显示工具栏
+                        drawingToolOptions: {
+                            anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
+                            offset: new BMap.Size(5, 5), //偏离值
+                            scale: 0.9//缩放比例
+                        },
+                        circleOptions: styleOptions, //圆的样式
+                        polylineOptions: styleOptions, //线的样式
+                        polygonOptions: styleOptions, //多边形的样式
+                        rectangleOptions: styleOptions //矩形的样式
+                    });
+                    // 绘图完添加标签
+                    var overlaycomplete = function (e) {
+                        addMenu(e.overlay);
+                        if (e.overlay instanceof BMap.Marker) {//标签
+                            if (isJson(window.data.mapData)) {
+                                setOverlay(e.overlay, window.data.mapData);//保存{}数据
+                            }
+                            else setOverlay(e.overlay);//保存
+                        }
+                        openInfoWindow(e.overlay, 'xg');//填写数据
+                    };
+                    drawingManager.addEventListener('overlaycomplete', overlaycomplete);
+                }
+                if (window.data.mapData) {
+                    var data = window.data.mapData;
+                    if (isJson(data)) {//对象
+                        if (data.x && data.y) initData(data);
+                        var pt = new BMap.Point(data.x, data.y);
+                        map.setCenter(pt);
+                    }
+                    else if (data.length)//数组
+                    {
+                        $.each(data, function (i, e) {
+                            if (e.x && e.y) {
+                                initData(e);
+                                if (i == data.length - 1) {
+                                    var pt = new BMap.Point(e.x, e.y);
+                                    map.setCenter(pt);
+                                }
+                            }
+                        })
+                    }
+                }
+            }, 100);
             var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
             var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
             map.addControl(top_left_control);
             map.addControl(top_left_navigation);
-            //实例化鼠标绘制工具
-            if (window.data.enableDrawingTool) {
-                drawingManager = new BMapLib.DrawingManager(map, {
-                    isOpen: false, //是否开启绘制模式
-                    enableDrawingTool: true, //是否显示工具栏
-                    drawingToolOptions: {
-                        anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
-                        offset: new BMap.Size(5, 5), //偏离值
-                        scale: 0.9//缩放比例
-                    },
-                    circleOptions: styleOptions, //圆的样式
-                    polylineOptions: styleOptions, //线的样式
-                    polygonOptions: styleOptions, //多边形的样式
-                    rectangleOptions: styleOptions //矩形的样式
-                });
-                // 绘图完添加标签
-                var overlaycomplete = function (e) {
-                    addMenu(e.overlay);
-                    if (e.overlay instanceof BMap.Marker) {
-                        if (isJson(window.data.mapData)) {
-                            setOverlay(e.overlay, window.data.mapData);//存放标签{}对象
-                        }
-                        else setOverlay(e.overlay);//存放标签
-                    }
-                    openInfoWindow(e.overlay, 'xg');//填写数据
-                };
-                drawingManager.addEventListener('overlaycomplete', overlaycomplete);
-            }
-            initData();
             map.removeEventListener("tilesloaded", tilesloaded);
         };
         map.addEventListener("tilesloaded", tilesloaded);
-
     })();
     // 将后台添加标签
-    function initData() {
-        var mapData = window.data.mapData;
-        var pt = new BMap.Point(118.428044, 31.376431);//地址
+    function initData(mapData) {
+        var pt = new BMap.Point(mapData.x, mapData.y);
         var marker = new BMap.Marker(pt);
         if (window.data.enableDrawingTool) {
             addMenu(marker);
         }
         setOverlay(marker, mapData);//绑定数据
         map.addOverlay(marker);
-        map.setCenter(pt);
         addSelectOverlay(marker);
     }
     /**
@@ -159,28 +176,32 @@
             var p = overlay.getPosition();
 
             geoc.getLocation(p, function (rs) {//坐标转地址
-                if (!overlay.data.dz) overlay.data.dz = rs.address;
-                if (!opts) opts = {
-                    width: 300,
-                };
-                var infoWindow;
-                switch (type) {
-                    case 'ck':
-                        opts.title = "基本信息" // 信息窗口标题
-                        infoWindow = new BMap.InfoWindow(html, opts);
-                        break;
-                    case 'xg'://修改窗口
-                        opts.title = "编辑信息" // 信息窗口标题
-                        html = html + '<button style="float: right" onclick="save(' + id + ')">确定</button>';
-                        infoWindow = new BMap.InfoWindow(html, opts);
-                        removeSelectOverlay(overlay);//关闭查询
-                        infoWindow.addEventListener('close', function () {
-                            addSelectOverlay(overlay);//开启查询
-                        });
-                        break;
+                    if (!overlay.data.dz) overlay.data.dz = rs.address;
+                    if (!opts) opts = {
+                        width: 300,
+                    };
+                    var infoWindow;
+                    switch (type) {
+                        case 'ck':
+                            opts.title = "基本信息" // 信息窗口标题
+                            infoWindow = new BMap.InfoWindow(html, opts);
+                            break;
+                        case 'xg'://修改窗口
+                            opts.title = "编辑信息" // 信息窗口标题
+                            html = html + '<button style="float: right" onclick="save(' + id + ')">确定</button>';
+                            infoWindow = new BMap.InfoWindow(html, opts);
+                            overlay.closeInfoWindow();
+                            removeSelectOverlay(overlay);//关闭查询
+                            var addSelect = function () {
+                                addSelectOverlay(overlay);//开启查询
+                                infoWindow.removeEventListener('close', addSelect);
+                            };
+                            infoWindow.addEventListener('close', addSelect);
+                            break;
+                    }
+                    overlay.openInfoWindow(infoWindow);
                 }
-                overlay.openInfoWindow(infoWindow);
-            })
+            )
         };
         if (overlay instanceof BMap.Marker) {
             addHtml('<iframe frameborder="no" name="overlay"  src=/test/map/infoWindow?id=' + id + '&type=' + type + '></iframe>');
