@@ -20,13 +20,13 @@ var BaseModel = Backbone.Model.extend({
         var attrs = this.getJson();
         var json = this.initJson;
         $(".popover").hide();
-        $.each(attrs, function (key, value) {
-            if (json[key].rule == 'not null' && $.trim(value) == '') {//为空
+        for (var key in attrs) {
+            if (json[key].rule == 'not null' && $.trim(attrs[key]) == '') {//为空
                 model.tsk(key, "为空");
                 boolean = false;
                 return boolean;
             }
-        });
+        }
         return boolean;
     },
     /*****************************************************************
@@ -36,11 +36,11 @@ var BaseModel = Backbone.Model.extend({
         var model = this;
         var json = this.initJson;
         //传入参数为基础配置json
-        $.each(json, function (key, value) {
+        for (var key in json) {
             if (!model.get(key)) {
                 model.set(key, "")
             }
-        });
+        }
     },
     /*****************************************************************
      *  方法：内部方法，大写转换(defaults)
@@ -78,7 +78,7 @@ var BaseModel = Backbone.Model.extend({
             $(".popover").hide();
         });
         $("[type='button']").button('reset');
-        $(".popover").css("color","#080808");
+        $(".popover").css("color", "#080808");
     }
 
 }), BaseCollection = Backbone.Collection.extend({

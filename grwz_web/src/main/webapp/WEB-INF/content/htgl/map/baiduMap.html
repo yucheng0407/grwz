@@ -30,6 +30,7 @@
     var opts;
     var map = new BMap.Map("allmap");
     var drawingManager;
+    var windata;
     var geoc = new BMap.Geocoder();//地址解析
     map.centerAndZoom("芜湖市", 15);
     map.enableScrollWheelZoom();   //启用滚轮放大缩小，默认禁用
@@ -42,7 +43,7 @@
         fillOpacity: 0.6,      //填充的透明度，取值范围0 - 1。
         strokeStyle: 'solid' //边线的样式，solid或dashed。
     };
-    var _openBaiduMap = {//在window.data中
+    var _openBaiduMap = {//在windata中
         mapData: null,//父页面数据
         enableDrawingTool: null,//是否展示工具栏
         callBack: null//返回函数
@@ -53,8 +54,9 @@
         var tilesloaded = function () {
             setTimeout(function () {
                 if (!window.data) window.data = {}; //加载完(初始化页面数据)
+                windata = window.data;
                 //实例化鼠标绘制工具
-                if (window.data.enableDrawingTool) {
+                if (windata.enableDrawingTool) {
                     drawingManager = new BMapLib.DrawingManager(map, {
                         isOpen: false, //是否开启绘制模式
                         enableDrawingTool: true, //是否显示工具栏
@@ -72,8 +74,8 @@
                     var overlaycomplete = function (e) {
                         addMenu(e.overlay);
                         if (e.overlay instanceof BMap.Marker) {//标签
-                            if (isJson(window.data.mapData)) {
-                                setOverlay(e.overlay, window.data.mapData);//保存{}数据
+                            if (isJson(windata.mapData)) {
+                                setOverlay(e.overlay, windata.mapData);//保存{}数据
                             }
                             else setOverlay(e.overlay);//保存
                         }
@@ -81,8 +83,8 @@
                     };
                     drawingManager.addEventListener('overlaycomplete', overlaycomplete);
                 }
-                if (window.data.mapData) {
-                    var data = window.data.mapData;
+                if (windata.mapData) {
+                    var data = windata.mapData;
                     if (isJson(data)) {//对象
                         if (data.x && data.y) initData(data);
                         var pt = new BMap.Point(data.x, data.y);
@@ -90,18 +92,18 @@
                     }
                     else if (data.length)//数组
                     {
-                        $.each(data, function (i, e) {
-                            if (e.x && e.y) {
-                                initData(e);
-                                if (i == data.length - 1) {
-                                    var pt = new BMap.Point(e.x, e.y);
+                        for (var i = 0, len = data.length; i < len; i++) {
+                            if (data[i].x && data[i].y) {
+                                initData(data[i]);
+                                if (i === len - 1) {
+                                    var pt = new BMap.Point(data[i].x, data[i].y);
                                     map.setCenter(pt);
                                 }
                             }
-                        })
+                        }
                     }
                 }
-            }, 100);
+            }, 100);//100微秒
             var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
             var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
             map.addControl(top_left_control);
@@ -114,7 +116,7 @@
     function initData(mapData) {
         var pt = new BMap.Point(mapData.x, mapData.y);
         var marker = new BMap.Marker(pt);
-        if (window.data.enableDrawingTool) {
+        if (windata.enableDrawingTool) {
             addMenu(marker);
         }
         setOverlay(marker, mapData);//绑定数据
@@ -222,12 +224,13 @@
      */
     function render(id) {
 //        opts.width = $(window.frames["overlay"].document).width();
-        $.each(getOverlay(id).data, function (key, value) {
-            $(window.frames["overlay"].document).find("#" + key).val(value).attr('title', value);
-        });
+        var mapData = getOverlay(id).data;
+        for (var key in mapData) {
+            $(window.frames["overlay"].document).find("#" + key).val(mapData[key]).attr('title', mapData[key]);
+        }
+        ;
         $(window.frames["overlay"].document).find("#id").val(getOverlay(id).id)
     }
-
     /**
      * 得到弹出窗口值(外部)
      */
@@ -240,7 +243,7 @@
         data.x = overlay.point.lng;
         data.y = overlay.point.lat;
         setOverlay(overlay, data);
-        window.data.callBack(data);
+        windata.callBack(data);
         overlay.closeInfoWindow();
     }
 
