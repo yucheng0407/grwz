@@ -92,15 +92,15 @@
                     }
                     else if (data.length)//数组
                     {
-                        $.each(data, function (i, e) {
-                            if (e.x && e.y) {
-                                initData(e);
-                                if (i == data.length - 1) {
-                                    var pt = new BMap.Point(e.x, e.y);
+                        for(var i=0,len=data.length;i<len;i++){
+                            if (data[i].x && data[i].y) {
+                                initData(data[i]);
+                                if (i == len - 1) {
+                                    var pt = new BMap.Point(data[i].x, data[i].y);
                                     map.setCenter(pt);
                                 }
                             }
-                        })
+                        }
                     }
                 }
             }, 100);//100微秒
@@ -253,7 +253,7 @@
      * @returns {*}
      */
     function getOverlay(e) {
-        for (var i = 0; i < overlays.length; i++) {
+        for (var i = 0,len=overlays.length; i <len; i++) {
             if (overlays[i].id == e) {
                 return overlays[i];
             }
