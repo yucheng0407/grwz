@@ -38,7 +38,7 @@
     var windata;
     var markerClusterer;
     var geoc = new BMap.Geocoder();//地址解析
-    map.centerAndZoom("芜湖市", 15);
+    map.centerAndZoom("芜湖市", 14);
     map.enableScrollWheelZoom();   //启用滚轮放大缩小，默认禁用
     map.enableContinuousZoom();    //启用地图惯性拖拽，默认禁用
     var styleOptions = {
@@ -109,7 +109,7 @@
                         }
                     }
                 }
-                markerClusterer = new BMapLib.MarkerClusterer(map, {markers: overlays, maxZoom: 17,girdSize:10});//添加聚合
+                markerClusterer = new BMapLib.MarkerClusterer(map, {markers: overlays, maxZoom: 16, girdSize: 13});//添加聚合
             }, 150);//150微秒
             var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
             var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
@@ -159,7 +159,9 @@
     function addMenu(overlay) {
         //删除标签
         var removeMarker = function (e, ee, overlay) {
+            markerClusterer.removeMarker(overlay);//删除聚合
             map.removeOverlay(overlay);
+            removeOverlay(overlay.id);
         };
         //修改备注(修改弹框)
         var editMarker = function (e, ee, overlay) {
@@ -258,17 +260,30 @@
 
     /**
      * 获取指定标签
-     * @param e
+     * @param id
      * @returns {*}
      */
-    function getOverlay(e) {
+    function getOverlay(id) {
         for (var i = 0, len = overlays.length; i < len; i++) {
-            if (overlays[i].id == e) {
+            if (overlays[i].id == id) {
                 return overlays[i];
             }
         }
     }
-
+    /**
+     * 删除指定标签
+     * @param id
+     * @returns {*}
+     */
+    function removeOverlay(id) {
+        for (var i = 0, len = overlays.length; i < len; i++) {
+            if (overlays[i].id == id) {
+                overlays.splice(i, 1);
+                return true;
+            }
+        }
+        return false;
+    }
     /**
      * 存放指定标签
      * @param e
