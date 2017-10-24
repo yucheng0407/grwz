@@ -92,7 +92,7 @@
                     }
                     else if (data.length)//数组
                     {
-                        for(var i=0,len=data.length;i<len;i++){
+                        for (var i = 0, len = data.length; i < len; i++) {
                             if (data[i].x && data[i].y) {
                                 initData(data[i]);
                                 if (i == len - 1) {
@@ -224,7 +224,8 @@
      */
     function render(id) {
 //        opts.width = $(window.frames["overlay"].document).width();
-        $.each(getOverlay(id).data, function (key, value) {
+        var mapData = getOverlay(id).data;
+        $.each(mapData, function (key, value) {
             $(window.frames["overlay"].document).find("#" + key).val(value).attr('title', value);
         });
         $(window.frames["overlay"].document).find("#id").val(getOverlay(id).id)
@@ -253,7 +254,7 @@
      * @returns {*}
      */
     function getOverlay(e) {
-        for (var i = 0,len=overlays.length; i <len; i++) {
+        for (var i = 0, len = overlays.length; i < len; i++) {
             if (overlays[i].id == e) {
                 return overlays[i];
             }
