@@ -15,6 +15,11 @@
     <script type="text/javascript" src="/test/medias/js/baseJs/jquery-3.2.1.min.js"></script>
     <script type="text/javascript"
             src="http://api.map.baidu.com/api?v=2.0&ak=7G21AeGkO9u42Mwv4EeOiCG1Xbk5bG8A"></script>
+    <!--聚合-->
+    <script type="text/javascript"
+            src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+    <script type="text/javascript"
+            src="/test/medias/js/map/MarkerClusterer.js"></script>
     <!--加载鼠标绘制工具-->
     <script type="text/javascript"
             src="/test/medias/js/map/DrawingManager.js"></script>
@@ -31,6 +36,7 @@
     var map = new BMap.Map("allmap");
     var drawingManager;
     var windata;
+    var markerClusterer;
     var geoc = new BMap.Geocoder();//地址解析
     map.centerAndZoom("芜湖市", 15);
     map.enableScrollWheelZoom();   //启用滚轮放大缩小，默认禁用
@@ -83,7 +89,7 @@
                     };
                     drawingManager.addEventListener('overlaycomplete', overlaycomplete);
                 }
-                if (windata.mapData) {
+                if (windata.mapData) {//初始化标签
                     var data = windata.mapData;
                     if (isJson(data)) {//对象
                         if (data.x && data.y) initData(data);
@@ -103,7 +109,8 @@
                         }
                     }
                 }
-            }, 100);//100微秒
+                markerClusterer = new BMapLib.MarkerClusterer(map, {markers: overlays, maxZoom: 17,girdSize:10});//添加聚合
+            }, 150);//150微秒
             var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
             var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
             map.addControl(top_left_control);
@@ -196,6 +203,7 @@
                             removeSelectOverlay(overlay);//关闭查询
                             var addSelect = function () {
                                 addSelectOverlay(overlay);//开启查询
+                                markerClusterer.addMarker(overlay);//添加聚合
                                 infoWindow.removeEventListener('close', addSelect);
                             };
                             infoWindow.addEventListener('close', addSelect);
