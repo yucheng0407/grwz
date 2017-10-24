@@ -14,20 +14,19 @@ var BaseTable = BaseView.extend({
         this.el.id = model.cid;
         this.el.className = "select-table";
         var html = '<td style="text-align:center;" >' + ((this.pageSize * (this.index - 1) + 1) + i) + '</td>';//序号
-        for (var ii = 0, len = this.column.length; ii < len; ii++) {
-            var data = this.column[ii];
+        $.each(this.column, function (i, data) {
             var _data;
-            var title = '';
+            var title='';
             switch (data.renderer) {
                 case "date": {
                     var date = new Date(model.get(data.type));
                     _data = date.Format("yyyy-MM-dd HH:mm:ss");
-                    title = _data;
+                    title=_data;
                     break;
                 }
                 case "String": {
                     _data = model.get(data.type);
-                    title = _data;
+                    title=_data;
                     break;
                 }
                 default: {
@@ -36,9 +35,8 @@ var BaseTable = BaseView.extend({
                 }
             }
 
-            html += '<td title="' + title + '" style="text-align:center">' + _data + '</td>';//值
-        }
-        ;
+            html += '<td title="'+title+'" style="text-align:center">' + _data + '</td>';//值
+        });
         this.el.innerHTML = html;
         this.i++;
         return this;
@@ -54,8 +52,7 @@ var BaseTable = BaseView.extend({
         var _html = '';
         var self = this;
         //表头名
-        for (var ii = 0, len = this.column.length; ii < len; ii++) {
-            var data = this.column[ii];
+        $.each(this.column, function (i, data) {
             if (data.width) {
                 width += '<col style="width:' + data.width + '%">';
             }
@@ -63,12 +60,11 @@ var BaseTable = BaseView.extend({
                 width += '<col style="width:' + 50 + '%">';
             }
             html += '<th style="text-align:center;">' + data.name + '</th>';
-        }
+        });
         //数据行
-        for (var ii = 0, len = models.length; ii < len; ii++) {
-            var model=models[ii];
-            _html += self.append(ii, model).el.outerHTML;
-        }
+        $.each(models, function (i, model) {
+            _html += self.append(i, model).el.outerHTML;
+        });
         if (!models[0]) {
             _html = '<tr><td>无数据</td></tr>';
         }

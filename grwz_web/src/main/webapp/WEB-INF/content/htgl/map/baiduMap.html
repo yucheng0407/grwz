@@ -92,15 +92,15 @@
                     }
                     else if (data.length)//数组
                     {
-                        for (var i = 0, len = data.length; i < len; i++) {
-                            if (data[i].x && data[i].y) {
-                                initData(data[i]);
-                                if (i === len - 1) {
-                                    var pt = new BMap.Point(data[i].x, data[i].y);
+                        $.each(data, function (i, e) {
+                            if (e.x && e.y) {
+                                initData(e);
+                                if (i == data.length - 1) {
+                                    var pt = new BMap.Point(e.x, e.y);
                                     map.setCenter(pt);
                                 }
                             }
-                        }
+                        })
                     }
                 }
             }, 100);//100微秒
@@ -224,13 +224,12 @@
      */
     function render(id) {
 //        opts.width = $(window.frames["overlay"].document).width();
-        var mapData = getOverlay(id).data;
-        for (var key in mapData) {
-            $(window.frames["overlay"].document).find("#" + key).val(mapData[key]).attr('title', mapData[key]);
-        }
-        ;
+        $.each(getOverlay(id).data, function (key, value) {
+            $(window.frames["overlay"].document).find("#" + key).val(value).attr('title', value);
+        });
         $(window.frames["overlay"].document).find("#id").val(getOverlay(id).id)
     }
+
     /**
      * 得到弹出窗口值(外部)
      */
