@@ -11,6 +11,9 @@
             margin: 0;
             font-family: "微软雅黑";
         }
+        .anchorBL {
+            display: none;
+        }
     </style>
     <script type="text/javascript" src="/test/medias/js/baseJs/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="/test/medias/js/layer/layer.js"></script>
@@ -59,7 +62,6 @@
     //地图加载完(初始化)
     (function loadMap() {
         var tilesloaded = function () {
-            debugger
             map.removeEventListener("tilesloaded", tilesloaded);//执行一次
             var time = 0;//每50毫秒请求一次前台数据，最大5秒
             var a = window.setInterval(function () {//定时间加载前台数据
@@ -84,6 +86,7 @@
      *
      **/
     function drawMap() {
+        markerClusterer = new BMapLib.MarkerClusterer(map, {maxZoom: 16, girdSize: 13});//添加聚合
         windata = window.data;
         //实例化鼠标绘制工具
         if (windata.enableDrawingTool) {
@@ -116,9 +119,11 @@
         if (windata.mapData) {
             var data = windata.mapData;
             if (isJson(data)) {//对象
-                if (data.x && data.y) initData(data);
-                var pt = new BMap.Point(data.x, data.y);
-                map.setCenter(pt);
+                if (data.x && data.y) {
+                    initData(data);
+                    var pt = new BMap.Point(data.x, data.y);
+                    map.setCenter(pt);
+                }
             }
             else if (data.length)//数组
             {
@@ -132,7 +137,7 @@
                     }
                 }
             }
-            markerClusterer = new BMapLib.MarkerClusterer(map, {markers: overlays, maxZoom: 16, girdSize: 13});//添加聚合
+            markerClusterer.addMarkers(overlays)
         }
     };
     /**
