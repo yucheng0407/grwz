@@ -69,7 +69,7 @@
                     drawMap();
                 } else if (time === 3000) {//超过五秒没数据
                     clearInterval(a);
-                    top.layer.alert('请求超时');
+                    top.layer.alert('请求超时!');
                 }
             }, 50);
             var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
