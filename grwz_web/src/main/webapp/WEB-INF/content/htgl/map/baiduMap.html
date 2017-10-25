@@ -11,6 +11,7 @@
             margin: 0;
             font-family: "微软雅黑";
         }
+
         .anchorBL {
             display: none;
         }
@@ -38,9 +39,10 @@
     var overlays = [];
     var opts;
     var map = new BMap.Map("allmap");
-    var drawingManager;
-    var windata;
-    var markerClusterer;
+    var drawingManager;//编辑栏
+    var windata;//窗口数据
+    var markerClusterer;//聚合
+    var edit = false;
     var geoc = new BMap.Geocoder();//地址解析
     map.centerAndZoom("芜湖市", 14);
     map.enableScrollWheelZoom();   //启用滚轮放大缩小，默认禁用
@@ -112,6 +114,7 @@
                     }
                     else setOverlay(e.overlay);//保存
                 }
+                addSelectOverlay(e.overlay);
                 openInfoWindow(e.overlay, 'xg');//填写数据
             };
             drawingManager.addEventListener('overlaycomplete', overlaycomplete);
@@ -158,23 +161,13 @@
      */
     function addSelectOverlay(overlay) {
         var openWin = function () {//标签移动
-            openInfoWindow(overlay, 'ck');
+            if (!edit) openInfoWindow(overlay, 'ck');
         };
         var closeWin = function () {
-
-            overlay.closeInfoWindow();
+            if (!edit) overlay.closeInfoWindow();
         };
         overlay.addEventListener("mouseover", openWin);
         overlay.addEventListener("mouseout", closeWin);
-        overlay.openWin = openWin;
-        overlay.closeWin = closeWin;
-    }
-    /**
-     *  将事件,数据移除到标签中(查询弹框)
-     */
-    function removeSelectOverlay(overlay) {
-        overlay.removeEventListener("mouseover", overlay.openWin);
-        overlay.removeEventListener("mouseout", overlay.closeWin);
     }
     /**
      *  右键菜单(编辑数据)
@@ -225,9 +218,9 @@
                             html = html + '<button style="float: right" onclick="save(' + id + ')">确定</button>';
                             infoWindow = new BMap.InfoWindow(html, opts);
                             overlay.closeInfoWindow();
-                            removeSelectOverlay(overlay);//关闭查询
+                            edit=true;//关闭查询
                             var addSelect = function () {
-                                addSelectOverlay(overlay);//开启查询
+                                edit=false;//开启查询
                                 markerClusterer.addMarker(overlay);//添加聚合
                                 infoWindow.removeEventListener('close', addSelect);
                             };
