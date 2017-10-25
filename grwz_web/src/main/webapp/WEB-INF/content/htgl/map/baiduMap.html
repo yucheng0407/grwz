@@ -96,6 +96,7 @@
                 isOpen: false, //是否开启绘制模式
                 enableDrawingTool: true, //是否显示工具栏
                 drawingToolOptions: {
+                    drawingModes:["marker"],//只要定位
                     anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
                     offset: new BMap.Size(5, 5), //偏离值
                     scale: 0.9//缩放比例
@@ -113,8 +114,8 @@
                         setOverlay(e.overlay, windata.mapData);//绑定{}数据
                     }
                     else setOverlay(e.overlay);//保存
+                    addSelectOverlay(e.overlay);
                 }
-                addSelectOverlay(e.overlay);
                 openInfoWindow(e.overlay, 'xg');//填写数据
             };
             drawingManager.addEventListener('overlaycomplete', overlaycomplete);

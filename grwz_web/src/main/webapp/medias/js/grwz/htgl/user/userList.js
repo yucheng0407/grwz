@@ -75,7 +75,7 @@ function add() {//add
 function openMap() {
     var list = [];
     list.push()
-    for (var i = 0; i < 1000; i++) {
+    for (var i = 0; i < 10; i++) {
         list.push({xm: '余程'+i, dz: '问问企鹅额', x: 118.428044, y: 31.376431+i/100})
     }
 
