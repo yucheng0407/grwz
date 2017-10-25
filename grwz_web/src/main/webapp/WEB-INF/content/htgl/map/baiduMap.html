@@ -59,6 +59,7 @@
     //地图加载完(初始化)
     (function loadMap() {
         var tilesloaded = function () {
+            debugger
             map.removeEventListener("tilesloaded", tilesloaded);//执行一次
             var time = 0;//每50毫秒请求一次前台数据，最大5秒
             var a = window.setInterval(function () {//定时间加载前台数据
@@ -66,7 +67,7 @@
                 if (window.data) {
                     clearInterval(a);
                     drawMap();
-                } else if (time === 5000) {//超过五秒没数据
+                } else if (time === 3000) {//超过五秒没数据
                     clearInterval(a);
                     top.layer.alert('请求超时');
                 }
