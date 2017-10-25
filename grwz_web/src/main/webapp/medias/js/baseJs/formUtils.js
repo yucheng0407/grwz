@@ -2228,7 +2228,9 @@ function openBaiduMap(opt) {
         {
             success: function (layero, index) {
                 var iframeWin =  top.frames[layero.find('iframe')[0]['name']];
-                iframeWin.data = opt;
+                if (opt) {
+                    iframeWin.data = opt;
+                } else iframeWin.data = {};
             }
         };
     openStack(window, "地图", "big", "/map/arcgis", null, callBack);
