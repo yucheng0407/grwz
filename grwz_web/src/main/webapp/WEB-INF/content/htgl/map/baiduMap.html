@@ -38,7 +38,7 @@
     var i = 1;//唯一标志
     var overlays = [];
     var opts;
-    var map = new BMap.Map("allmap");
+    var map = new BMap.Map("allmap",{enableMapClick:false});
     var drawingManager;//编辑栏
     var windata;//窗口数据
     var markerClusterer;//聚合
@@ -60,7 +60,6 @@
         enableDrawingTool: null,//是否展示工具栏
         callBack: null//返回函数
     };
-
     //地图加载完(初始化)
     (function loadMap() {
         var tilesloaded = function () {
@@ -71,9 +70,9 @@
                 if (window.data) {
                     clearInterval(a);
                     drawMap();
-                } else if (time === 3000) {//超过五秒没数据
+                } else if (time === 3000) {//超过3秒没数据
                     clearInterval(a);
-                    top.layer.alert('请求超时!');
+                    top.layer.alert('请求数据超时!');
                 }
             }, 50);
             var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
@@ -108,8 +107,13 @@
             });
             // 绘图完添加标签
             var overlaycomplete = function (e) {
+                if (windata.oneOverlay) {
+                    clearOverlays();
+                    markerClusterer.clearMarkers();//清除聚合
+                }
                 addMenu(e.overlay);
                 if (e.overlay instanceof BMap.Marker) {//标签
+                    map.setCenter(e.overlay.point);
                     if (isJson(windata.mapData)) {
                         setOverlay(e.overlay, windata.mapData);//绑定{}数据
                     }
@@ -175,10 +179,12 @@
      */
     function addMenu(overlay) {
         //删除标签
+
         var removeMarker = function (e, ee, overlay) {
             markerClusterer.removeMarker(overlay);//删除聚合
             map.removeOverlay(overlay);
             removeOverlay(overlay.id);
+
         };
         //修改备注(修改弹框)
         var editMarker = function (e, ee, overlay) {
@@ -186,13 +192,12 @@
         };
         var markerMenu = new BMap.ContextMenu(); //创建右键菜单
         if (overlay instanceof BMap.Marker) {//标签
-            markerMenu.addItem(new BMap.MenuItem('修改', editMarker.bind(overlay)));
-            overlay.setTitle("鼠标右键标签打开菜单")
+            markerMenu.addItem(new BMap.MenuItem('修改', editMarker));
+            overlay.setTitle("鼠标右键打开菜单")
         }
-        markerMenu.addItem(new BMap.MenuItem('删除', removeMarker.bind(overlay)));
+        markerMenu.addItem(new BMap.MenuItem('删除', removeMarker));
         overlay.addContextMenu(markerMenu);
     }
-
     /**
      * 弹出窗口
      */
@@ -273,6 +278,10 @@
         setOverlay(overlay, data);
         windata.callBack(data);
         overlay.closeInfoWindow();
+        if (windata.oneOverlay) {
+            var index = top.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            top.layer.close(index); //再执行关闭
+        }
     }
 
 
@@ -318,6 +327,18 @@
             i++;//标记标签
             return i - 1;
         } else overlay.id;//修改
+    }
+    /**
+     * 清空标签
+     *
+     * @returns {*}
+     */
+    function clearOverlays() {
+        for (var i = 0, len = overlays.length; i < len; i++) {
+            overlays[i].closeInfoWindow();
+            map.removeOverlay(overlays[i]);
+        }
+        overlays = [];
     }
     /**
      * 判断对象
