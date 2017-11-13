@@ -20,7 +20,7 @@ public class MenuService {
 
     public Integer getMenu(Integer menuType) {
         switch (menuType) {
-            case 2: {
+            case 1: {
                 return menuDao.getMenu("0");
             }
             default:
