@@ -11,10 +11,19 @@ public class YhCdgl {
     @Id
     @SequenceGenerator(name = "SEQ_GRWZ_USER_MENU_GL", sequenceName = "SEQ_GRWZ_USER_MENU_GL", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GRWZ_USER_MENU_GL")
+    private Integer id;
     @Column(name = "USERID")
     private Integer userId;
     @Column(name = "MENUID")
     private Integer menuId;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getUserId() {
         return userId;
