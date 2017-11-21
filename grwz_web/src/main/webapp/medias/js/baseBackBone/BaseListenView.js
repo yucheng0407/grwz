@@ -14,8 +14,9 @@ var BaseListenView = Backbone.View.extend({
     //(绑定)事件监听
     events: {
         'click .select': 'select',//(单选)
-        //table行
+        //table行l
         'click .select-table': 'selectTable',//(多选)
+        'dblclick .select-table': 'dbTable',//(双击)
         //翻页
         'click a.next': 'next',
         'click li.page': 'page',//页号
@@ -39,6 +40,16 @@ var BaseListenView = Backbone.View.extend({
         }
     },
     /*****************************************************************
+     *  选中(双击)
+     *****************************************************************/
+    dbTable: function (e) {
+        var dom = $(e.currentTarget);//触发事件的当前块
+        var model = this.collection.get($(dom).attr("id"));
+        if (typeof this.doublTable === "function") {
+            this.doublTable(model);
+        }
+    },
+    /*****************************************************************
      *  选中(单选)
      *****************************************************************/
     select: function (e) {
@@ -56,7 +67,9 @@ var BaseListenView = Backbone.View.extend({
         if (view.index > 1) {
             view.index--;
             this.update();
-        } else alert("没有上一页")
+        } else top.layer.msg("没有上一页", {
+            time: 600 //0.6秒关闭（如果不配置，默认是3秒）
+        })
     },
     /*****************************************************************
      *  方法分页(下一页页数)
@@ -66,7 +79,9 @@ var BaseListenView = Backbone.View.extend({
         if (view.total > view.index * this.pageSize) {
             view.index++;
             this.update();
-        } else alert("没有下一页")
+        } else  top.layer.msg("没有下一页", {
+            time: 600 //0.6秒关闭（如果不配置，默认是3秒）
+        })
     }
     , /*****************************************************************
      *  翻页(页数)
@@ -140,7 +155,7 @@ var BaseListenView = Backbone.View.extend({
      *****************************************************************/
     initialize: function () {
         var self = this;
-        $.each(['add', 'remove', 'reset','change'], function (i, e) {//关联菜单
+        $.each(['add', 'remove', 'reset', 'change'], function (i, e) {//关联菜单
             switch (e) {
                 case 'reset'://初始化
                     self.listenTo(self.collection, "reset", self.update);

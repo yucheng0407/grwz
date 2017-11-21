@@ -25,6 +25,12 @@ var BaseView = Backbone.View.extend({
         return array;
     },
     /*****************************************************************
+     *  双击取得collection选中值
+     *****************************************************************/
+    addDoublTable: function (e) {
+        this.baseListenView.doublTable = e;
+    },
+    /*****************************************************************
      *  删除collection选中值
      **********************************/
     deleteRow: function () {
@@ -55,7 +61,7 @@ var BaseView = Backbone.View.extend({
         /**
          查询collection数据
          **/
-        var currentModel='[data-model="' + this.modelName + '"]';
+        var currentModel = '[data-model="' + this.modelName + '"]';
         this.currentModel = $(currentModel);
         var moder = this;
         var Xw = BaseCollection.extend({
@@ -81,7 +87,8 @@ var BaseView = Backbone.View.extend({
             view: this,
             pageSize: this.pageSize,
             pageData: this.pageData,
-            backModel: this.backModel
+            backModel: this.backModel,
+            doublTable: this.doublTable
         });
         //开始监听
         this.baseListenView = new GistRows();

@@ -47,6 +47,7 @@ var column = [
     backModel: top.update
 });
 var userModel = new UserModel();
+userModel.addDoublTable(open);
 userModel.reDraw();
 function reloadTable(Data) {
     userModel.compareModel(Data);
@@ -66,11 +67,14 @@ function deletes() {
         }
     });
 }
+function open(model) {
+    debugger
+}
 function edit() {
     alert(userModel.getSelect()[0].get('ID'));
 }
 function add() {//add
-    openStack(window, "添加用户", "small", "/user/userEdit");
+    openStack(window, "添加用户", "big", "/user/userEdit");
 }
 function openMap() {
     var list = [];
@@ -85,7 +89,4 @@ function openMap() {
         callBack: f
     };
     openBaiduMap(opt)
-}
-function f(e) {
-    debugger
 }

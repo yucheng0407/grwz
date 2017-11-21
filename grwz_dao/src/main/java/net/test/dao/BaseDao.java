@@ -151,7 +151,30 @@ public class BaseDao<T>  {
             return null;
         return (T) list.get(0);
     }
-
+    /**
+     * @param sql SQL语句
+     * @param params 各绑定变量键值对
+     * @return 查询结果
+     */
+    public SQLQuery createSQLQuery(String sql, Map<String, Object> params) {
+        SQLQuery sqlQuery = getSession().createSQLQuery(sql);
+        if (params != null && !params.isEmpty()) {
+            for (Map.Entry<String, Object> en : params.entrySet()) {
+                if (en.getValue() instanceof Collection) {
+                    sqlQuery.setParameterList(en.getKey(), (Collection) en.getValue());
+                } else if (en.getValue() instanceof Object[]) {
+                    sqlQuery.setParameterList(en.getKey(), (Object[]) en.getValue());
+                } else {
+                    if(en.getValue() == null){
+                        sqlQuery.setParameter(en.getKey(), "");
+                    }else{
+                        sqlQuery.setParameter(en.getKey(), en.getValue());
+                    }
+                }
+            }
+        }
+        return sqlQuery;
+    }
     public List<T> findListByHql(CharSequence queryString, Object... params) {
         Query query = getSession().createQuery(queryString.toString());
         for (int i = 0; i < params.length; ++i) {
