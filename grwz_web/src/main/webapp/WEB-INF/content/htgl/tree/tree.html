@@ -9,11 +9,11 @@
     <script type="text/javascript">
         <!--
         load({
-            module: ["/medias/js/ztree/ztree.js"], success: function () {
+            module: ["/medias/js/ztree/ztree.js", "/medias/js/ztree/ztree.excheck.js"], success: function () {
                 var setting = {
-                    async: {
+                    check: {
                         enable: true,
-                        url: getUrl
+                        chkboxType: {"Y": "ps", "N": "s"}
                     },
                     view: {
                         showLine: false
@@ -22,6 +22,9 @@
                         simpleData: {
                             enable: true
                         }
+                    },
+                    callback: {
+                        onCheck: onCheck
                     }
                 };
 
@@ -39,7 +42,7 @@
                     {id: 124, pId: 12, name: "叶子节点124"},
                     {id: 13, pId: 1, name: "父节点13 - 没有子节点", isParent: true},
                     {id: 2, pId: 0, name: "父节点2 - 折叠"},
-                    {id: 21, pId: 2, name: "父节点21 - 展开", open: true},
+                    {id: 21, pId: 2, name: "父节点21 - 展开"},
                     {id: 211, pId: 21, name: "叶子节点211"},
                     {id: 212, pId: 21, name: "叶子节点212"},
                     {id: 213, pId: 21, name: "叶子节点213"},
@@ -60,7 +63,15 @@
                 $(document).ready(function () {
                     $.fn.zTree.init($("#treeDemo"), setting, zNodes);
                 });
+                function onCheck(event, treeId, treeNode) {
+                    var treeObj = $.fn.zTree.getZTreeObj(treeId);
+                    if (treeNode.checked) {
+                        treeObj.expandNode(treeNode, true, true, true)
+                    }
+                    else treeObj.expandNode(treeNode, false, true, true)
+                }
             }
+
         });
         //-->
     </script>
