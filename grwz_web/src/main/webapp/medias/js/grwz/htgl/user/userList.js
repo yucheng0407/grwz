@@ -33,12 +33,12 @@ var column = [
         return zt;
     }
     },
-    {name: '时间', type: 'CJSJ', width: 20, renderer: "date"},
+    {name: '时间', type: 'CJSJ', width:'', renderer: "date"},
     {
         name: '地图', type: 'MAP', width: 10, renderer: function () {
         return '<a href="javascript:void(0)" onclick="openMap()">打开地图</a>';
     }
-    },]
+    }]
     , UserModel = BaseTable.extend({
     modelName: "table",
     column: column,
@@ -68,7 +68,7 @@ function deletes() {
     });
 }
 function open(model) {
-    debugger
+    openStack(window, "添加用户", "big", "/user/userEdit?id="+model.get("ID"));
 }
 function edit() {
     alert(userModel.getSelect()[0].get('ID'));

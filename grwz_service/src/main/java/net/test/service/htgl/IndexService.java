@@ -1,6 +1,6 @@
 package net.test.service.htgl;
 
-import net.test.dao.htgl.MenuDao;
+import net.test.dao.htgl.IndexDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,18 +10,18 @@ import java.util.List;
  * Created by rxnew on 2017/9/14.
  */
 @Service
-public class MenuService {
+public class IndexService {
     @Autowired
-    MenuDao menuDao;
+    IndexDao indexDao;
 
     public List getGlMenu() {
-        return menuDao.getGlMenu();
+        return indexDao.getGlMenu();
     }
 
     public Integer getMenu(Integer menuType) {
         switch (menuType) {
             case 1: {
-                return menuDao.getMenu("0");
+                return indexDao.getMenu("0");
             }
             default:
                 return null;

@@ -1,16 +1,14 @@
-package net.test.controller.htgl.userList;
+package net.test.controller.htgl.menu;
 
 import data.AjaxReturn;
 import net.test.daomain.main.User;
-import net.test.service.htgl.user.UserService;
+import net.test.service.htgl.menu.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import resolver.Model;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 
@@ -18,10 +16,10 @@ import java.util.Map;
  * Created by yucheng on 2017/8/12.
  */
 @Controller
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/menu")
+public class MenuController {
     @Autowired
-    private UserService userService;
+    private MenuService menuService;
 
     /**
      * 用户列表
@@ -30,9 +28,9 @@ public class UserController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/getUserList")
-    public AjaxReturn getUserList(@Model Object map) {
-        return new AjaxReturn().setSuccess(true).setData(userService.getUserList((Map) map));
+    @RequestMapping("/getMenuList")
+    public AjaxReturn getMenuList(@Model Object map) {
+        return new AjaxReturn().setSuccess(true).setData(menuService.getMenuList((Map) map));
     }
 
     /**
@@ -44,7 +42,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping("/saveUser")
     public AjaxReturn saveUser(@Model User user) {
-        userService.saveUser(user);
+        menuService.saveUser(user);
         return new AjaxReturn().setSuccess(true);
     }
 
@@ -57,7 +55,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping("/deleteUser")
     public AjaxReturn deleteUser(String ids) {
-        userService.deleteUser(ids);
+        menuService.deleteUser(ids);
         return new AjaxReturn().setSuccess(true);
     }
 

@@ -42,7 +42,7 @@ public class User {
     /**
      *用户名称
      */
-    @Column(name = "YHMC")
+    @Column(name = "MC")
     private String yhmc;
 
     /**

@@ -54,10 +54,10 @@ var BaseTable = BaseView.extend({
         //表头名
         $.each(this.column, function (i, data) {
             if (data.width) {
-                width += '<col style="width:' + data.width + '%">';
+                width += '<col style="width:' + data.width + '%"/>';
             }
             else {
-                width += '<col style="width:' + 50 + '%">';
+                width += '<col/>';
             }
             html += '<th style="text-align:center;">' + data.name + '</th>';
         });

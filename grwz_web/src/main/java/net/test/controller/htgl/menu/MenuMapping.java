@@ -1,4 +1,4 @@
-package net.test.controller.htgl.userList;
+package net.test.controller.htgl.menu;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Created by yucheng on 2017/8/12.
  */
 @Controller
-@RequestMapping("/user")
-public class UserMapping {
-    @RequestMapping("/userList")
+@RequestMapping("/menu")
+public class MenuMapping {
+    @RequestMapping("/menuList")
     public String userList() {
-        return "/htgl/user/userList";
+        return "/htgl/menu/menuList";
     }
-    @RequestMapping("/userEdit")
+    @RequestMapping("/menuEdit")
     public String userEdit() {
-        return "/htgl/user/userEdit";
+        return "/htgl/menu/menuEdit";
     }
 }

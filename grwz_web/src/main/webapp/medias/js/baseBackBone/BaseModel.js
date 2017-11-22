@@ -20,8 +20,8 @@ var BaseModel = Backbone.Model.extend({
         var attrs = this.getJson();
         var json = this.initJson;
         $(".popover").hide();
-        $.each(attrs, function (key, value) {
-            if (json[key].rule == 'not null' && $.trim(value) == '') {//为空
+        $.each(json, function (key, value) {
+            if (value.rule == 'not null' && $.trim(attrs[key]) === '') {//为空
                 model.tsk(key, "为空");
                 boolean = false;
                 return boolean;
@@ -35,11 +35,23 @@ var BaseModel = Backbone.Model.extend({
     initPropertys: function () {
         var model = this;
         var json = this.initJson;
+        var modelName=this.modelName
         //传入参数为基础配置json
         $.each(json, function (key, value) {
+            var data;
             if (!model.get(key)) {
                 model.set(key, "")
-            }
+                data = '';
+            } else  data = model.get(key);
+
+            // Tooltip.prototype.fixTitle = function () {
+            //     var $e = this.$element
+            //     if ($e.attr('title') || typeof $e.attr('data-original-title') != 'string') {
+            //         $e.attr('data-original-title', $e.attr('title') || '').attr('title', '')
+            //     }
+            // }
+            $("*[data-model=" + modelName + "][data-property=" + key + "]").val(data);
+
         });
     },
     /*****************************************************************
@@ -72,13 +84,14 @@ var BaseModel = Backbone.Model.extend({
         $("[data-model=" + model + "][data-property=" + key + "]")
             .attr("data-content", "该项不能" + str)
             .attr("data-placement", "bottom")
+            .attr("data-title", "")
             .attr("data-trigger", "manual")
             .focus().popover("show")
             .unbind('blur').blur(function () {
             $(".popover").hide();
         });
         $("[type='button']").button('reset');
-        $(".popover").css("color","#080808");
+        $(".popover").css("color", "#080808");
     }
 
 }), BaseCollection = Backbone.Collection.extend({
