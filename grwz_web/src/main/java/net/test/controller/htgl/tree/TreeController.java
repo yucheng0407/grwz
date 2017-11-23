@@ -2,10 +2,13 @@ package net.test.controller.htgl.tree;
 
 import data.AjaxReturn;
 import net.test.service.htgl.IndexService;
+import net.test.service.htgl.tree.TreeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * Created by yucheng on 2017/8/12.
@@ -13,16 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/tree")
 public class TreeController {
-//    @Autowired
-//    IndexService indexService;
-//    @ResponseBody
-//    @RequestMapping("/getGlMenu")
-//    public AjaxReturn getGlMenu()  {
-//        return new AjaxReturn().setSuccess(true).setData(indexService.getGlMenu());
-//    }
-//    @ResponseBody
-//    @RequestMapping("/getMenu")
-//    public AjaxReturn getMenu(Integer menuType)  {
-//        return new AjaxReturn().setSuccess(true).setData(indexService.getMenu(menuType));
-//    }
+    @Autowired
+    TreeService treeService;
+    @ResponseBody
+    @RequestMapping("/getMenu")
+    public List getMenu(Integer id)  {
+        return treeService.getMenu(id);
+    }
 }
