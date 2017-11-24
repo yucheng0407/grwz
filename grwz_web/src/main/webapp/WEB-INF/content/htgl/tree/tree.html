@@ -9,14 +9,14 @@
     <script type="text/javascript">
         <!--
         load({
-            module: ["/medias/js/ztree/ztree.js", "/medias/js/ztree/ztree.excheck.js", "/medias/js/ztree/ztree.exedit.js"], success: function () {
+            module: ["/medias/js/ztree/ztree.js", "/medias/js/ztree/ztree.excheck.js", "/medias/js/ztree/ztree.exedit.js"],
+            success: function () {
                 var setting = {
                     async: {
                         enable: true,
-                        url:YC.handleUrl("/tree/getMenu"),
-                        autoParam:["id"],
-                        otherParam:{"otherParam":"zTreeAsyncTest"},
-                        dataFilter: filter
+                        url: YC.handleUrl("/tree/getMenu"),
+                        autoParam: ["id"],
+                        otherParam: {"otherParam": "zTreeAsyncTest"}
                     },
                     edit: {
                         enable: true,
@@ -39,7 +39,7 @@
                         }
                     },
                     callback: {
-                        onCheck: onCheck
+                        beforeCheck: beforeCheck
                     }
                 };
 
@@ -60,6 +60,21 @@
                     }
                     else treeObj.expandNode(treeNode, false, true, true)
                 }
+
+                /**
+                 * 勾选之前
+                 * @param event
+                 * @param treeId  树对象
+                 * @param treeNode 树节点
+                 */
+                function beforeCheck(treeId, treeNode) {
+                    var treeObj = $.fn.zTree.getZTreeObj(treeId);
+                        if (!treeNode.checked) {
+                            expandAllNodes(treeId,treeNode);
+                        }
+                        else treeObj.expandNode(treeNode, false, true, true);//折叠
+                }
+
                 /**
                  * 展示
                  * @param event
@@ -69,15 +84,43 @@
                 function showRemoveBtn(treeId, treeNode) {
                     return !treeNode.isFirstNode;
                 }
+
                 function showRenameBtn(treeId, treeNode) {
                     return !treeNode.isFirstNode;
                 }
+
                 function filter(treeId, parentNode, childNodes) {
                     if (!childNodes) return null;
-                    for (var i=0, l=childNodes.length; i<l; i++) {
+                    for (var i = 0, l = childNodes.length; i < l; i++) {
                         childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
+                        childNodes[i].icon = YC.handleUrl("/medias/css/zTreeStyle/img/diy/3.png");
                     }
                     return childNodes;
+                }
+                /**
+                 * 全部展示
+                 * @param event
+                 * @param treeId  树对象
+                 * @param treeNode 树节点
+                 */
+                function expandAllNodes(treeId,node) {
+                    if (!node) return;
+                    var treeObj = $.fn.zTree.getZTreeObj(treeId);
+                    if (node.isParent) {
+                        if(!node.zAsync){
+                        treeObj.reAsyncChildNodes(node, "refresh", false, function () {//异步
+                            treeObj.checkNode(node, true, true);
+                            for (var i=0, l= node.children.length; i<l; i++) {
+                                expandAllNodes(treeId,node.children[i]);
+                            }
+                        });
+                        }else {
+                            treeObj.expandNode(node, true, false, true)//展开一级
+                            for (var i=0, l= node.children.length; i<l; i++) {
+                                expandAllNodes(treeId,node.children[i]);
+                            }
+                        }
+                    }
                 }
             }
 
