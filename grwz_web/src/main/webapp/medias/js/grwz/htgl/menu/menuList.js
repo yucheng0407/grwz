@@ -35,7 +35,9 @@ function deletes() {
     });
 }
 function open(model) {
-    openStack(window, "添加角色", "big", "/tree/openTree");
+    openStack(window, "添加角色", "big", "/tree/openTree",{a:2},{success:function (win) {
+
+    }});
 }
 function edit() {
     alert(menuModel.getSelect()[0].get('ID'));

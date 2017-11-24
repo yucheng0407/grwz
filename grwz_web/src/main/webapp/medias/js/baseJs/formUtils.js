@@ -1792,18 +1792,13 @@ if (top.hasLayerManager) {
             title: title,
             area: area,
             maxmin: true,
-            parentWin: win,
-            param: param,
             content: YC.handleUrl(url),
             success: function (layero, index) {
-                iframeWin = window[layero.find('iframe')[0]['name']];
-                iframeWinName = iframeWin && iframeWin.name;
-                top.pushStackWin(iframeWin, win);
-                if (win.successCallback) {
-                    win.successCallback();
-                }
+                var iframeWin =  top.frames[layero.find('iframe')[0]['name']];
+                iframeWin.data=param;
+                iframeWin.parentWin=win;
                 if (callBacks && typeof(callBacks.success) == "function") {
-                    callBacks.success(layero, index);
+                    callBacks.success(iframeWin);
                 }
             },
             end: function () {
