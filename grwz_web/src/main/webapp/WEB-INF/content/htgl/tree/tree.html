@@ -17,7 +17,7 @@
                             enable: true,
                             url: YC.handleUrl("/tree/getMenu"),
                             autoParam: ["id"],
-                            otherParam: {"otherParam": "zTreeAsyncTest"}
+                            otherParam: null
                         },
                         edit: {
                             enable: true,
@@ -46,10 +46,10 @@
                     $.ajax({
                         type: "post",
                         url: YC.handleUrl("/tree/getMenu"),
-                        data: {id:''},
+                        data: null,
                         success: function (data) {
                             var zTreeObj= $.fn.zTree.init($("#treeDemo"), setting,data);
-                            var node=zTreeObj.getNodeByParam("id", 0);
+                            var node=zTreeObj.getNodeByParam("id", 1);
                             expandNodes('treeDemo',node);
 
                         }

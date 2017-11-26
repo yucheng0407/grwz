@@ -19,7 +19,7 @@ public class LoginDao extends BaseDao {
     }
 
     public  List<Menu> getMenu(Integer userId) {
-        StringBuffer hql = new StringBuffer("from Menu where zt=1 and type<>3 and sjMenu=0 and id in" +
+        StringBuffer hql = new StringBuffer("from Menu where zt=1 and type<>3 and sjMenu=1 and id in" +
                 "(select l.menuId from User r,YhCdgl l where r.id=l.userId and r.id=?) order by pl");
         return  super.findListByHql(hql,userId);
     }

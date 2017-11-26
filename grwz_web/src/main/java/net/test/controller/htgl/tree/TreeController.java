@@ -1,13 +1,11 @@
 package net.test.controller.htgl.tree;
 
-import data.AjaxReturn;
-import net.test.service.htgl.IndexService;
+
 import net.test.service.htgl.tree.TreeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.util.List;
 
 /**
@@ -20,7 +18,7 @@ public class TreeController {
     TreeService treeService;
     @ResponseBody
     @RequestMapping("/getMenu")
-    public List getMenu(Integer id)  {
-        return treeService.getMenu(id);
+    public List getMenu(Integer id,Integer jsId)  {
+        return treeService.getMenu(id,jsId);
     }
 }
