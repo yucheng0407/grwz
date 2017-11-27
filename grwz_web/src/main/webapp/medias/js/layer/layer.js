@@ -34,9 +34,7 @@
             if (typeof fn === 'string') cssname = fn;
             var app = (cssname || href).replace(/\.|\//g, '');
             var id = 'layuicss-' + app, timeout = 0;
-
             link.rel = 'stylesheet';
-            debugger
             link.href = layer.path + href;
             link.id = id;
 

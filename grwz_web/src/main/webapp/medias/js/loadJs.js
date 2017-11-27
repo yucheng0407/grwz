@@ -1,7 +1,7 @@
 /*
  * Created by yucheng on 2017/8/13.
  */
-var YC={};
+var YC = {};
 var contentType = '/test'
 var option = {//初始
     module: null,//自定义js
@@ -15,7 +15,9 @@ var option = {//初始
     require(['BaseModel'], function () {
         //添加项目名
         for (var i in option.module) {
-            if(option.module[i].indexOf("/")==0){option.module[i]=contentType+option.module[i]}
+            if (option.module[i].indexOf("/") == 0) {
+                option.module[i] = contentType + option.module[i]
+            }
         }
         if (option.async == true) {
             require(option.module, function () {
@@ -27,21 +29,26 @@ var option = {//初始
     });
 };
 require.config({//js
-    baseUrl: contentType+"/medias/js/",
-    urlArgs:'v='+(new Date()).getTime(),//清楚缓存
+    baseUrl: contentType + "/medias/js/",
+    urlArgs: 'v=' + (new Date()).getTime(),//清楚缓存
     map: {
         '*': {
-            "css":"baseJs/css.min"//导入css插件
+            "css": "baseJs/css.min"//导入css插件
         }
     },
     paths: {
+        //自定义
+        "ztree.core": "ztree/ztree",
+        "ztree.excheck": "ztree/ztree.excheck",
+        "ztree": "ztree/ztree.exedit",
+        //
         "whichButtonJs": "utilJs/whichButtonJs",
         "BaseModel": "baseBackBone/BaseModel",
         "BaseView": "baseBackBone/BaseView",
         "BaseLayer": "layer/BaseLayer",
-        "Layer":"layer/layer",
+        "Layer": "layer/layer",
         "BaseListenView": "baseBackBone/BaseListenView",
-        "BaseTable":"baseBackBone/BaseTable",
+        "BaseTable": "baseBackBone/BaseTable",
         "TweenLite": "baseJs/TweenLite.min",
         "EasePack": "baseJs/EasePack.min",
         "demo-2": "baseJs/demo-2",
@@ -66,27 +73,36 @@ require.config({//js
         "underscore": {
             exports: "_"
         },
+        "Layer": {
+            deps: ["jQuery", "css!"+contentType+"/medias/js/layer/skin/layer.css"]
+        },
+        //添加
         "backbone": {
-            deps: ["underscore", "jQuery", "bootstrap", "whichButtonJs","formUtils","Layer"],
+            deps: ["underscore", "bootstrap", "whichButtonJs", "formUtils", "Layer"],
             exports: "Backbone"
         },
-        "BaseListenView": {
-            deps: ["backbone","BaseModel"]
-        },
-        "Layer":{
-            deps: ["jQuery","css!/test/medias/js/layer/skin/layer.css"]
-        },
-        "BaseLayer": {
+        "BaseModel": {
             deps: ["backbone"]
+        },
+
+        "BaseListenView": {
+            deps: ["BaseModel"]
         },
         "BaseView": {
             deps: ["BaseListenView"]
         },
-        "BaseTable":{
-            deps: ["backbone","BaseView"]
+        "BaseTable": {
+            deps: ["BaseView"]
         },
-        "BaseModel": {
-            deps: ["backbone","BaseLayer"]
+        //自定义
+        "ztree.core": {
+            deps: ["css!"+contentType+"/medias/css/zTreeStyle/zTreeStyle.css"]
+        },
+        "ztree.excheck":{
+            deps: ["ztree.core"]
+        },
+        "ztree":{
+            deps: ["ztree.core","ztree.excheck"]
         }
     }
 });
@@ -101,7 +117,7 @@ function tbload() {//同步加载
         tbload();
     })
 }
-YC.handleUrl=function (url) {
-   return contentType+url;
+YC.handleUrl = function (url) {
+    return contentType + url;
 };
 

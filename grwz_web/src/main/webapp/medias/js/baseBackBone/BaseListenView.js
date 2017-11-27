@@ -31,11 +31,11 @@ var BaseListenView = Backbone.View.extend({
      *****************************************************************/
     selectTable: function (e) {
         var dom = $(e.currentTarget);//触发事件的当前块
-        if (dom.attr("style")) {//已选中
-            dom.removeAttr("style select");
+        if (dom.attr("select")) {//已选中
+            dom.removeClass("active").removeAttr("select");
         }
         else {
-            dom.css({"background-color": "#428bca"}).attr("select", true);//未被选中
+            dom.addClass("active").attr("select", true);//未被选中
 
         }
     },

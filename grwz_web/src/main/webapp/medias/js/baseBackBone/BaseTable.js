@@ -73,7 +73,7 @@ var BaseTable = BaseView.extend({
         }//序号宽度
         //拼接
         // contenteditable="true"
-        html = ['<table class="table table-striped " ><colgroup>', width, '</colgroup><thead><tr>'
+        html = ['<table class="table table-striped table-hover " ><colgroup>', width, '</colgroup><thead><tr>'
             , html, '</tr></thead><tbody>', _html, '</tbody></table>', this.page()].join('');
         return html;
     },
