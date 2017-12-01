@@ -21,4 +21,25 @@ public class Common {
 //            }
 //        }
     }
+
+    /**
+     * 实体复制
+     */
+    private void copyEntity(Object entity, Object entity1) {
+        try {
+            PropertyUtilsBean propertyUtilsBean = new PropertyUtilsBean();//遍历实体
+            PropertyDescriptor[] descriptors = propertyUtilsBean.getPropertyDescriptors(entity);
+            for (int i = 0, len = descriptors.length; i < len; i++) {
+                String name = descriptors[i].getName();
+                if (!"class".equals(name)) {
+                    Object object = propertyUtilsBean.getNestedProperty(entity, name);
+                    if (object==null) continue;
+                    BeanUtils.setProperty(entity1, name, object);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }
