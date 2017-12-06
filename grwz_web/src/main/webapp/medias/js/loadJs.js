@@ -97,7 +97,7 @@ require.config({//js
         },
         //自定义
         "ztree.core": {
-            deps: ["css!"+contentType+"/medias/css/zTreeStyle/zTreeStyle.css"]
+            deps: ["css!"+contentType+"/medias/css/metroStyle/metroStyle.css"]
         },
         "ztree.excheck":{
             deps: ["ztree.core"]

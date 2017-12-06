@@ -6,17 +6,87 @@
     <link href="/test/medias/css/bootstrap.min.css" rel="stylesheet">
     <script type="text/javascript" src="/test/medias/js/require.js"></script>
     <script type="text/javascript" src="/test/medias/js/loadJs.js"></script>
+    <style type="text/css">
+        html,
+        body ,
+        .container-fluid,
+        .row{
+            height: 100%;
+            overflow: hidden;
+            background: none;
+        }
+    </style>
 </head>
 <body>
-<div class="table-responsive">
-    <button class="btn btn-success btn-small" type="button" onclick="add()">添加</button>
-    <button class="btn btn-small btn-warning" type="button" onclick="edit()">修改</button>
-    <button class="btn btn-danger btn-small" type="button" onclick="deletes()">删除</button>
-    <hr class="featurette-divider" style="margin:15px;">
-    <div data-model="table"></div>
+<div class="container-fluid">
+    <div class="row" >
+        <div class="col-sm-2" style="height: 100%">
+            <ul id="treeDemo" class="ztree"></ul>
+        </div>
+        <div class="col-sm-10" style="height: 100%">
+            <div id="treeFrame" style="height: 100%">
+                <iframe name="menu" src="/test/user/userList" frameborder="no"  style="width: 100%;height: 100%;overflow-y: hidden"></iframe>
+                <!--<table style="line-height: 3;" border="0" cellspacing="0" cellpadding="0">-->
+                    <!--<tr>-->
+                        <!--<th>账号:</th>-->
+                        <!--<td>-->
+                            <!--<div>-->
+                                <!--<input data-model="dl" data-property="yhzh" type="text" class="form-control" placeholder="账号">-->
+                            <!--</div>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<th>昵称:</th>-->
+                        <!--<td>-->
+                            <!--<div>-->
+                                <!--<input data-model="dl" data-property="yhmc" type="text" class="form-control" placeholder="昵称">-->
+                            <!--</div>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<th>密码:</th>-->
+                        <!--<td>-->
+                            <!--<div>-->
+                                <!--<input data-model="dl" data-property="mm" type="text" class="form-control" placeholder="密码">-->
+                            <!--</div>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<th>确认密码:</th>-->
+                        <!--<td>-->
+                            <!--<div>-->
+                                <!--<input  data-model="dl"  data-property="mm" type="text" class="form-control" placeholder="确认密码">-->
+                            <!--</div>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<th>等级:</th>-->
+                        <!--<td>-->
+                            <!--<div>-->
+                                <!--<select data-model="dl" data-property="type" class="form-control">-->
+                                    <!--<option value="">请选择</option>-->
+                                    <!--<option value="0">未激活</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                <!--</table>-->
+            </div>
+        </div>
+    </div>
 </div>
 <script>
-    load({module: ["BaseTable","/medias/js/grwz/htgl/menu/menuList.js"]});
+    load({
+        module: ["tree","/medias/js/grwz/htgl/menu/menuEdit"],
+        success: function () {
+            $("#treeFrame").height($("body").height());
+            $(window).resize(function () {
+                $("#treeFrame").height($("body").height());
+            })
+        }
+
+    });
 </script>
 </body>
 </html>

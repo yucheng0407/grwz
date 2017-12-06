@@ -3,121 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="/test/medias/css/bootstrap.min.css" rel="stylesheet">
     <script type="text/javascript" src="/test/medias/js/require.js"></script>
     <script type="text/javascript" src="/test/medias/js/loadJs.js"></script>
-    <script type="text/javascript">
-        <!--
-        load({
-            module: ["ztree"],
-            success: function () {
-                $(function () {//初始化
-                    var setting = {
-                        async: {
-                            enable: true,
-                            url: YC.handleUrl("/tree/getMenu"),
-                            autoParam: ["id"],
-                            otherParam: null
-                        },
-                        edit: {
-                            enable: true,
-                            editNameSelectAll: true,
-                            removeTitle: "删除节点",
-                            renameTitle: "编辑节点名称",
-                            showRemoveBtn: true,
-                            showRenameBtn: true
-                        },
-                        check: {
-                            enable: true,
-                            chkboxType: {"Y": "ps", "N": "ps"}
-                        },
-                        view: {
-                            showLine: false
-                        },
-                        data: {
-                            simpleData: {
-                                enable: true
-                            }
-                        },
-                        callback: {
-                            onCheck: onCheck
-                        }
-                    };
-                    $.ajax({
-                        type: "post",
-                        url: YC.handleUrl("/tree/getMenu"),
-                        data: null,
-                        success: function (data) {
-                            var zTreeObj= $.fn.zTree.init($("#treeDemo"), setting,data);
-                            var node=zTreeObj.getNodeByParam("id", 1);
-                            expandNodes('treeDemo',node);
-
-                        }
-                    });
-
-                });
-                /**
-                 * 勾选之后
-                 * @param event
-                 * @param treeId  树对象
-                 * @param treeNode 树节点
-                 */
-                function onCheck(event,treeId, treeNode) {
-                    var treeObj = $.fn.zTree.getZTreeObj(treeId);
-                        if (treeNode.checked) {
-                            expandNodes(treeId,treeNode,true);//展开
-                        }
-                        else treeObj.expandNode(treeNode, false, true, true);//折叠
-                }
-
-                /**
-                 * 展示
-                 * @param event
-                 * @param treeId  树对象
-                 * @param treeNode 树节点
-                 */
-                function showRemoveBtn(treeId, treeNode) {
-                    return !treeNode.isFirstNode;
-                }
-
-                function showRenameBtn(treeId, treeNode) {
-                    return !treeNode.isFirstNode;
-                }
-                /**
-                 * 全部展示和局部展示
-                 * @param event
-                 * @param treeId  树对象
-                 * @param treeNode 树节点
-                 */
-                function expandNodes(treeId,node,all) {
-                    if (!node) return;
-                    var treeObj = $.fn.zTree.getZTreeObj(treeId);
-                    if (node.isParent&&node.checked) {
-                        if(!node.zAsync){
-                        treeObj.reAsyncChildNodes(node, "refresh", false, function () {//异步
-                            if(all) treeObj.checkNode(node, true, true);
-                            for (var i=0, l= node.children.length; i<l; i++) {
-                                expandNodes(treeId,node.children[i],all);
-                            }
-                        });
-                        }else {
-                            treeObj.expandNode(node, true, false, true)//展开一级
-                            for (var i=0, l= node.children.length; i<l; i++) {
-                                expandNodes(treeId,node.children[i],all);
-                            }
-                        }
-                    }
-                }
-            }
-
-        });
-        //-->
-    </script>
+    <style type="text/css">
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+            background: none;
+        }
+    </style>
 </head>
 <body>
-<div class="content_wrap">
-    <div class="zTreeDemoBackground left">
-        <ul id="treeDemo" class="ztree"></ul>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <ul id="treeDemo" class="ztree"></ul>
+        </div>
+        <div class="col-sm-8">
+            <div id="treeFrame">
+                <iframe name="" src="" frameborder="no" style="width: 100%;height: 100%;overflow-y: hidden"></iframe>
+            </div>
+        </div>
     </div>
 </div>
+<script>
+    load({
+        module: ["tree"],
+        success: function () {
+
+            $("#treeFrame").height($("body").height());
+            $(window).resize(function () {
+                $("#treeFrame").height($("body").height());
+            })
+        }
+
+    });
+</script>
 </body>
 </html>

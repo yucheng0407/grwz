@@ -30,7 +30,8 @@ $(function () {//初始化
             }
         },
         callback: {
-            onCheck: onCheck
+            onCheck: onCheck,
+            onClick: onClick
         }
     };
     $.ajax({
@@ -58,6 +59,15 @@ function onCheck(event, treeId, treeNode) {
         expandNodes(treeId, treeNode, true);//展开
     }
     else treeObj.expandNode(treeNode, false, true, true);//折叠
+}
+/**
+ * 单击之后
+ * @param event
+ * @param treeId  树对象
+ * @param treeNode 树节点
+ */
+function onClick(event, treeId, treeNode) {
+window.frames[0].location.href=YC.handleUrl("/user/userList")
 }
 
 /**

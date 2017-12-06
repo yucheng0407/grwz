@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta charset="UTF-8">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <!--&lt;!&ndash; 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ &ndash;&gt;-->
+    <!--<meta name="description" content="">-->
+    <!--<meta name="author" content="">-->
     <title>后台管理</title>
     <!-- Bootstrap core CSS -->
     <link href="/test/medias/css/carousel.css" rel="stylesheet">
@@ -14,38 +14,27 @@
     <link href="/test/medias/css/dashboard.css" rel="stylesheet">
     <script type="text/javascript" src="/test/medias/js/require.js"></script>
     <script type="text/javascript" src="/test/medias/js/loadJs.js"></script>
+    <style type="text/css">
+        html,
+        body,
+        .container-fluid {
+            height: 100%;
+            overflow: hidden;
+            background: none;
+        }
+    </style>
 </head>
-<body style="overflow-y: hidden">
+<body>
 <!--菜单.js-->
-<div class="navbar-wrapper" style="position: relative">
-    <div class="container"  ><nav class="navbar navbar-inverse navbar-static-top">
-    </nav></div>
-</div>
-<div >
+<!--<div class="navbar-wrapper" style="position: relative">-->
+<!--<div class="container"  ><nav class="navbar navbar-inverse navbar-static-top">-->
+<!--</nav></div>-->
+<!--</div>-->
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar" data-model="menu">
-            <!--<ul class="nav nav-sidebar">-->
-                <!--<li class="active"><a href="javascript:void(0)">Overview <span class="sr-only">(current)</span></a></li>-->
-                <!--<li><a href="#">Reports</a></li>-->
-                <!--<li><a href="#">Analytics</a></li>-->
-                <!--<li><a href="#">Export</a></li>-->
-            <!--</ul>-->
-        </div>
-        <div id="list" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <iframe name="menu" src="" frameborder="no"  style="width: 100%;height: 100%;overflow-y: hidden"></iframe>
-        </div>
-    </div>
-</div>
+
 </div>
 <script>
-    load({module: ["/medias/js/grwz/header.js","BaseView","/medias/js/grwz/htgl/index.js"],success:function () {
-//初始化尺寸
-        $("#list").height($(".sidebar").height()-$(".navbar-wrapper").height()-10);
-        $(window).resize(function () {
-            $("#list").height($(".sidebar").height()-$(".navbar-wrapper").height()-10);
-        })
-    }});
+    load({module: ["/medias/js/grwz/header.js", "BaseView", "/medias/js/grwz/htgl/index.js"]});
 </script>
 </body>
 </html>

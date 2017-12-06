@@ -35,7 +35,7 @@ function deletes() {
     });
 }
 function open(model) {
-    openStack(window, "添加角色", "big", "/tree/openTree",{a:2},{success:function (win) {
+    openStack(window, "添加角色", "big", "/menu/menuEdit",{a:2},{success:function (win) {
 
     }});
 }
