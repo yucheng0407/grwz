@@ -40,7 +40,8 @@ require.config({//js
         //自定义
         "ztree.core": "ztree/ztree",
         "ztree.excheck": "ztree/ztree.excheck",
-        "ztree": "ztree/ztree.exedit",
+        "ztree.exedit": "ztree/ztree.exedit",
+        "tree":"baseJs/tree",
         //
         "whichButtonJs": "utilJs/whichButtonJs",
         "BaseModel": "baseBackBone/BaseModel",
@@ -101,8 +102,11 @@ require.config({//js
         "ztree.excheck":{
             deps: ["ztree.core"]
         },
-        "ztree":{
-            deps: ["ztree.core","ztree.excheck"]
+        "ztree.exedit":{
+            deps: ["ztree.core"]
+        },
+        "tree":{
+            deps: ["ztree.excheck","ztree.exedit"]
         }
     }
 });
