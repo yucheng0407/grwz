@@ -20,6 +20,8 @@
 <body>
 <div class="container-fluid">
     <div class="row">
+        <button class="btn btn-small btn-warning" type="button" onclick="edit()">修改</button>
+        <hr class="featurette-divider" style="margin:15px;">
         <table class="form">
             <colgroup>
                 <col width="15%"/>
@@ -31,8 +33,7 @@
                 <th>名称</th>
                 <td>
                     <div>
-                        <input data-model="dl" data-property="yhzh" type="text" class="form-control"
-                               placeholder="账号">
+                        <input data-model="dl" data-property="mc" type="text" class="form-control">
                     </div>
                 </td>
                 <th rowspan="2" style="text-align: center">图标</th>
@@ -42,19 +43,10 @@
                 </td>
             </tr>
             <tr>
-                <th>上级菜单</th>
+                <th>地址</th>
                 <td>
                     <div>
-                        <input data-model="dl" data-property="mm" type="text" class="form-control" placeholder="密码">
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th>地址</th>
-                <td colspan="3">
-                    <div>
-                        <input data-model="dl" data-property="yhmc" type="text" class="form-control"
-                               placeholder="昵称">
+                        <input data-model="dl" data-property="url" type="text" class="form-control">
                     </div>
                 </td>
             </tr>
@@ -63,7 +55,7 @@
 </div>
 <script>
     load({
-        module: ["tree", "/medias/js/grwz/htgl/menu/menuEdit"]
+        module: ["/medias/js/grwz/htgl/menu/menuEdit.js"]
     });
 </script>
 </body>

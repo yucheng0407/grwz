@@ -49,9 +49,9 @@ public class LoginController {
         return  new AjaxReturn().setSuccess(true).setData(list.subList(8*(PageNo-1),PageNo*8));
     }
     @ResponseBody
-    @RequestMapping("/getMenu")
-    public AjaxReturn getMenu(HttpSession session)  {
+    @RequestMapping("/getMenus")
+    public AjaxReturn getMenus(HttpSession session)  {
        User user=(User)session.getAttribute(AuthInterceptor.USER_SESSION_KEY);
-        return new AjaxReturn().setSuccess(true).setData(loginService.getMenu(user.getId()));
+        return new AjaxReturn().setSuccess(true).setData(loginService.getMenus(user.getId()));
     }
 }

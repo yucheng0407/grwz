@@ -17,8 +17,8 @@ public class TreeController {
     @Autowired
     TreeService treeService;
     @ResponseBody
-    @RequestMapping("/getMenu")
-    public List getMenu(Integer id,Integer jsId)  {
-        return treeService.getMenu(id,jsId);
+    @RequestMapping("/getMenuTree")
+    public List getMenuTree(Integer id,Integer jsId)  {
+        return treeService.getMenuTree(id,jsId);
     }
 }

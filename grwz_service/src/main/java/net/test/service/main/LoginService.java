@@ -18,7 +18,7 @@ public class LoginService {
         return loginDao.getUser(user, pass);
     }
 
-    public  List<Menu> getMenu(Integer userId) {
-        return loginDao.getMenu(userId);
+    public  List<Menu> getMenus(Integer userId) {
+        return loginDao.getMenus(userId);
     }
 }

@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public class TreeDao extends BaseDao<User> {
 
-    public List getMenu(Integer id, Integer jsId) {
+    public List getMenuTree(Integer id, Integer jsId) {
         List a = new ArrayList();
         StringBuffer sql;
         if (id == null) {//最顶级

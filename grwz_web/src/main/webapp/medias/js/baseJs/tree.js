@@ -1,11 +1,13 @@
 /**
  * Created by rxnew on 2017/12/6.
  */
-$(function () {//初始化
+
+function initTree(_setting) {//初始化
+    //初始化
     var setting = {
         async: {
             enable: true,
-            url: YC.handleUrl("/tree/getMenu"),
+            url: YC.handleUrl("/tree/getMenuTree"),
             autoParam: ["id"],
             otherParam: null
         },
@@ -18,7 +20,7 @@ $(function () {//初始化
             showRenameBtn: true
         },
         check: {
-            enable: true,
+            enable: _setting.check||false,
             chkboxType: {"Y": "ps", "N": "ps"}
         },
         view: {
@@ -31,12 +33,12 @@ $(function () {//初始化
         },
         callback: {
             onCheck: onCheck,
-            onClick: onClick
+            onClick: _setting.onClick||null
         }
     };
     $.ajax({
         type: "post",
-        url: YC.handleUrl("/tree/getMenu"),
+        url: YC.handleUrl("/tree/getMenuTree"),
         data: null,
         success: function (data) {
             var zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, data);
@@ -46,7 +48,7 @@ $(function () {//初始化
         }
     });
 
-});
+};
 /**
  * 勾选之后
  * @param event
@@ -66,9 +68,10 @@ function onCheck(event, treeId, treeNode) {
  * @param treeId  树对象
  * @param treeNode 树节点
  */
-function onClick(event, treeId, treeNode) {
-window.frames[0].location.href=YC.handleUrl("/user/userList")
-}
+// function onClick(event, treeId, treeNode) {
+// debugger
+// window.frames[0].location.href=YC.handleUrl("/menu/menuEdit?id="+treeNode.id)
+// }
 
 /**
  * 展示

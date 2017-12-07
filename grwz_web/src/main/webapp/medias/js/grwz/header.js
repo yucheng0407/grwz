@@ -4,7 +4,7 @@
  */
 //菜单model
 var Menus = BaseCollection.extend({
-        url: YC.handleUrl('/main/getMenu')
+        url: YC.handleUrl('/main/getMenus')
     }),
     menus = new Menus();
 //渲染登录用户菜单

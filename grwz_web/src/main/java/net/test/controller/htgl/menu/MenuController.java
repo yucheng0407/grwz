@@ -59,5 +59,15 @@ public class MenuController {
         return new AjaxReturn().setSuccess(true);
     }
 
-
+    /**
+     * 获取菜单实体
+     *
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/getMenu")
+    public AjaxReturn getMenu(Integer id) {
+        return new AjaxReturn().setSuccess(true).setData(menuService.getMenu(id));
+    }
 }

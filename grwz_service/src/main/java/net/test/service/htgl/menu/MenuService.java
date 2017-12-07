@@ -2,6 +2,7 @@ package net.test.service.htgl.menu;
 
 import net.test.dao.htgl.menu.MenuDao;
 import net.test.dao.htgl.user.UserDao;
+import net.test.daomain.main.Menu;
 import net.test.daomain.main.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,10 +25,14 @@ public class MenuService {
 
     @Transactional
     public void saveUser(User user) {
-        menuDao.saveOrUpdate(user);
+
     }
     @Transactional
     public void deleteUser(String ids) {
         menuDao.deleteUser(ids);
+    }
+
+    public Menu getMenu(Integer id) {
+      return menuDao.get(id);
     }
 }

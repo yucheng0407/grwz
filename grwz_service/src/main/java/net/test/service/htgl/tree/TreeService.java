@@ -18,7 +18,7 @@ public class TreeService {
     TreeDao treeDao;
 
 
-    public List getMenu(Integer id,Integer jsId) {
-        return treeDao.getMenu(id,jsId);
+    public List getMenuTree(Integer id,Integer jsId) {
+        return treeDao.getMenuTree(id,jsId);
     }
 }

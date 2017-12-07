@@ -1,5 +1,6 @@
 package net.test.daomain.main;
 
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -29,39 +30,44 @@ public class Menu {
     @Column(name = "SJMENU")
     private Integer sjMenu;
     /**
-     *网站
+     * 网站
      */
     @Column(name = "URL")
     private String url;
     /**
-     *状态
+     * 状态
      */
     @Column(name = "ZT")
     private String zt;
     /**
-     *用户时间
+     * 用户时间
      */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CJSJ")
     private Date cjsj;
     /**
-     *状态
+     * 类型
      */
     @Column(name = "TYPE")
     private String type;
     /**
-     *排列
+     * 排列
      */
     @Column(name = "PL")
     private Integer pl;
     /**
-     *下拉菜单list
+     * 下拉菜单list
      */
     @OneToMany(targetEntity = Menu.class, fetch = FetchType.LAZY)
     @JoinColumns(@JoinColumn(name = "SJMENU", referencedColumnName = "ID"))
     @Where(clause = "ZT='1' AND ID IN(SELECT L.MENUID FROM GRWZ_USER R,GRWZ_USER_MENU_GL L WHERE R.ID=L.USERID )")
     @OrderBy("PL")
     private List<Menu> menu;
+    /**
+     * 上级菜单名称
+     */
+    @Formula("(SELECT U.MC FROM GRWZ_MENU U WHERE SJMENU=U.ID AND U.ZT<>3)")
+    private String sjMenuMc;
 
     public Integer getId() {
         return id;
@@ -133,5 +139,13 @@ public class Menu {
 
     public void setPl(Integer pl) {
         this.pl = pl;
+    }
+
+    public String getSjMenuMc() {
+        return sjMenuMc;
+    }
+
+    public void setSjMenuMc(String sjMenuMc) {
+        this.sjMenuMc = sjMenuMc;
     }
 }
