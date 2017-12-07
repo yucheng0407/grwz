@@ -35,7 +35,7 @@ var BaseModel = Backbone.Model.extend({
     initPropertys: function () {
         var model = this;
         var json = this.initJson;
-        var modelName=this.modelName
+        var modelName=this.modelName;
         //传入参数为基础配置json
         $.each(json, function (key, value) {
             var data;

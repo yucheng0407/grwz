@@ -48,6 +48,7 @@
 <script type="text/javascript">
     load({
         module: ['TweenLite', 'EasePack', 'demo-2', 'rAF','/medias/js/grwz/login/loginEdit.js'], async: false, success: function () {
+            debugger
             $("input[value='visitor']").click(function () {
                 if ($(this).is(':checked')) {
                     $("input[value='remember-me']").prop("checked", false).prop("disabled", true);

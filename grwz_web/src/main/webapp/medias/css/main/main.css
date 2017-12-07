@@ -1,0 +1,13 @@
+.form{
+    width:100%;
+}
+.form th{line-height: 40px;
+    text-align: right;
+    color: #666;
+    background: #f5f5f5;
+    font-weight: normal;
+    padding-right: 15px;
+    /*vertical-align: top;*/
+}
+.form td{padding: 5px}
+.form th,td{border: 1px solid #e1e1e1}

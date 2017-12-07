@@ -54,7 +54,7 @@ var BaseTable = BaseView.extend({
         //表头名
         $.each(this.column, function (i, data) {
             if (data.width) {
-                width += '<col style="width:' + data.width + '%"/>';
+                width += '<col width="' + data.width + '%"/>';
             }
             else {
                 width += '<col/>';
@@ -73,7 +73,7 @@ var BaseTable = BaseView.extend({
         }//序号宽度
         //拼接
         // contenteditable="true"
-        html = ['<table class="table table-striped " ><colgroup>', width, '</colgroup><thead><tr>'
+        html = ['<table class="table table-striped table-hover " ><colgroup>', width, '</colgroup><thead><tr>'
             , html, '</tr></thead><tbody>', _html, '</tbody></table>', this.page()].join('');
         return html;
     },

@@ -9,42 +9,45 @@
     <meta name="author" content="">
     <title>后台管理</title>
     <!-- Bootstrap core CSS -->
-    <link href="/test/medias/css/carousel.css" rel="stylesheet">
     <link href="/test/medias/css/bootstrap.min.css" rel="stylesheet">
     <link href="/test/medias/css/dashboard.css" rel="stylesheet">
     <script type="text/javascript" src="/test/medias/js/require.js"></script>
     <script type="text/javascript" src="/test/medias/js/loadJs.js"></script>
+    <style type="text/css">
+        html,
+        body,
+        .container-fluid {
+            height: 100%;
+            overflow: hidden;
+            background: none;
+        }
+    </style>
 </head>
-<body style="overflow-y: hidden">
+<body>
 <!--菜单.js-->
-<div class="navbar-wrapper" style="position: relative">
-    <div class="container"  ><nav class="navbar navbar-inverse navbar-static-top">
-    </nav></div>
-</div>
-<div >
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar" data-model="menu">
-            <!--<ul class="nav nav-sidebar">-->
-                <!--<li class="active"><a href="javascript:void(0)">Overview <span class="sr-only">(current)</span></a></li>-->
-                <!--<li><a href="#">Reports</a></li>-->
-                <!--<li><a href="#">Analytics</a></li>-->
-                <!--<li><a href="#">Export</a></li>-->
-            <!--</ul>-->
+<!--<div class="navbar-wrapper" style="position: relative">-->
+<!--<div class="container"  ><nav class="navbar navbar-inverse navbar-static-top">-->
+<!--</nav></div>-->
+<!--</div>-->
+<div class="container-fluid" id="window">
+    <div class="row" id="head">
+        <div class="container">
+            <nav class="navbar navbar-inverse navbar-static-top" style="margin-top: 20px;border-radius:4px;height: 50px">
+            </nav>
         </div>
-        <div id="list" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <iframe name="menu" src="" frameborder="no"  style="width: 100%;height: 100%;overflow-y: hidden"></iframe>
+    </div>
+    <div class="row" id="body" style="height:100%;">
+        <div class="col-sm-3 col-md-2 sidebar" data-model="menu">
+        </div>
+        <div  class="col-sm-9  col-md-10 " style="height: 100%">
+            <iframe name="menu" src="" frameborder="no" style="width: 100%;height: 100%;overflow-y: hidden"></iframe>
         </div>
     </div>
 </div>
-</div>
 <script>
-    load({module: ["/medias/js/grwz/header.js","BaseView","/medias/js/grwz/htgl/index.js"],success:function () {
-//初始化尺寸
-        $("#list").height($(".sidebar").height()-$(".navbar-wrapper").height()-10);
-        $(window).resize(function () {
-            $("#list").height($(".sidebar").height()-$(".navbar-wrapper").height()-10);
-        })
+    load({module: ["/medias/js/grwz/header.js", "BaseView", "/medias/js/grwz/htgl/index.js"],
+    success:function () {
+        $("#body").height($(".container-fluid").height()-$("#head").height());
     }});
 </script>
 </body>

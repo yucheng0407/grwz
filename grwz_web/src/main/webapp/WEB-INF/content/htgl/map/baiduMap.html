@@ -179,20 +179,35 @@
      */
     function addMenu(overlay) {
         //删除标签
-
+        var markerMenu = new BMap.ContextMenu(); //创建右键菜单
         var removeMarker = function (e, ee, overlay) {
             markerClusterer.removeMarker(overlay);//删除聚合
             map.removeOverlay(overlay);
             removeOverlay(overlay.id);
 
         };
+        //拖拽
+        var draggMarker = function (e, ee, overlay) {
+            var a=function () {
+                openInfoWindow(overlay, 'xg');//填写数据
+                overlay.addContextMenu(markerMenu);
+                overlay.setTitle("鼠标右键打开菜单")
+                overlay.disableDragging();
+                overlay.removeEventListener('dragend', a);
+            }
+            overlay.setTitle("拖拽图标")
+            overlay.enableDragging();
+            overlay.closeInfoWindow();
+            overlay.removeContextMenu(markerMenu);
+            overlay.addEventListener('dragend', a);
+        };
         //修改备注(修改弹框)
         var editMarker = function (e, ee, overlay) {
             openInfoWindow(overlay, 'xg')
         };
-        var markerMenu = new BMap.ContextMenu(); //创建右键菜单
         if (overlay instanceof BMap.Marker) {//标签
             markerMenu.addItem(new BMap.MenuItem('修改', editMarker));
+            markerMenu.addItem(new BMap.MenuItem('拖拽', draggMarker));
             overlay.setTitle("鼠标右键打开菜单")
         }
         markerMenu.addItem(new BMap.MenuItem('删除', removeMarker));
@@ -209,7 +224,9 @@
             var p = overlay.getPosition();
 
             geoc.getLocation(p, function (rs) {//坐标转地址
-                    if (!overlay.data.dz) overlay.data.dz = rs.address;
+                if (rs.surroundingPois[0]) {
+                    overlay.data.dz = rs.address + rs.surroundingPois[0].title;
+                } else overlay.data.dz = rs.address;
                     if (!opts) opts = {
                         width: 300,
                     };
