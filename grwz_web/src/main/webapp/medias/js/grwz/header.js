@@ -53,11 +53,11 @@ var MenusView = Backbone.View.extend({
         this.listenTo(this.collection, 'reset', this.render)
     },
     render: function () {//渲染
-        var html = ['<div class="container">',
+        var html = [
             '<div id="navbar" class="navbar-collapse collapse " >',
-            '<ul class="nav navbar-nav"style="width:100%;height:0px">',
+            '<ul class="nav navbar-nav"style="width:100%;">',
             loadMenu(this.collection),
-            '</ul></div></div>'].join('');
+            '</ul></div>'].join('');
         $(".navbar-static-top").append(html);
     }
 });

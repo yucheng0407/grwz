@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="/test/medias/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/test/medias/css/main/main.css" rel="stylesheet">
     <script type="text/javascript" src="/test/medias/js/require.js"></script>
     <script type="text/javascript" src="/test/medias/js/loadJs.js"></script>
     <style type="text/css">
         html,
-        body {
+        body,
+        .container-fluid {
             height: 100%;
             overflow: hidden;
             background: none;
@@ -16,73 +18,52 @@
     </style>
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-sm-4">
-            <ul id="treeDemo" class="ztree"></ul>
-        </div>
-        <div class="col-sm-8">
-            <div id="treeFrame">
-                <table style="line-height: 3;" border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <th>账号:</th>
-                        <td>
-                            <div>
-                                <input data-model="dl" data-property="yhzh" type="text" class="form-control" placeholder="账号">
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>昵称:</th>
-                        <td>
-                            <div>
-                                <input data-model="dl" data-property="yhmc" type="text" class="form-control" placeholder="昵称">
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>密码:</th>
-                        <td>
-                            <div>
-                                <input data-model="dl" data-property="mm" type="text" class="form-control" placeholder="密码">
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>确认密码:</th>
-                        <td>
-                            <div>
-                                <input  data-model="dl"  data-property="mm" type="text" class="form-control" placeholder="确认密码">
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>等级:</th>
-                        <td>
-                            <div>
-                                <select data-model="dl" data-property="type" class="form-control">
-                                    <option value="">请选择</option>
-                                    <option value="0">未激活</option>
-                                </select>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                </table>
-            </div>
-        </div>
+        <table class="form">
+            <colgroup>
+                <col width="15%"/>
+                <col width="45%"/>
+                <col width="15%"/>
+                <col/>
+            </colgroup>
+            <tr>
+                <th>名称</th>
+                <td>
+                    <div>
+                        <input data-model="dl" data-property="yhzh" type="text" class="form-control"
+                               placeholder="账号">
+                    </div>
+                </td>
+                <th rowspan="2" style="text-align: center">图标</th>
+                <td rowspan="2">
+                    <div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>上级菜单</th>
+                <td>
+                    <div>
+                        <input data-model="dl" data-property="mm" type="text" class="form-control" placeholder="密码">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>地址</th>
+                <td colspan="3">
+                    <div>
+                        <input data-model="dl" data-property="yhmc" type="text" class="form-control"
+                               placeholder="昵称">
+                    </div>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>
 <script>
     load({
-        module: ["tree","/medias/js/grwz/htgl/menu/menuEdit"],
-        success: function () {
-            $("#treeFrame").height($("body").height());
-            $(window).resize(function () {
-                $("#treeFrame").height($("body").height());
-            })
-        }
-
+        module: ["tree", "/medias/js/grwz/htgl/menu/menuEdit"]
     });
 </script>
 </body>
