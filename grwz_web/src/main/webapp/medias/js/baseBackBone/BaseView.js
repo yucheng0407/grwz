@@ -20,7 +20,7 @@ var BaseView = Backbone.View.extend({
         var array = new Array();
         var dom = this.currentModel;
         dom.find("[select]").each(function () {
-            array.push(collection.get($(this).attr("id")))
+            array.push(collection.get($(this).attr("id")).attributes)
         });
         return array;
     },

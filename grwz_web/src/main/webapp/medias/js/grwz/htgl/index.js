@@ -45,21 +45,20 @@ var update = function (model, type) {
         case "add": {
             if (model.TYPE == 0) {
                 var menuModel = menuBackBone.getSelect()[0];
-                menuModel.set('TS', menuModel.get('TS') + 1);
-                var i = menuModel.get('TS');
-                dom.text(i);
+                menuModel.TS++;
+                dom.text(menuModel.TS);
             }
             break;
         }
         case "remove": {
+            debugger
             if (model.TYPE == 0) {
                 var menuModel = menuBackBone.getSelect()[0];
-                if (menuModel.get('TS') > 0) {
-                    menuModel.set('TS', menuModel.get('TS') - 1);
-                    var i = menuModel.get('TS');
-                    if (i <= 0) {
+                if (menuModel.TS > 0) {
+                    menuModel.TS--;
+                    if (menuModel.TS <= 0) {
                         dom.empty();
-                    }else dom.text(i);
+                    }else dom.text(menuModel.TS);
                 }
             }
             break;

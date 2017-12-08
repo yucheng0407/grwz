@@ -23,19 +23,19 @@ $.ajax({
 });
 var model = new Model(menu);
 
-function sure() {
-    // var index = top.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-    // top.layer.close(index); //再执行关闭
-    if (model.validate()) {
-        $.ajax({
-            type: "post",
-            url: YC.handleUrl("/user/saveUser"),
-            data: {user: JSON.stringify(model.getJson())},
-            success: function (data) {
-                closeWin();
-               var parentWin=top.frames["menu"];
-                 parentWin.reloadTable(model.getUpJson());
-            }
-        })
-    }
-}
+//     function sure() {
+//     // var index = top.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+//     // top.layer.close(index); //再执行关闭
+//     if (model.validate()) {
+//         $.ajax({
+//             type: "post",
+//             url: YC.handleUrl("/user/saveUser"),
+//             data: {user: JSON.stringify(model.getJson())},
+//             success: function (data) {
+//                 closeWin();
+//                var parentWin=top.frames["menu"];
+//                  parentWin.reloadTable(model.getUpJson());
+//             }
+//         })
+//     }
+// }

@@ -33,7 +33,7 @@ var column = [
         return zt;
     }
     },
-    {name: '时间', type: 'CJSJ', width:'', renderer: "date"},
+    {name: '时间', type: 'CJSJ', width: '', renderer: "date"},
     {
         name: '地图', type: 'MAP', width: 10, renderer: function () {
         return '<a href="javascript:void(0)" onclick="openMap()">打开地图</a>';
@@ -54,24 +54,27 @@ function reloadTable(Data) {
     userModel.reDraw();
 }
 function deletes() {
-    var ids = '';
-    $.each(userModel.getSelect(), function (i, e) {
-        ids += e.get("ID") + ',';
-    });
-    $.ajax({
-        type: "post",
-        url: YC.handleUrl("/user/deleteUser"),
-        data: {ids: ids.substring(0, ids.length - 1)},
-        success: function (data) {
-            userModel.deleteRow();
-        }
+    top.layer.confirm('是否删除?', {icon: 2, title: '提示'}, function (index) {
+        var ids = '';
+        $.each(userModel.getSelect(), function (i, e) {
+            ids += e.ID + ',';
+        });
+        $.ajax({
+            type: "post",
+            url: YC.handleUrl("/user/deleteUser"),
+            data: {ids: ids.substring(0, ids.length - 1)},
+            success: function (data) {
+                userModel.deleteRow();
+            }
+        });
+        top.layer.close(index);
     });
 }
 function open(model) {
-    openStack(window, "添加用户", "big", "/user/userEdit?id="+model.get("ID"));
+    openStack(window, "添加用户", "big", "/user/userEdit?id=" + model.get("ID"));
 }
 function edit() {
-    alert(userModel.getSelect()[0].get('ID'));
+    alert(userModel.getSelect()[0].ID);
 }
 function add() {//add
     openStack(window, "添加用户", "big", "/user/userEdit");
@@ -80,7 +83,7 @@ function openMap() {
     var list = [];
     list.push()
     for (var i = 0; i < 10; i++) {
-        list.push({xm: '余程'+i, dz: '问问企鹅额', x: 118.428044, y: 31.376431+i/100})
+        list.push({xm: '余程' + i, dz: '问问企鹅额', x: 118.428044, y: 31.376431 + i / 100})
     }
 
     var opt = {

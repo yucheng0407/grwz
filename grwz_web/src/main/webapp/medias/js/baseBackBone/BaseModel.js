@@ -9,7 +9,7 @@ var BaseModel = Backbone.Model.extend({
     modelName: "",
     initJson: "",
     initialize: function () {
-        this.initPropertys();
+        if(this.initJson)this.initPropertys();
     },
     /*****************************************************************
      *  方法：内部方法，验证参数
@@ -35,14 +35,11 @@ var BaseModel = Backbone.Model.extend({
     initPropertys: function () {
         var model = this;
         var json = this.initJson;
-        var modelName=this.modelName;
         //传入参数为基础配置json
         $.each(json, function (key, value) {
-            var data;
             if (!model.get(key)) {
                 model.set(key, "")
-                data = '';
-            } else  data = model.get(key);
+            }
 
             // Tooltip.prototype.fixTitle = function () {
             //     var $e = this.$element
@@ -50,8 +47,16 @@ var BaseModel = Backbone.Model.extend({
             //         $e.attr('data-original-title', $e.attr('title') || '').attr('title', '')
             //     }
             // }
-            $("*[data-model=" + modelName + "][data-property=" + key + "]").val(data);
-
+        });
+        this.reDraw()
+    },
+    /******************************************************************
+     方法：渲染文本框的值
+     ******************************************************************/
+    reDraw: function () {
+        var model = this;
+        $("*[data-model=" + this.modelName + "][data-property]").each(function (i, t) {
+            $(t).val(model.get($(t).attr("data-property")));
         });
     },
     /*****************************************************************
