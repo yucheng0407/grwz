@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import resolver.Model;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -45,7 +46,18 @@ public class MenuController {
         menuService.saveUser(user);
         return new AjaxReturn().setSuccess(true);
     }
-
+    /**
+     * 移动菜单
+     *
+     * @param
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/dropMenu")
+    public AjaxReturn dropMenu( Integer tarId,String ids) {
+        menuService.dropMenu(tarId,ids);
+        return new AjaxReturn().setSuccess(true);
+    }
     /**
      * 删除用户
      *

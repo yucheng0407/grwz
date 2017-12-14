@@ -18,14 +18,42 @@ initTree({
         });
         return false
     },
-    beforeDrop: function (treeId, treeNodes, targetNode) {
-        // top.layer.confirm('是否移动?', {icon: 2, title: '提示'}, function (index) {
-        //     for (var i=0,len=treeNodes.length;i<len;i++) {
-        //         $.fn.zTree.getZTreeObj(treeId).moveNode(targetNode, treeNode[i], "inner");
-        //         top.layer.close(index);
-        //     }
-        // });
-        return true
+    beforeDrop: function (treeId, treeNodes, targetNode,moveType) {
+        if (targetNode &&
+            (moveType==='inner'||(moveType!=='inner'&&targetNode.getParentNode()))) {
+            return true
+        } else {
+            top.layer.msg("无法移动", {
+                time: 1000 //0.6秒关闭（如果不配置，默认是3秒）
+            })
+            return false
+        }
+    },
+    onDrop: function (event, treeId, treeNodes, targetNode, moveType) {
+        var ids = "";
+        var nodes;
+        var tarId;
+        if (moveType === 'inner') {//成为子节点
+            tarId = targetNode.id;
+            nodes = targetNode.children;
+        } else {//成为同级节点
+            tarId = targetNode.getParentNode().id;
+            nodes = targetNode.getParentNode().children;
+        }
+        for (var i = 0, len = nodes.length; i < len; i++) {
+            ids += nodes[i].id + ","
+        }
+        $.ajax({
+            type: "post",
+            async: false,
+            url: YC.handleUrl("/menu/dropMenu"),
+            data: {tarId: tarId, ids: ids.substring(0, ids.length - 1)},
+            success: function (data) {
+                top.layer.msg("移动成功", {
+                    time: 1000 //0.6秒关闭（如果不配置，默认是3秒）
+                })
+            }
+        })
     }
 })
 ;

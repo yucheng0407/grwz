@@ -1,24 +1,25 @@
 /**
  * Created by rxnew on 2017/9/18.
  */
-var id=GetQueryString('id');
+var id = GetQueryString('id');
 var menu;
 var dl = {
-    mc: {rule: "not null"},
-    sjMenuMc: {rule: "not null"},
-    url: {rule: "not null"}
+    mc: {rule: {checkNull:true}},
+    sjMenuMc: {rule: {checkNull: true}},
+    url: {rule: {checkNull: true}}
 }, Model = BaseModel.extend({
     modelName: "dl",
-    initJson: dl
+    initJson: dl,
+    disabled:['sjMenuMc']
 });
 
 $.ajax({
     type: "post",
     async: false,
     url: YC.handleUrl("/menu/getMenu"),
-    data: {id:id},
+    data: {id: id},
     success: function (data) {
-        menu=data.data;
+        menu = data.data;
     }
 });
 var model = new Model(menu);

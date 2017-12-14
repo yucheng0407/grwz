@@ -11,3 +11,7 @@
 }
 .form td{padding: 5px}
 .form th,td{border: 1px solid #e1e1e1}
+.toggle_collapse{width: 100%;overflow:hidden;height:25px;background: #4a5064;border-bottom: 0px solid #585858;}
+.toggle_collapse h2{float:left;margin:15px 0 0 10px;color:#fff;font-size:14px;}
+.shrink{width:20px;height:25px;background: url(../../img/jty3.png) no-repeat center center;position:absolute;top:0px;left:105px;cursor:pointer;z-index: 10;display: block;}
+.shrink:hover{background:#4a5064 url(../../img/jty5.png) no-repeat center center;}

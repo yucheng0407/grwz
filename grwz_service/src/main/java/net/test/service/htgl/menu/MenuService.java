@@ -35,4 +35,8 @@ public class MenuService {
     public Menu getMenu(Integer id) {
       return menuDao.get(id);
     }
+
+    public void dropMenu(Integer tarId, String ids) {
+        menuDao.dropMenu(tarId,ids);
+    }
 }

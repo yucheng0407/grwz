@@ -8,8 +8,9 @@
 var BaseModel = Backbone.Model.extend({
     modelName: "",
     initJson: "",
+    disabled:"",
     initialize: function () {
-        if(this.initJson)this.initPropertys();
+        if (this.initJson) this.initPropertys();
     },
     /*****************************************************************
      *  方法：内部方法，验证参数
@@ -21,10 +22,12 @@ var BaseModel = Backbone.Model.extend({
         var json = this.initJson;
         $(".popover").hide();
         $.each(json, function (key, value) {
-            if (value.rule == 'not null' && $.trim(attrs[key]) === '') {//为空
-                model.tsk(key, "为空");
-                boolean = false;
-                return boolean;
+            if (value.rule) {
+                if (value.rule.checkNull && $.trim(attrs[key]) === '') {//为空
+                    model.tsk(key, "为空");
+                    boolean = false;
+                    return boolean;
+                }
             }
         });
         return boolean;
@@ -58,6 +61,12 @@ var BaseModel = Backbone.Model.extend({
         $("*[data-model=" + this.modelName + "][data-property]").each(function (i, t) {
             $(t).val(model.get($(t).attr("data-property")));
         });
+        if(model.disabled){
+            for (var i=0,len=model.disabled.length;i<len;i++){
+                $("*[data-model=" + this.modelName + "][data-property="+model.disabled[i]+"]").attr("readOnly",true);
+            }
+        }
+
     },
     /*****************************************************************
      *  方法：内部方法，大写转换(defaults)

@@ -4,11 +4,11 @@
 var id=GetQueryString('id');
 var user;
 var dl = {
-    yhzh: {rule: "not null"},
-    yhmc: {rule: "not null"},
-    mm: {rule: "not null"},
+    yhzh: {rule: {checkNull:true}},
+    yhmc: {rule: {checkNull:true}},
+    mm: {rule: {checkNull:true}},
     type: {//情报来源
-        rule: "not null",
+        rule: {checkNull:true},
         type: "dict",
         dictConfig: {
             dictCode: "QBLY"

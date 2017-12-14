@@ -21,7 +21,7 @@ public class TreeDao extends BaseDao<User> {
             id = new Integer(0);
         }
         sql = new StringBuffer("SELECT  DECODE((SELECT COUNT(1) FROM GRWZ_USER_MENU_GL L WHERE L.USERID=? AND L.MENUID=U.ID ),0,'FALSE','TRUE') \"checked\",U.ID \"id\",U.MC \"name\",U.SJMENU \"pid\" ," +
-                "DECODE((SELECT COUNT(1) FROM GRWZ_MENU WHERE SJMENU=U.ID AND TYPE<>3 ),0,'FALSE','TRUE') \"isParent\" FROM GRWZ_MENU U WHERE SJMENU=? AND TYPE<>3 ");
+                "DECODE((SELECT COUNT(1) FROM GRWZ_MENU WHERE SJMENU=U.ID AND TYPE<>3 ),0,'FALSE','TRUE') \"isParent\" FROM GRWZ_MENU U WHERE SJMENU=? AND TYPE<>3 ORDER BY PL ");
         a.add(jsId);
         a.add(id);
         return getJdbcTemplate().queryForList(sql.toString(), a.toArray());
