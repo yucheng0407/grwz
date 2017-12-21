@@ -38,9 +38,7 @@ require.config({//js
     },
     paths: {
         //自定义
-        "ztree.core": "ztree/ztree",
-        "ztree.excheck": "ztree/ztree.excheck",
-        "ztree.exedit": "ztree/ztree.exedit",
+        "ztree.core": "ztree/jquery.ztree.all-3.5.min",
         "tree":"baseJs/tree",
         //
         "whichButtonJs": "utilJs/whichButtonJs",
@@ -99,14 +97,8 @@ require.config({//js
         "ztree.core": {
             deps: ["css!"+contentType+"/medias/css/metroStyle/metroStyle.css"]
         },
-        "ztree.excheck":{
-            deps: ["ztree.core"]
-        },
-        "ztree.exedit":{
-            deps: ["ztree.core"]
-        },
         "tree":{
-            deps: ["ztree.excheck","ztree.exedit"]
+            deps: ["ztree.core"]
         }
     }
 });

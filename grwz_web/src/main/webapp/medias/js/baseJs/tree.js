@@ -121,7 +121,8 @@ function initTree(_setting) {//初始化
      * 全部展示和局部展示
      * @param event
      * @param treeId  树对象
-     * @param treeNode 树节点
+     * @param node 树节点
+     * @param all
      */
     function expandNodes(treeId, node, all) {
         if (!node) return;
