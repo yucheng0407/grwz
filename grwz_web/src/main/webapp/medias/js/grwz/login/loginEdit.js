@@ -11,8 +11,6 @@ var dl = {
 var model = new Model();
 function login(option) {
     if (model.validate()) {
-
-
         $.ajax({
             type:"post",
             url: YC.handleUrl("/main/getUser"),

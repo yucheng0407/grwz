@@ -3,7 +3,7 @@
  */
 initTree({check:true,
     onClick: function (event, treeId, treeNode) {
-        //加载和绑定子窗口保存按钮
+        //加载和监听子窗口保存按钮
         $("[name='menu']").unbind().attr("src", YC.handleUrl("/menu/menuEdit?id=" + treeNode.id)).on('load', function () {
             $(window.frames[0].document).find("#save").click(function () {
                 treeNode.name = window.frames[0].model.getJson().mc;
