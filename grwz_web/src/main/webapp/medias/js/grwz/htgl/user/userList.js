@@ -47,7 +47,7 @@ var column = [
     backModel: top.update
 });
 var userModel = new UserModel();
-userModel.addDoublTable(open);
+userModel.addDblClick(open);
 userModel.reDraw();
 function reloadTable(Data) {
     userModel.compareModel(Data);

@@ -27,7 +27,7 @@ var BaseView = Backbone.View.extend({
     /*****************************************************************
      *  双击取得collection选中值
      *****************************************************************/
-    addDoublTable: function (e) {
+    addDblClick: function (e) {
         this.baseListenView.doublTable = e;
     },
     /*****************************************************************
@@ -46,7 +46,7 @@ var BaseView = Backbone.View.extend({
         this.baseListenView.deleteModel();
     },
     /*****************************************************************
-     *  比较model
+     *  比较model(添加到List列表)
      **********************************/
     compareModel: function (model) {
         var collection = this.collection;

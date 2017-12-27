@@ -11,6 +11,7 @@
     <!-- Bootstrap core CSS -->
     <link href="/test/medias/css/bootstrap.min.css" rel="stylesheet">
     <link href="/test/medias/css/dashboard.css" rel="stylesheet">
+    <link href="/test/medias/css/main/main.css" rel="stylesheet">
     <script type="text/javascript" src="/test/medias/js/require.js"></script>
     <script type="text/javascript" src="/test/medias/js/loadJs.js"></script>
     <style type="text/css">
@@ -32,23 +33,58 @@
 <div class="container-fluid" id="window">
     <div class="row" id="head">
         <div class="container">
-            <nav class="navbar navbar-inverse navbar-static-top" style="margin-top: 20px;border-radius:4px;height: 50px">
+            <nav class="navbar navbar-inverse navbar-static-top"
+                 style="margin-top: 20px;border-radius:4px;height: 50px">
             </nav>
         </div>
     </div>
     <div class="row" id="body" style="height:100%;">
         <div class="col-sm-3 col-md-2 sidebar" data-model="menu">
         </div>
-        <div  class="col-sm-9  col-md-10 " style="height: 100%">
+        <div class="col-sm-9  col-md-10 " style="height: 100%">
             <iframe name="menu" src="" frameborder="no" style="width: 100%;height: 100%;overflow-y: hidden"></iframe>
         </div>
+        <div class="shrink" id="leftClose" title="隐藏主菜单"></div>
     </div>
 </div>
 <script>
-    load({module: ["/medias/js/grwz/header.js", "BaseView", "/medias/js/grwz/htgl/index.js"],
-    success:function () {
-        $("#body").height($(".container-fluid").height()-$("#head").height());
-    }});
+    load({
+        module: ["/medias/js/grwz/header.js", "BaseView", "/medias/js/grwz/htgl/index.js"],
+        success: function () {
+            $("#body").height($(".container-fluid").height() - $("#head").height());
+            var i = 0;
+            var w1 = $(".col-sm-3").width();
+            var w2 = $(".col-sm-9").width();
+            $("#leftClose").click(
+                function () { //切换
+                    if (i === 0) {
+                        $(".col-sm-3").animate({
+                            marginLeft: -w1
+                        }, 500);
+                        $("#leftClose").animate({
+                            marginLeft: -w1 + 15
+                        }, 500).html("").attr("title", "展开菜单栏");
+                        $("[name='menu']").animate({
+                            width: w2 + w1
+                        }, 500);
+                        i = 1;
+                    }
+                    else {
+                        $(".col-sm-3").animate({
+                            marginLeft: 0
+                        }, 500);
+                        $("#leftClose").animate({
+                            marginLeft: 0
+                        }, 500).html("").attr("title", "隐藏菜单栏");
+                        $("[name='menu']").animate({
+                            width: w2
+                        }, 500);
+                        i = 0;
+                    }
+                }
+            )
+        }
+    });
 </script>
 </body>
 </html>
