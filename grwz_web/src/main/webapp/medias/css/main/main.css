@@ -1,7 +1,9 @@
-.form{
-    width:100%;
+.form {
+    width: 100%;
 }
-.form th{line-height: 40px;
+
+.form th {
+    line-height: 40px;
     text-align: right;
     color: #666;
     background: #f5f5f5;
@@ -9,9 +11,45 @@
     padding-right: 15px;
     /*vertical-align: top;*/
 }
-.form td{padding: 5px}
-.form th,td{border: 1px solid #e1e1e1}
-.toggle_collapse{width: 100%;overflow:hidden;height:25px;background: #4a5064;border-bottom: 0px solid #585858;}
-.toggle_collapse h2{float:left;margin:15px 0 0 10px;color:#fff;font-size:14px;}
-.shrink{width:15px;height:50px;background: url(../../img/jty3.png) no-repeat center center;position:absolute;bottom:31px;left:205px;cursor:pointer;z-index: 999;}
-.shrink:hover{background:#d3d3d3 url(../../img/jty5.png) no-repeat center center;}
+
+.form td {
+    padding: 5px
+}
+
+.form th, td {
+    border: 1px solid #e1e1e1
+}
+
+.toggle_collapse {
+    width: 100%;
+    overflow: hidden;
+    height: 25px;
+    background: #4a5064;
+    border-bottom: 0px solid #585858;
+}
+
+.toggle_collapse h2 {
+    float: left;
+    margin: 15px 0 0 10px;
+    color: #fff;
+    font-size: 14px;
+}
+
+.shrink {
+    width: 15px;
+    height: 50px;
+    background: url(../../img/jty4.png) no-repeat center center;
+    position: absolute;
+    bottom: 300px;
+    left: 210px;
+    cursor: pointer;
+    z-index: 9999;
+}
+
+.showShrink:hover {
+    background: #428bca url(../../img/jty5.png) no-repeat center center;
+}
+
+.hideShrink:hover {
+    background: #428bca url(../../img/jty6.png) no-repeat center center;
+}

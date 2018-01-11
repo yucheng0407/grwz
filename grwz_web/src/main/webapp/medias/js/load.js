@@ -2,7 +2,7 @@
  * Created by yucheng on 2017/8/13.
  */
 var YC = {};
-var contentType = '/test'
+var contentType = '/test';
 var option = {//初始
     module: null,//自定义js
     success: function () {//返回函数
@@ -13,20 +13,27 @@ var option = {//初始
         option[data] = _option[data];
     }
     require(['BaseModel'], function () {
+        console.log("初始化js");
         //添加项目名
-        for (var i in option.module) {
-            if (option.module[i].indexOf("/") == 0) {
-                option.module[i] = contentType + option.module[i]
+        if (option.module) {
+            for (var i in option.module) {
+                if (option.module[i].indexOf("/") == 0) {
+                    option.module[i] = contentType + option.module[i]
+                }
+            }
+            if (option.async == true) {
+                require(option.module, function () {
+                    option.success();
+                })
+            } else {
+                tbload();
             }
         }
-        if (option.async == true) {
-            require(option.module, function () {
-                option.success();
-            })
-        } else {
-            tbload();
-        }
     });
+}, loadCss = function (_option) {
+    console.log("初始化css");
+    document.write('<link rel="stylesheet" href="' + contentType + "/medias/css/bootstrap.min.css" + '"/>');
+
 };
 require.config({//js
     baseUrl: contentType + "/medias/js/",
@@ -39,8 +46,9 @@ require.config({//js
     paths: {
         //自定义
         "ztree.core": "ztree/jquery.ztree.all-3.5.min",
-        "tree":"baseJs/tree",
+        "tree": "baseJs/tree",
         //
+        "PerfectLoad": "perfectLoad/PerfectLoad",
         "whichButtonJs": "utilJs/whichButtonJs",
         "BaseModel": "baseBackBone/BaseModel",
         "BaseView": "baseBackBone/BaseView",
@@ -60,7 +68,8 @@ require.config({//js
         "formUtils": "baseJs/formUtils"
     },
     shim: {
-        "whichButtonJs": {
+        //
+        "PerfectLoad": {
             deps: ["jQuery"]
         },
         "bootstrap": {
@@ -73,11 +82,11 @@ require.config({//js
             exports: "_"
         },
         "Layer": {
-            deps: ["jQuery", "css!"+contentType+"/medias/js/layer/skin/layer.css"]
+            deps: ["jQuery", "css!" + contentType + "/medias/js/layer/skin/layer.css"]
         },
         //添加
         "backbone": {
-            deps: ["underscore", "bootstrap", "whichButtonJs", "formUtils", "Layer"],
+            deps: ["underscore", "bootstrap", "formUtils", "Layer"],
             exports: "Backbone"
         },
         "BaseModel": {
@@ -93,11 +102,11 @@ require.config({//js
         "BaseTable": {
             deps: ["BaseView"]
         },
-        //自定义
+        //自定义js
         "ztree.core": {
-            deps: ["css!"+contentType+"/medias/css/metroStyle/metroStyle.css"]
+            deps: ["css!" + contentType + "/medias/css/metroStyle/metroStyle.css"]
         },
-        "tree":{
+        "tree": {
             deps: ["ztree.core"]
         }
     }

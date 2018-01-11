@@ -8,7 +8,11 @@
     <meta name="description" content="Examples for creative website header animations using Canvas and JavaScript"/>
     <meta name="keywords" content="header, canvas, animated, creative, inspiration, javascript"/>
     <meta name="author" content="Codrops"/>
-    <link href="/test/medias/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="/test/medias/js/require.js"></script>
+    <script type="text/javascript" src="/test/medias/js/load.js"></script>
+    <script>
+        loadCss()
+    </script>
     <link rel="stylesheet" type="text/css" href="/test/medias/css/normalize.css"/>
     <link rel="stylesheet" type="text/css" href="/test/medias/css/component.css"/>
     <!-- <link href='http://fonts.googleapis.com/css?family=Raleway:200,400,800' rel='stylesheet' type='text/css'> -->
@@ -24,8 +28,10 @@
         <div class="main-title">
             <div class="container">
                 <div class="col-md-4" style="margin-left: 33%">
-                    <input data-model="dl" data-property="user" type="text"  class="form-control"  placeholder="账号" required="" autofocus="">
-                    <input data-model="dl" data-property="pass" type="password"  class="form-control" name="pass" placeholder="密码" required="">
+                    <input data-model="dl" data-property="user" type="text" class="form-control" placeholder="账号"
+                           required="" autofocus="">
+                    <input data-model="dl" data-property="pass" type="password" class="form-control" name="pass"
+                           placeholder="密码" required="">
                     <div class="checkbox">
                         <label>
                             <input type="checkbox" value="remember-me">记住密码
@@ -34,7 +40,9 @@
                             <input type="checkbox" value="visitor">访客模式
                         </label>
                     </div>
-                    <button class="btn btn-lg btn-primary btn-block"  type="button" value="登录"  onclick="login('login')">登录</button>
+                    <button class="btn btn-lg btn-primary btn-block" type="button" value="登录" onclick="login('login')">
+                        登录
+                    </button>
                 </div>
             </div>
         </div>
@@ -43,12 +51,11 @@
 <div style="position:fixed;height:90px;width:100%;left:0;bottom:5px;z-index:999">
     <div class="footer-banner" style="width:728px; margin:0px auto"></div>
 </div>
-<script type="text/javascript" src="/test/medias/js/require.js"></script>
-<script type="text/javascript" src="/test/medias/js/loadJs.js"></script>
 <script type="text/javascript">
     load({
-        module: ['TweenLite', 'EasePack', 'demo-2', 'rAF','/medias/js/grwz/login/loginEdit.js'], async: false, success: function () {
-            debugger
+        module: ['TweenLite', 'EasePack', 'demo-2', 'rAF', '/medias/js/grwz/login/loginEdit.js'],
+        async: false,
+        success: function () {
             $("input[value='visitor']").click(function () {
                 if ($(this).is(':checked')) {
                     $("input[value='remember-me']").prop("checked", false).prop("disabled", true);

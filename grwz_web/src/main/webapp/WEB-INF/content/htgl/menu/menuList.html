@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="/test/medias/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/test/medias/css/main/main.css" rel="stylesheet">
     <script type="text/javascript" src="/test/medias/js/require.js"></script>
     <script type="text/javascript" src="/test/medias/js/loadJs.js"></script>
     <style type="text/css">
@@ -17,6 +15,9 @@
             background: none;
         }
     </style>
+    <script>
+        loadCss();
+    </script>
 </head>
 <body>
 <div class="container-fluid">
@@ -27,46 +28,11 @@
         <div class="col-sm-10" style="height: 100%">
             <iframe name="menu" src="" frameborder="no" style="width: 100%;height: 100%;overflow-y: hidden"></iframe>
         </div>
-        <div class="shrink" id="leftClose" title="隐藏主菜单"></div>
     </div>
 </div>
 <script>
     load({
-        module: ["tree", "/medias/js/grwz/htgl/menu/menuList.js"],
-        success: function () {
-            var i = 0;
-            var w1 = $(".col-sm-2").width();
-            var w2 = $(".col-sm-10").width();
-            $("#leftClose").click(
-                function () { //切换
-                    if (i === 0) {
-                        $(".col-sm-2").animate({
-                            marginLeft: -w1
-                        }, 500);
-                        $("#leftClose").animate({
-                            marginLeft: -w1 + 15
-                        }, 500).html("").attr("title", "展开菜单栏");
-                        $("[name='menu']").animate({
-                            width: w2 + w1
-                        }, 500);
-                        i = 1;
-                    }
-                    else {
-                        $(".col-sm-2").animate({
-                            marginLeft: 0
-                        }, 500);
-                        $("#leftClose").animate({
-                            marginLeft: 0
-                        }, 500).html("").attr("title", "隐藏菜单栏");
-                        $("[name='menu']").animate({
-                            width: w2
-                        }, 500);
-                        i = 0;
-                    }
-                }
-            )
-        }
-
+        module: ["tree", "/medias/js/grwz/htgl/menu/menuList.js"]
     });
 </script>
 </body>

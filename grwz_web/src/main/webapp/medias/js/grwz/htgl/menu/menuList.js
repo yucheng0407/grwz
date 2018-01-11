@@ -25,7 +25,7 @@ initTree({check:true,
         } else {
             top.layer.msg("无法移动", {
                 time: 1000 //0.6秒关闭（如果不配置，默认是3秒）
-            })
+            });
             return false
         }
     },
