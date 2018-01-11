@@ -88,7 +88,8 @@ require.config({//js
 });
 var cssConfig = {
     mainCss: {
-        "bootstrap": "/medias/css/bootstrap.min.css"
+        "bootstrap": "/medias/css/bootstrap.min.css",
+        "iconfont":"/medias/css/iconfont/iconfont.css"
     },
     css: {"component": "/medias/css/component.css",
         "main": "/medias/css/main/main.css"}

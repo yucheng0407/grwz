@@ -13,10 +13,11 @@
 }
 
 .form td {
-    padding: 5px
+    padding: 5px;
+    border: 1px solid #e1e1e1
 }
 
-.form th, td {
+.form th {
     border: 1px solid #e1e1e1
 }
 
