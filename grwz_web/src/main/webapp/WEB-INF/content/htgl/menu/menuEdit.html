@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script type="text/javascript" src="/test/medias/js/require.js"></script>
-    <script type="text/javascript" src="/test/medias/js/loadJs.js"></script>
+    <script type="text/javascript" src="/test/medias/js/load.js"></script>
     <style type="text/css">
         html,
         body,
@@ -15,7 +15,9 @@
         }
     </style>
     <script>
-        loadCss();
+        loadCss({
+            module: ["main"]
+        });
     </script>
 </head>
 <body>
@@ -63,7 +65,7 @@
     </div>
 </div>
 <script>
-    load({
+    loadJs({
         module: ["/medias/js/grwz/htgl/menu/menuEdit.js"]
     });
 </script>

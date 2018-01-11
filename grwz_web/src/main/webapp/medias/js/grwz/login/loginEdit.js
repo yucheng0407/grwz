@@ -2,8 +2,8 @@
  * Created by rxnew on 2017/8/17.
  */
 var dl = {
-    user: {rule: "not null"},
-    pass: {rule: "not null"}
+    user: {rule: {checkNull:true}},
+    pass: {rule: {checkNull:true}}
 },Model = BaseModel.extend({
     modelName: "dl",
     initJson: dl

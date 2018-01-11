@@ -11,10 +11,10 @@
     <script type="text/javascript" src="/test/medias/js/require.js"></script>
     <script type="text/javascript" src="/test/medias/js/load.js"></script>
     <script>
-        loadCss()
+        loadCss({
+            module: ["/medias/css/normalize.css","component"]
+        })
     </script>
-    <link rel="stylesheet" type="text/css" href="/test/medias/css/normalize.css"/>
-    <link rel="stylesheet" type="text/css" href="/test/medias/css/component.css"/>
     <!-- <link href='http://fonts.googleapis.com/css?family=Raleway:200,400,800' rel='stylesheet' type='text/css'> -->
     <!--[if IE]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -52,7 +52,7 @@
     <div class="footer-banner" style="width:728px; margin:0px auto"></div>
 </div>
 <script type="text/javascript">
-    load({
+    loadJs({
         module: ['TweenLite', 'EasePack', 'demo-2', 'rAF', '/medias/js/grwz/login/loginEdit.js'],
         async: false,
         success: function () {

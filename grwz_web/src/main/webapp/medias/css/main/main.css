@@ -46,10 +46,10 @@
     z-index: 9999;
 }
 
-.showShrink:hover {
+.hideShrink:hover {
     background: #428bca url(../../img/jty5.png) no-repeat center center;
 }
 
-.hideShrink:hover {
+.showShrink:hover {
     background: #428bca url(../../img/jty6.png) no-repeat center center;
 }

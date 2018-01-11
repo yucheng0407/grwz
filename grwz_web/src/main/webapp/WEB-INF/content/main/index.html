@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="/test/medias/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/test/medias/css/carousel.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script type="text/javascript" src="/test/medias/js/require.js"></script>
-    <script type="text/javascript" src="/test/medias/js/loadJs.js"></script>
+    <script type="text/javascript" src="/test/medias/js/load.js"></script>
+    <script>
+        loadCss({
+            module: ["/medias/css/carousel.css"]
+        })
+    </script>
 </head>
 <body>
 <!--菜单.js-->
@@ -140,7 +143,7 @@
     </div>
 </div>
 <script>
-    load({
+    loadJs({
         module: ["BaseView", "/medias/js/grwz/header.js", "http://v3.bootcss.com/assets/js/vendor/holder.min.js",
             "/medias/js/grwz/login/loginEdit.js",
             "/medias/js/grwz/index/indexList.js"

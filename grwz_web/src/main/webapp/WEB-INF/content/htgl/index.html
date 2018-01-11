@@ -24,7 +24,9 @@
         }
     </style>
     <script>
-        loadCss();
+        loadCss({
+            module: ["main","/medias/css/dashboard.css"]
+        })
     </script>
 </head>
 <body>
@@ -47,17 +49,17 @@
         <div class="col-sm-9  col-md-10 " style="height: 100%">
             <iframe name="menu" src="" frameborder="no" style="width: 100%;height: 100%;overflow-y: hidden"></iframe>
         </div>
-        <div class="shrink" id="leftClose" title="隐藏主菜单"></div>
     </div>
 </div>
 <script>
-    load({
+    loadJs({
         module: ["/medias/js/grwz/header.js", "BaseView", "/medias/js/grwz/htgl/index.js"],
         success: function () {
             $("#body").height($(".container-fluid").height() - $("#head").height());
             var i = 0;
             var w1 = $(".col-sm-3").width();
             var w2 = $(".col-sm-9").width();
+           $("#body").append('<div class="shrink hideShrink" id="leftClose" title="隐藏主菜单" style="left:'+(w1-15)+ 'px;bottom:'+($("#body").height()/2)+'px"></div>');
             $("#leftClose").click(
                 function () { //切换
                     if (i === 0) {
@@ -66,7 +68,7 @@
                         }, 500);
                         $("#leftClose").animate({
                             marginLeft: -w1 + 15
-                        }, 500).html("").attr("title", "展开菜单栏").addClass("hideShrink").removeClass("showShrink");
+                        }, 500).html("").attr("title", "展开菜单栏").addClass("showShrink").removeClass("hideShrink");
                         $("[name='menu']").animate({
                             width: w2 + w1
                         }, 500);
@@ -78,7 +80,7 @@
                         }, 500);
                         $("#leftClose").animate({
                             marginLeft: 0
-                        }, 500).html("").attr("title", "隐藏菜单栏").addClass("showShrink").removeClass("hideShrink");
+                        }, 500).html("").attr("title", "隐藏菜单栏").addClass("hideShrink").removeClass("showShrink");
                         $("[name='menu']").animate({
                             width: w2
                         }, 500);
