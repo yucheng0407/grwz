@@ -12,7 +12,9 @@ var dl = {
     initJson: dl,
     disabled:['sjMenuMc']
 });
-
+$('[data-property="icon"]').on("click",function () {
+   openStack(window, "213", "medium","/icon/iconList");
+});
 $.ajax({
     type: "post",
     async: false,
@@ -23,7 +25,10 @@ $.ajax({
     }
 });
 var model = new Model(menu);
-
+function save() {
+    debugger
+    model.getJson();
+}
 //     function sure() {
 //     // var index = top.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
 //     // top.layer.close(index); //再执行关闭

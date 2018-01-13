@@ -1672,7 +1672,7 @@ if (top.hasLayerManager) {
         }
     }
     //向前关闭窗口（√）
-    window.closeWin = function (index, win) {
+    window.closeWin = function (win, index) {
         var tUpName = (win && win.name) ? win.name : upperestName;
         index = index || 1;
         var upperestPage = findWinPage(tUpName);

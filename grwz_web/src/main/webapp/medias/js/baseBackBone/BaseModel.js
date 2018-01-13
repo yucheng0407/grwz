@@ -8,7 +8,7 @@
 var BaseModel = Backbone.Model.extend({
     modelName: "",
     initJson: "",
-    disabled:"",
+    disabled: "",
     initialize: function () {
         if (this.initJson) this.initPropertys();
     },
@@ -51,22 +51,29 @@ var BaseModel = Backbone.Model.extend({
             //     }
             // }
         });
-        this.reDraw()
+        $("*[data-model=" + this.modelName + "][data-property]").each(function (i, t) {
+            model.reDraw($(t), model.get($(t).attr("data-property")));
+        });
+        if (model.disabled) {
+            for (var i = 0, len = model.disabled.length; i < len; i++) {
+                $("*[data-model=" + this.modelName + "][data-property=" + model.disabled[i] + "]").attr("readOnly", true);
+            }
+        }
     },
     /******************************************************************
      方法：渲染文本框的值
      ******************************************************************/
-    reDraw: function () {
-        var model = this;
-        $("*[data-model=" + this.modelName + "][data-property]").each(function (i, t) {
-            $(t).val(model.get($(t).attr("data-property")));
-        });
-        if(model.disabled){
-            for (var i=0,len=model.disabled.length;i<len;i++){
-                $("*[data-model=" + this.modelName + "][data-property="+model.disabled[i]+"]").attr("readOnly",true);
+    reDraw: function ($this, data) {
+        switch ($this[0].tagName) {
+            case "INPUT": {
+                $this.val(data);
+                break;
+            }
+            case "DIV": {
+                $this.html(data);
+                break;
             }
         }
-
     },
     /*****************************************************************
      *  方法：内部方法，大写转换(defaults)
@@ -86,7 +93,16 @@ var BaseModel = Backbone.Model.extend({
     getJson: function () {
         var model = this;
         $("*[data-model=" + this.modelName + "][data-property]").each(function (i, t) {
-            model.set($(t).attr("data-property"), $(t).val());
+            switch (t.tagName) {
+                case "INPUT": {
+                    model.set($(t).attr("data-property"), $(t).val());
+                    break;
+                }
+                case "DIV": {
+                    model.set($(t).attr("data-property"), $(t).html());
+                    break;
+                }
+            }
         });
         return model.attributes;
     },
