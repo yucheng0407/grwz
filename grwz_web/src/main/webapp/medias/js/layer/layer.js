@@ -852,7 +852,7 @@
         var layero = $('#' + doms[0] + index), area = layero.attr('area').split(',');
         var type = layero.attr('type');
         layer.style(index, {
-            width: parseFloat(area[0]),
+            width: parseFloat(area[0])+2,//slode=1px
             height: parseFloat(area[1]),
             top: parseFloat(area[2]),
             left: parseFloat(area[3]),
