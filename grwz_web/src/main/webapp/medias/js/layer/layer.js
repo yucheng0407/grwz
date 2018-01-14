@@ -663,7 +663,7 @@
 
         //全屏/还原
         layero.find('.layui-layer-max').on('click', function () {
-            debugger
+            
             if ($(this).hasClass('layui-layer-maxmin')) {
                 layer.restore(that.index);
                 config.restore && config.restore(layero);
@@ -745,7 +745,7 @@
 
 //获取子iframe的DOM
     layer.getChildFrame = function (selector, index) {
-        debugger
+        
         index = index || $('.' + doms[4]).attr('times');
         return $('#' + doms[0] + index).find('iframe').contents().find(selector);
     };
@@ -799,7 +799,7 @@
         // btnHeight = layero.find('.' + doms[6]).outerHeight();
 
         if (type === ready.type[2]) {
-            debugger
+            
             layero.find('iframe').css({
                 height: parseFloat(options.height) - titHeight - btnHeight
             });
