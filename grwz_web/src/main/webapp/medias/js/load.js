@@ -14,7 +14,7 @@ require.config({//js
     urlArgs: 'v=' + (new Date()).getTime(),//清楚缓存
     map: {
         '*': {
-            "css": "baseJs/css.min"//导入css插
+            "css": "baseJs/css.min"//导入css插入
         }
     },
     paths: {
