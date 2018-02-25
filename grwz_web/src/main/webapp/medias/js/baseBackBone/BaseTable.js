@@ -21,7 +21,7 @@ var BaseTable = BaseView.extend({
                 case "date": {
                     var date = new Date(model.get(data.type));
                     _data = date.Format("yyyy-MM-dd HH:mm:ss");
-                    title=_data;
+                        title=_data;
                     break;
                 }
                 case "String": {
