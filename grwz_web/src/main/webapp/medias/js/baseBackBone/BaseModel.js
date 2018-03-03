@@ -18,12 +18,12 @@ var BaseModel = Backbone.Model.extend({
     validate: function () {
         var boolean = true;
         var model = this;
-        var attrs = this.getJson();
+        this._setJson();
         var json = this.initJson;
         $(".popover").hide();
         $.each(json, function (key, value) {
             if (value.rule) {
-                if (value.rule.checkNull && $.trim(attrs[key]) === '') {//为空
+                if (value.rule.checkNull && $.trim(model.attributes[key]) === '') {//为空
                     model.tsk(key, "为空");
                     boolean = false;
                     return boolean;
@@ -71,6 +71,7 @@ var BaseModel = Backbone.Model.extend({
             }
             case "DIV": {
                 $this.html(data);
+                $this.val(data);
                 break;
             }
         }
@@ -88,22 +89,19 @@ var BaseModel = Backbone.Model.extend({
         return upAttrs;
     },
     /*****************************************************************
+     *  方法：文本框的值插入Model
+     *****************************************************************/
+    _setJson: function () {
+        var model = this;
+        $("*[data-model=" + this.modelName + "][data-property]").each(function (i, t) {
+                    model.set($(t).attr("data-property"), $(t).val());
+        });
+    },
+    /*****************************************************************
      *  方法：获得文本框的值
      *****************************************************************/
     getJson: function () {
         var model = this;
-        $("*[data-model=" + this.modelName + "][data-property]").each(function (i, t) {
-            switch (t.tagName) {
-                case "INPUT": {
-                    model.set($(t).attr("data-property"), $(t).val());
-                    break;
-                }
-                case "DIV": {
-                    model.set($(t).attr("data-property"), $(t).html());
-                    break;
-                }
-            }
-        });
         return model.attributes;
     },
     /*****************************************************************

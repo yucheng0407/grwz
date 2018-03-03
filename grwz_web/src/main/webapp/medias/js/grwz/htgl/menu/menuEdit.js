@@ -26,7 +26,6 @@ $.ajax({
 });
 var model = new Model(menu);
 function save() {
-    debugger
     model.getJson();
 }
 //     function sure() {
