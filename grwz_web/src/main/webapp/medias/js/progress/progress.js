@@ -5,7 +5,7 @@ var Progress = {
     add: function (id, style, callBack) {
         var html = '<div id="bar"> ' +
             '<div id="progress"><div id="progress-value" class="progress-value">0%</div></div></div>';
-        $(id).html(html);
+        $("#"+id).html(html);
         $("#bar").on("click", Progress._onclickProgress);
         Progress.callBack = callBack;
     },
