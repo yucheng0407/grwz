@@ -14,7 +14,7 @@ var Progress = {
      * @returns {*}
      */
     _onclickProgress: function (e) {
-        var per = ((e.offsetX / this.clientWidth) * 100);//百分比
+        var per = (e.offsetX / this.clientWidth) ;//百分比
         Progress.load(per);
         Progress.callBack(per);
     },
@@ -24,7 +24,7 @@ var Progress = {
      * @returns {*}
      */
     load: function (per) {
-        per = per.toFixed(1);
+        per = (per*100).toFixed(1);
         if (per>= 100) {
             per = 100;
         }
