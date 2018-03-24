@@ -3,8 +3,9 @@
  */
 var Progress = {
     add: function (id, style, callBack) {
-        document.getElementById(id).innerHTML = '<div id="bar"> ' +
+        var html = '<div id="bar"> ' +
             '<div id="progress"><div id="progress-value" class="progress-value">0%</div></div></div>';
+        $(id).html(html);
         $("#bar").on("click", Progress._onclickProgress);
         Progress.callBack = callBack;
     },
@@ -14,7 +15,7 @@ var Progress = {
      * @returns {*}
      */
     _onclickProgress: function (e) {
-        var per = (e.offsetX / this.clientWidth) ;//百分比
+        var per = (e.offsetX / this.clientWidth);//百分比
         Progress.load(per);
         Progress.callBack(per);
     },
@@ -24,8 +25,8 @@ var Progress = {
      * @returns {*}
      */
     load: function (per) {
-        per = (per*100).toFixed(1);
-        if (per>= 100) {
+        per = (per * 100).toFixed(1);
+        if (per >= 100) {
             per = 100;
         }
         document.getElementById("progress").style.width = per + "%";
