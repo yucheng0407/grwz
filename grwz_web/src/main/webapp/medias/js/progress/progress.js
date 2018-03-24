@@ -24,13 +24,11 @@ var Progress = {
      * @returns {*}
      */
     load: function (per) {
-        if (per >= 100) {
+        per = per.toFixed(1);
+        if (per>= 100) {
             per = 100;
         }
         document.getElementById("progress").style.width = per + "%";
-        if (per - parseInt(per) !== 0) {
-            per = per.toFixed(1)
-        }
         document.getElementById("progress-value").innerText = per + "%";
     }
 };
