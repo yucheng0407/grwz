@@ -88,14 +88,14 @@ var BaseTable = BaseView.extend({
             if (this.index != (Math.ceil(this.total / this.pageSize))) this.pageIndex++;//最后一页
         }
         for (var i = 0; i < this.pageCount; i++) {//更新翻页（根据pageIndex）
-            var ind = parseInt(((this.pageIndex + i) * this.pageSize - this.total) / this.pageSize);//减少量
-            if (ind < 1) {
+            var ind = Math.ceil(this.total/ this.pageSize);//总页码数
+            var index = this.pageIndex + i;
+            if (index<=ind) {
                 var str = '';
-                var index = this.pageIndex + i;
                 if (index == this.index) {
                     str = ' active';//当前页
                 }
-                html = html + '<li class="page' + str + '"><a href="javascript:void(0)">' + (this.pageIndex + i) + '</a></li>';
+                html = html + '<li class="page' + str + '"><a href="javascript:void(0)">' + (index) + '</a></li>';
             } else break;
         }
         if (0 == this.total) {
