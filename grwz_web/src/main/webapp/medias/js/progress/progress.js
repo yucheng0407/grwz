@@ -2,11 +2,32 @@
  * Created by yucheng on 2018/3/24.
  */
 var Progress = {
+    _click: true,
     add: function (id, style, callBack) {
-        var html = '<div id="bar"> ' +
-            '<div id="progress"><div id="progress-value" class="progress-value">0%</div></div></div>';
-        $("#"+id).html(html);
-        $("#bar").on("click", Progress._onclickProgress);
+        var html = '<div id="bar">' +
+            '<div id="progress" class="progress"><div id="progress-value" class="progress-value">0%</div><div  id="progress-cur" class="progress-cur"></div></div></div>';
+        $("#" + id).html(html);
+        $("#bar,.progress-value,.progress-cur,.progress-marker").on("click", Progress._onclickProgress);
+        $("#progress").on("click mouseover mouseout", ".progress-marker", function (e) {
+            switch (e.type) {
+                case 'click': {
+                    var per = Number($(this).attr("per"));
+                    Progress.load(per);
+                    Progress.callBack({percent: per, type: "click"});
+                    return false;
+                }
+                case 'mouseover': {
+                    $(this).find(".progress-marker-value").show();
+                    break;
+                }
+                case 'mouseout': {
+                    $(this).find(".progress-marker-value").hide();
+                    break;
+                }
+
+            }
+        });
+        Progress._dragProgress("progress-cur");
         Progress.callBack = callBack;
     },
     /**
@@ -15,9 +36,10 @@ var Progress = {
      * @returns {*}
      */
     _onclickProgress: function (e) {
-        var per = (e.offsetX / this.clientWidth);//百分比
+        if (this.id !== "bar" || !Progress._click)return false;
+        var per = (e.offsetX / this.offsetWidth);//百分比
         Progress.load(per);
-        Progress.callBack(per);
+        Progress.callBack({percent: per, type: "click"});
     },
     /**
      * 百分比加载进度条
@@ -28,77 +50,87 @@ var Progress = {
         per = (per * 100).toFixed(1);
         if (per >= 100) {
             per = 100;
+        } else if (per <= 0) {
+            per = 0;
         }
         document.getElementById("progress").style.width = per + "%";
         document.getElementById("progress-value").innerText = per + "%";
-    }
-};
-// 参数列表
-var params = {
-    left: 0,
-    top: 0,
-    currentX: 0,
-    currentY: 0,
-    flag: false
-};
-//获取相关CSS属性
-var getCss = function(o, key) {
-    // getComputedStyle是为了兼容FF浏览器
-    return o.currentStyle ? o.currentStyle[key] : document.defaultView.getComputedStyle(o, false)[key];
-};
+    },
+    /**
+     * 百分比画标签
+     * @param e
+     * @returns {*}
+     */
+    drawMarker: function (per, title) {
+        per = (per * 100).toFixed(1);
+        if (per >= 100) {
+            per = 100;
+        } else if (per <= 0) {
+            per = 0;
+        }
+        var left = per / 100 * document.getElementById("bar").offsetWidth;
+        $("#progress").append('<div per="' + per / 100 + '" style="left:' + (-2 + left)
+            + 'px"   class="progress-marker">' +
+            '<div class="progress-marker-value">' + title + '</div></div>');
+    },
+    clearMarker: function () {
+        $("#progress .progress-marker").remove();
+    },
+    /**
+     * 拖动进度条
+     * @param e
+     * @returns {*}
+     */
+    _dragProgress: function (id) {
+        var oDiv = document.getElementById(id);
+        var disX = 0;
+        var disY = 0;
+        var per = 0;//返回百分值
+//封装一个函数用于获取鼠标坐标
+        function getPos(ev) {
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            var scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
 
-//拖拽的实现
-var startDrag = function(target, callback) {
-    // 首先获取目标元素的left、top属性值
-    if (getCss(target, "left") !== "auto") {
-        params.left = getCss(target, "left");
-    }
-    if (getCss(target, "top") !== "auto") {
-        params.top = getCss(target, "top");
-    }
-
-    target.onmousedown = function(event) {
-        // 当鼠标按下时表示元素可以移动，将标记设为true;
-        params.flag = true;
-
-        /*为了阻止拖动浏览器中元素时发生默认事件，
-         例如拖动图片时会出现一个新窗口显示该图片，下面代码可以阻止这种事件发生
-         */
-        if (event.preventDefault) {
-            event.preventDefault();
-        }else {
-            event.returnValue = false;
+            return {x: ev.clientX + scrollLeft, y: ev.clientY + scrollTop};
         }
 
-        var e = event;
-        params.currentX = e.clientX;
-        params.currentY = e.clientY;
-    };
-    target.onmouseup = function() {
-        // 当鼠标松开时将标记设为false，表示不可移动
-        params.flag = false;
-        // 当鼠标松开时再次更新元素的位置
-        if (getCss(target, "left") !== "auto") {
-            params.left = getCss(target, "left");
-        }
-        if (getCss(target, "top") !== "auto") {
-            params.top = getCss(target, "top");
-        }
-    };
-    target.onmousemove = function(event) {
-        var e = event ? event : window.event;
-        /*当params.flag==true时才可以移动，表明此时鼠标时按下状态
-         */
-        if (params.flag) {
-            // 获取到当前鼠标的位置
-            var nowX = e.clientX,
-                nowY = e.clientY;
-            // 获取当前鼠标移动的距离，即当前鼠标位置减去初始位置
-            var disX = nowX - params.currentX,
-                disY = nowY - params.currentY;
-            // 将元素的位置更新，parsenInt为了将属性值变为数字类型
-            target.style.left = parseInt(params.left) + disX + "px";
-            target.style.top = parseInt(params.top) + disY + "px";
+        oDiv.onmousedown = function (ev) {
+            var move = false;
+            var oEvent = ev || event;
+            var pos = getPos(oEvent);  //这样就可以获取鼠标坐标，比如pos.x表示鼠标横坐标
+            disX = pos.x;
+            disY = pos.y;
+            Progress._click = false;//防止误点
+            var curProgress = document.getElementById("progress").offsetWidth;//当前进度
+            document.onmousemove = function (ev)
+                /*由于要防止鼠标滑动太快跑出div，这里应该用document.
+                 因为触发onmousemove时要重新获取鼠标的坐标，不能使用父函数上的pos.x和pos.y，所以必须写var oEvent=ev||event;var pos=getPos(oEvent);*/ {
+                move = true;
+                var oEvent = ev || event;
+                var curPos = getPos(oEvent);
+                //防止div跑出可视框
+                var l = curPos.x - disX + curProgress;//计算鼠标距离
+                var t = curPos.y - disY;
+                if (l < 0) {
+                    l = 0;
+                }
+                else if (l > document.getElementById("bar").offsetWidth) {//最大长度
+                    l = document.getElementById("bar").offsetWidth;
+                }
+                per = l / document.getElementById("bar").offsetWidth;
+                Progress.load(per);
+                Progress.callBack({percent: per, type: "move"});
+            };
+
+            document.onmouseup = function (ev) {
+                document.onmousemove = null; //将move清除
+                document.onmouseup = null;
+                Progress._click = true;//
+                if (move) Progress.callBack({percent: per, type: "up"});
+            }
+            return false;  //火狐的bug，要阻止默认事件
         }
     }
 };
+
+
