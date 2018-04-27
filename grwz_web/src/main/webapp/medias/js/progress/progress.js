@@ -1,5 +1,6 @@
 /**
  * Created by yucheng on 2018/3/24.
+ * 进度条插件，主要实现拖拽和点击回调和根据百分比渲染
  */
 var Progress = {
     _click: true,
@@ -17,11 +18,11 @@ var Progress = {
                     return false;
                 }
                 case 'mouseover': {
-                    $(this).find(".progress-marker-value").show();
+                        $(this).find(".progress-marker-value").show();
                     break;
                 }
                 case 'mouseout': {
-                    $(this).find(".progress-marker-value").hide();
+                      $(this).find(".progress-marker-value").hide();
                     break;
                 }
 
@@ -30,6 +31,7 @@ var Progress = {
         Progress._dragProgress("progress-cur");
         Progress.callBack = callBack;
     },
+
     /**
      * 单击百分比加载进度条
      * @param e
@@ -41,6 +43,7 @@ var Progress = {
         Progress.load(per);
         Progress.callBack({percent: per, type: "click"});
     },
+
     /**
      * 百分比加载进度条
      * @param e
@@ -56,6 +59,7 @@ var Progress = {
         document.getElementById("progress").style.width = per + "%";
         document.getElementById("progress-value").innerText = per + "%";
     },
+
     /**
      * 百分比画标签
      * @param e
@@ -73,12 +77,14 @@ var Progress = {
             + 'px"   class="progress-marker">' +
             '<div class="progress-marker-value">' + title + '</div></div>');
     },
+
     clearMarker: function () {
         $("#progress .progress-marker").remove();
     },
+
     /**
      * 拖动进度条
-     * @param e
+     * @param id
      * @returns {*}
      */
     _dragProgress: function (id) {
@@ -122,12 +128,12 @@ var Progress = {
                 Progress.callBack({percent: per, type: "move"});
             };
 
-            document.onmouseup = function (ev) {
+            document.onmouseup = function () {
                 document.onmousemove = null; //将move清除
                 document.onmouseup = null;
                 Progress._click = true;//
                 if (move) Progress.callBack({percent: per, type: "up"});
-            }
+            };
             return false;  //火狐的bug，要阻止默认事件
         }
     }
